@@ -130,5 +130,7 @@ public class OpenWeatherMap {
     public  void setCod(int cod) {
         this.cod = cod;
     }
+
+
 }
 
