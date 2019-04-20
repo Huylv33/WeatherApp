@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="menu_item_city_manage">Quản lý thành phố</string>
+    <string name="menu_item_language">Ngôn ngữ</string>
+    <string name="menu_item_auto_update">Tự động cập nhật</string>
     <string-array name="arrTinhThanh">
         <item>An Giang</item>
         <item>Vũng Tàu</item>

@@ -3,6 +3,7 @@ package com.project.mobile.weatherapp;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,12 +11,19 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.widget.DrawerLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -31,9 +39,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, CompoundButton.OnCheckedChangeListener {
 
     private Location location;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    TextView textView;
+    SwitchCompat switchCompat;
 
     @Override
     public void onProviderDisabled(String s) {
@@ -67,6 +79,19 @@ public class MainActivity extends AppCompatActivity
         String q = "London";
         super.onCreate(savedInstanceState);
         setContentView (R.layout.activity_main);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
+
+
+        switchCompat = findViewById(R.id.switch_1);
+        switchCompat = findViewById(R.id.switch_2);
+
+        switchCompat.setOnCheckedChangeListener(this);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         // we add permissions we need to request location of the users
 
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -99,10 +124,45 @@ public class MainActivity extends AppCompatActivity
         WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q,this);
         weatherAsyncTask.execute();
     }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton,
+                                 boolean b) {
+                switchCompat.isChecked();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        switch (item.getItemId()) {
+            case R.id.app_bar_search:
+                Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 //    private void getCurrentLocation() {
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
