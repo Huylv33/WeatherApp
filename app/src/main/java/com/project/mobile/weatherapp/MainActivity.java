@@ -80,9 +80,7 @@ public class MainActivity extends AppCompatActivity
             if (permissionsToRequest.size() > 0) {
 
                 requestPermissions(permissionsToRequest.toArray(
-
                         new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
-
             }
 
         }
@@ -104,23 +102,7 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-//    private void getCurrentLocation() {
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-//        fusedLocationClient.getLastLocation()
-//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        // Got last known location. In some rare situations this can be null.
-//                        if (location != null) {
-//                            // Logic to handle location object
-//                            Log.d("Location", "location here");
-//                        }
-//                        else {
-//                            Log.d("Location", "location here");
-//                        }
-//                    }
-//                });
-//    }
+
 
     private ArrayList<String> permissionsToRequest(ArrayList<String> wantedPermissions) {
 
@@ -135,9 +117,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-
         return result;
-
     }
 
     private boolean hasPermission(String permission) {

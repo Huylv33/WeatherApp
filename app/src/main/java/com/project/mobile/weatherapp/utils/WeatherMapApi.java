@@ -14,7 +14,6 @@ import java.net.URL;
 
 public class WeatherMapApi {
 
-
     public static OpenWeatherMap prediction(double lat, double lon) {
         HttpURLConnection con = null;
         InputStream is = null;
@@ -29,9 +28,6 @@ public class WeatherMapApi {
             is = con.getInputStream();
             Reader targetReader = new InputStreamReader(is);
             OpenWeatherMap results = new Gson().fromJson(targetReader, OpenWeatherMap.class);
-            String idIcon = results.getWeather().get(0).getIcon().toString();
-            String urlIcon = "http://openweathermap.org/img/w/" + idIcon + ".png";
-            URL urlImage = new URL(urlIcon);
             return results;
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
@@ -61,9 +57,6 @@ public class WeatherMapApi {
             is = con.getInputStream();
             Reader targetReader = new InputStreamReader(is);
             OpenWeatherMap results = new Gson().fromJson(targetReader, OpenWeatherMap.class);
-            String idIcon = results.getWeather().get(0).getIcon().toString();
-            String urlIcon = "http://openweathermap.org/img/w/" + idIcon + ".png";
-            URL urlImage = new URL(urlIcon);
             return results;
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
