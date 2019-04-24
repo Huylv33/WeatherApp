@@ -74,14 +74,16 @@ public class MainActivity extends AppCompatActivity
 
 
     private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String q = "London";
         super.onCreate(savedInstanceState);
-        setContentView (R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
 
 
@@ -121,14 +123,14 @@ public class MainActivity extends AppCompatActivity
                 addConnectionCallbacks(this).
 
                 addOnConnectionFailedListener(this).build();
-        WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q,this);
+        WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q, this);
         weatherAsyncTask.execute();
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton,
                                  boolean b) {
-                switchCompat.isChecked();
+        switchCompat.isChecked();
     }
 
     @Override
@@ -143,6 +145,7 @@ public class MainActivity extends AppCompatActivity
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -213,13 +216,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
 
     protected void onStart() {
 
         super.onStart();
-
 
 
         if (googleApiClient != null) {
@@ -231,13 +232,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
 
     protected void onResume() {
 
         super.onResume();
-
 
 
         if (!checkPlayServices()) {
@@ -254,7 +253,6 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
 
 
-
         // stop location updates
 
 //        if (googleApiClient != null  &&  googleApiClient.isConnected()) {
@@ -266,7 +264,6 @@ public class MainActivity extends AppCompatActivity
 //        }
 
     }
-
 
 
     private boolean checkPlayServices() {
@@ -288,17 +285,14 @@ public class MainActivity extends AppCompatActivity
             }
 
 
-
             return false;
 
         }
 
 
-
         return true;
 
     }
-
 
 
     @Override
@@ -309,7 +303,7 @@ public class MainActivity extends AppCompatActivity
 
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
 
-                &&  ActivityCompat.checkSelfPermission(this,
+                && ActivityCompat.checkSelfPermission(this,
 
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -318,11 +312,9 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
         // Permissions ok, we get last location
 
 //        location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-
 
 
         if (location != null) {
@@ -330,10 +322,10 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
         startLocationUpdates();
 
     }
+
     private void startLocationUpdates() {
 
         locationRequest = new LocationRequest();
@@ -345,12 +337,11 @@ public class MainActivity extends AppCompatActivity
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
 
 
-
         if (ActivityCompat.checkSelfPermission(this,
 
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
 
-                &&  ActivityCompat.checkSelfPermission(this,
+                && ActivityCompat.checkSelfPermission(this,
 
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -364,7 +355,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
 
     public void onConnectionSuspended(int i) {
@@ -372,13 +362,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
 
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
 
 
     @Override
@@ -395,7 +383,7 @@ public class MainActivity extends AppCompatActivity
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        switch(requestCode) {
+        switch (requestCode) {
 
             case ALL_PERMISSIONS_RESULT:
 
@@ -408,7 +396,6 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 }
-
 
 
                 if (permissionsRejected.size() > 0) {
@@ -440,7 +427,6 @@ public class MainActivity extends AppCompatActivity
                                     }).setNegativeButton("Cancel", null).create().show();
 
 
-
                             return;
 
                         }
@@ -456,7 +442,6 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 }
-
 
 
                 break;
@@ -475,4 +460,3 @@ public class MainActivity extends AppCompatActivity
 
     }
 }
-
