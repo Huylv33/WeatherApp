@@ -9,20 +9,13 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
     <item
-        android:id="@+id/it_temp_unit"
-        android:title="Đơn vị nhiệt độ" />
-    <item
-        android:id="@+id/it_language"
-        android:title="Ngôn ngữ" />
-    <item
-        android:id="@+id/it_update_auto"
-        android:title="Tự động cập nhật" />
-    <item
-        android:id="@+id/it_noti_sound"
-        android:title="Âm thông báo" />
-    <item
         android:id="@+id/it_share"
         android:icon="@drawable/ic_share_black_24dp"
+        android:title="Chia sẻ"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/it_add_location"
+        android:icon="@drawable/ic_add_location_black_24dp"
         android:title="Chia sẻ"
         app:showAsAction="always" />
 </menu>
