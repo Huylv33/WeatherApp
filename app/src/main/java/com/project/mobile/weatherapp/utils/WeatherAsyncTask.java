@@ -3,12 +3,13 @@ package com.project.mobile.weatherapp.utils;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.OpenWeatherMap;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
