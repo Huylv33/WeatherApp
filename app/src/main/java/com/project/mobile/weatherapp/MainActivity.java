@@ -10,7 +10,12 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +40,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
@@ -46,6 +52,14 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle drawerToggle;
     TextView textView;
     SwitchCompat switchCompat;
+    TabLayout tabLayout;
+    ViewPager viewPager;
+
+    private int[] tabIcons = {
+            R.drawable.ic_today_black_24dp,
+            R.drawable.ic_hourly_black_24dp,
+            R.drawable.ic_forecast_black_24dp
+    };
 
     @Override
     public void onProviderDisabled(String s) {
@@ -94,6 +108,14 @@ public class MainActivity extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        //viewPager
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        viewPager= (ViewPager) findViewById(R.id.viewpager);
+
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
         // we add permissions we need to request location of the users
 
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -125,6 +147,55 @@ public class MainActivity extends AppCompatActivity
                 addOnConnectionFailedListener(this).build();
         WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q, this);
         weatherAsyncTask.execute();
+    }
+
+    // setup ViewPager and TabLayout icon
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new fragment_today(), "Hôm nay");
+        adapter.addFragment(new fragment_hourly(), "Hằng giờ");
+        adapter.addFragment(new fragment_forecast(), "Dự báo");
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
+    }
+
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+    }
+
+    // viewPager adapter
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+
     }
 
     @Override

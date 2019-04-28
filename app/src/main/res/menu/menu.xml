@@ -8,14 +8,4 @@
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/it_share"
-        android:icon="@drawable/ic_share_black_24dp"
-        android:title="Chia sẻ"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/it_add_location"
-        android:icon="@drawable/ic_add_location_black_24dp"
-        android:title="Chia sẻ"
-        app:showAsAction="always" />
 </menu>
