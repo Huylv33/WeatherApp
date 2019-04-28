@@ -14,12 +14,12 @@ import java.net.URL;
 
 public class WeatherMapApi {
 
-    public static OpenWeatherMap prediction(double lat, double lon) {
+    public static OpenWeatherMap getWeatherInfor(double lat, double lon) {
         HttpURLConnection con = null;
         InputStream is = null;
         try {
-            URL url = new URL(Constants.OPEN_WEATHER_MAP_URL + "weather?" + lat
-                    + "&amp;lon=" + lon + "?APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY);
+            URL url = new URL(Constants.OPEN_WEATHER_MAP_URL + "weather?lat=" + lat
+                    + "&lon=" + lon + "&APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY);
             con = (HttpURLConnection) (url).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
@@ -42,7 +42,7 @@ public class WeatherMapApi {
         }
         return null;
     }
-    public static OpenWeatherMap prediction(String q) {
+    public static OpenWeatherMap getWeatherInfor(String q) {
         HttpURLConnection con = null;
         InputStream is = null;
         try {

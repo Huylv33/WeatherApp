@@ -37,10 +37,10 @@ public class WeatherAsyncTask extends AsyncTask {
     protected OpenWeatherMap doInBackground(Object[] objects) {
         OpenWeatherMap openWeatherMap = null;
         if (typePrediction == TypePrediction.ADDRESS_NAME){
-            openWeatherMap = WeatherMapApi.prediction(this.q);
+            openWeatherMap = WeatherMapApi.getWeatherInfor(this.q);
         }
         else if (typePrediction == TypePrediction.LATITUDE_LONGITUDE){
-            openWeatherMap = WeatherMapApi.prediction(this.lat,this.lon);
+            openWeatherMap = WeatherMapApi.getWeatherInfor(this.lat,this.lon);
         }
 
         return openWeatherMap;
