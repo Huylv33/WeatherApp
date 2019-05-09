@@ -1,4 +1,4 @@
-package com.project.mobile.weatherapp;
+package com.project.mobile.weatherapp.fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.project.mobile.weatherapp.R;
 
 
 /**
@@ -17,7 +19,7 @@ import android.view.ViewGroup;
 
  * create an instance of this fragment.
  */
-public class fragment_forecast extends Fragment {
+public class fragment_hourly extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     @Override
@@ -27,7 +29,7 @@ public class fragment_forecast extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_forecast, null);
+        View view = inflater.inflate(R.layout.fragment_hourly, null);
         return view;
     }
 }

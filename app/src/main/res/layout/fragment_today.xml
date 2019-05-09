@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment_today">
+    tools:context=".fragment.fragment_today">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:textColor="@android:color/white" />
 
             <ImageView
-                android:id="@+id/imgBauTroi"
+                android:id="@+id/imgWeather"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center"

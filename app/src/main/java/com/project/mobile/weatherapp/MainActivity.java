@@ -4,10 +4,12 @@ package com.project.mobile.weatherapp;
 
 import android.content.Context;
 
+
+import android.content.Intent;
 import android.content.res.Configuration;
 
+import android.os.Build;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -22,26 +24,32 @@ import android.os.Bundle;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
-import com.project.mobile.weatherapp.utils.LocationUtil;
+
+import com.project.mobile.weatherapp.fragment.fragment_forecast;
+import com.project.mobile.weatherapp.fragment.fragment_hourly;
+import com.project.mobile.weatherapp.fragment.fragment_today;
+
+import com.project.mobile.weatherapp.service.GPSTracker;
+import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private Context context;
 //    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
     private SwitchCompat switchCompat;
+    private WeatherAsyncTask weatherAsyncTask;
 
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     private int[] tabIcons = {
             R.drawable.ic_today_black_24dp,
@@ -49,10 +57,8 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_forecast_black_24dp
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String q = "London";
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,23 +66,17 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
-
         switchCompat = findViewById(R.id.switch_1);
         switchCompat = findViewById(R.id.switch_2);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        LocationUtil locationUtil = new LocationUtil(MainActivity.this);
-
         //viewPager
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager= (ViewPager) findViewById(R.id.viewpager);
-
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-        // we add permissions we need to request location of the users
-
+        loadWeatherInfor();
     }
 
     // setup ViewPager and TabLayout icon
@@ -122,14 +122,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
+                public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
 
     }
-
-
-
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -164,6 +161,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void loadWeatherInfor() {
+        if (shouldAskPermissions()) {
+            startActivity(new Intent(this,PermissionAboveMarshmellow.class));
+            getWeather();
+        }
+        else getWeather();
+    }
+    private void getWeather() {
+        GPSTracker gpsTracker = new GPSTracker(this);
+        gpsTracker.getLocation();
+        weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(),gpsTracker.getLongitude(),this);
+        weatherAsyncTask.execute();
+    }
+    private boolean shouldAskPermissions() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (weatherAsyncTask != null) {
+            weatherAsyncTask.cancel(true);
+        }
     }
 
 }

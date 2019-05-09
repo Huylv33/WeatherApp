@@ -5,10 +5,10 @@ public class Sys {
     private int id;
     private double message;
     private String country;
-    private double sunrise;
-    private double sunset;
+    private long sunrise;
+    private long sunset;
 
-    public  Sys(int type, int id, double message, String country, double sunrise, double sunset) {
+    public  Sys(int type, int id, double message, String country, long sunrise, long sunset) {
         this.type = type;
         this.id = id;
         this.message = message;
@@ -49,19 +49,19 @@ public class Sys {
         this.country = country;
     }
 
-    public  double getSunrise() {
+    public  long getSunrise() {
         return sunrise;
     }
 
-    public  void setSunrise(double sunrise) {
+    public  void setSunrise(long sunrise) {
         this.sunrise = sunrise;
     }
 
-    public  double getSunset() {
+    public  long getSunset() {
         return sunset;
     }
 
-    public  void setSunset(double sunset) {
+    public  void setSunset(long sunset) {
         this.sunset = sunset;
     }
 }
