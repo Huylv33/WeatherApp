@@ -1,8 +1,7 @@
-package com.project.mobile.weatherapp.service;
+package com.project.mobile.weatherapp.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -21,11 +19,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class GPSTracker extends Service implements LocationListener {
+public class GPSTracker implements LocationListener {
     private static String TAG = GPSTracker.class.getName();
     private final Activity activity;
     private final Context mContext;
-
     // flag for GPS Status
     boolean isGPSEnabled = false;
 
@@ -42,11 +39,11 @@ public class GPSTracker extends Service implements LocationListener {
     // How many Geocoder should return our GPSTracker
     int geocoderMaxResults = 1;
 
-    // The minimum distance to change updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-
-    // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+//    // The minimum distance to change updates in meters
+//    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+//
+//    // The minimum time between updates in milliseconds
+//    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -57,7 +54,6 @@ public class GPSTracker extends Service implements LocationListener {
     public GPSTracker(Activity activity) {
         this.activity = activity;
         this.mContext = activity.getApplicationContext();
-
         getLocation();
     }
 
@@ -68,11 +64,13 @@ public class GPSTracker extends Service implements LocationListener {
     public void getLocation() {
 
         try {
-            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
             //getting GPS status
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
+            if (!isGPSEnabled) {
+                showSettingsAlert();
+            }
             //getting network status
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -101,18 +99,17 @@ public class GPSTracker extends Service implements LocationListener {
                  * by means of a network lookup.
                  */
                 provider_info = LocationManager.NETWORK_PROVIDER;
-
             }
 
             // Application can use GPS or Network Provider
 
             if (!provider_info.isEmpty()) {
-                locationManager.requestLocationUpdates(
-                        provider_info,
-                        MIN_TIME_BW_UPDATES,
-                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
-                        this
-                );
+//                locationManager.requestLocationUpdates(
+//                        provider_info,
+//                        MIN_TIME_BW_UPDATES,
+//                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
+//                        this
+//                );
 
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(provider_info);
@@ -326,9 +323,6 @@ public class GPSTracker extends Service implements LocationListener {
     public void onProviderDisabled(String provider) {
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+
 
 }

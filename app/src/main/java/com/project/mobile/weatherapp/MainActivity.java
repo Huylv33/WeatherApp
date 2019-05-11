@@ -24,6 +24,8 @@ import android.os.Bundle;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
 
@@ -31,10 +33,16 @@ import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
 
-import com.project.mobile.weatherapp.service.GPSTracker;
+import com.project.mobile.weatherapp.model.OpenWeatherMap;
+import com.project.mobile.weatherapp.utils.GPSTracker;
+import com.project.mobile.weatherapp.utils.TimeAndDateConverter;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
+import com.project.mobile.weatherapp.utils.WeatherIcon;
+import com.project.mobile.weatherapp.utils.doComplete;
 
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +54,6 @@ public class MainActivity extends AppCompatActivity  {
 
     private SwitchCompat switchCompat;
     private WeatherAsyncTask weatherAsyncTask;
-
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -122,7 +129,7 @@ public class MainActivity extends AppCompatActivity  {
         }
 
         @Override
-                public CharSequence getPageTitle(int position) {
+        public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
 
@@ -157,7 +164,6 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.app_bar_search:
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
                 return true;
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -172,7 +178,42 @@ public class MainActivity extends AppCompatActivity  {
     private void getWeather() {
         GPSTracker gpsTracker = new GPSTracker(this);
         gpsTracker.getLocation();
-        weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(),gpsTracker.getLongitude(),this);
+        weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(), gpsTracker.getLongitude(), new doComplete() {
+            @Override
+            public void doCompele(OpenWeatherMap openWeatherMap) {
+                NumberFormat format = new DecimalFormat("#0.0");
+                ImageView imgWeather = (ImageView) findViewById(R.id.imgWeather);
+                TextView txtTemperature=(TextView) findViewById(R.id.txtTemperature);
+                TextView txtCurrentAddressName=(TextView) findViewById(R.id.txtCurrentAddressName);
+                TextView txtMaxTemp=(TextView) findViewById(R.id.txtMaxTemp);
+                TextView txtMinTemp=(TextView) findViewById(R.id.txtMinTemp);
+                TextView txtWind=(TextView) findViewById(R.id.txtWind);
+                TextView txtCloudliness= (TextView) findViewById(R.id.txtCloudliness);
+                TextView txtPressure= (TextView) findViewById(R.id.txtPressure);
+                TextView txtHumidty= (TextView) findViewById(R.id.txtHumidty);
+                TextView txtSunrise= (TextView) findViewById(R.id.txtSunrise);
+                TextView txtSunset= (TextView) findViewById(R.id.txtSunset);
+                imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
+                String temperature= format.format(openWeatherMap.getMain().getTemp()-273.15)+"°C";
+                String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
+                String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+                txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
+                txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+                txtCurrentAddressName.setText(openWeatherMap.getName());
+                txtTemperature.setText(temperature);
+                txtMinTemp.setText(minTemp);
+                txtMaxTemp.setText(maxTemp);
+                String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+                String mesg = openWeatherMap.getWeather().get(0).getMain();
+                String cloudiness= mesg;
+                String pressure= openWeatherMap.getMain().getPressure()+" hpa";
+                String humidity=openWeatherMap.getMain().getHumidity()+" %";
+                txtWind.setText(wind);
+                txtCloudliness.setText(cloudiness);
+                txtPressure.setText(pressure);
+                txtHumidty.setText(humidity);
+            }
+        });
         weatherAsyncTask.execute();
     }
     private boolean shouldAskPermissions() {
