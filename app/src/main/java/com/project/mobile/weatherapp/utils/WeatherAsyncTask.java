@@ -1,19 +1,11 @@
 package com.project.mobile.weatherapp.utils;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.google.gson.Gson;
-import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.OpenWeatherMap;
 
-
-import java.lang.ref.WeakReference;
-import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -56,10 +48,7 @@ public class WeatherAsyncTask extends AsyncTask<Void,Void,OpenWeatherMap> {
     @Override
     protected void onPostExecute(OpenWeatherMap openWeatherMap) {
         super.onPostExecute(openWeatherMap);
-        String json = new Gson().toJson(openWeatherMap);
-        Log.d("check",json);
         finish.doCompele(openWeatherMap);
-
     }
 
 }
