@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/today"
     tools:context=".fragment_today">
 
     <!-- TODO: Update blank fragment layout -->
@@ -27,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="Địa chỉ hiện tại"
-                android:text="Hanoi"
+
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white" />
 
@@ -36,7 +37,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/img_rain_night" />
+                app:srcCompat= "@drawable/img_fewclouds_day"/>
 
             <TextView
                 android:id="@+id/txtTemperature"
@@ -44,7 +45,7 @@
                 android:layout_height="119dp"
                 android:gravity="center"
                 android:hint="nhiệt độ ở đây"
-                android:text="33"
+
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"
                 android:textSize="80sp" />
@@ -58,7 +59,7 @@
                     android:layout_weight="5"
                     android:gravity="right"
                     android:hint="Nhiệt độ nhỏ nhất"
-                    android:text="26"
+
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@android:color/white"
                     android:textSize="22sp" />
@@ -81,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:hint="Nhiệt độ lớn nhất ở đây"
-                    android:text="34"
+
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@android:color/white"
                     android:textSize="22sp" />
@@ -117,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center"
-                        android:text="11.3 km/h"
+
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
@@ -145,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center"
-                        android:text="Nam"
+
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
@@ -173,7 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center"
-                        android:text="1011.8 mb"
+
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
@@ -201,7 +202,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:hint="82 %"
-                        android:text="82 %"
+
                         android:gravity="center"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"

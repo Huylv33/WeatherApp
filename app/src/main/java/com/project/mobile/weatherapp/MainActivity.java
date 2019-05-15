@@ -2,6 +2,7 @@ package com.project.mobile.weatherapp;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
@@ -15,20 +16,28 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
+import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
+import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
+import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -37,24 +46,36 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.project.mobile.weatherapp.utils.Constants;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 
 
 public class MainActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, CompoundButton.OnCheckedChangeListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, CompoundButton.OnCheckedChangeListener, DuoMenuView.OnMenuClickListener {
 
     private Location location;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+    private DuoDrawerToggle drawerToggle;
+    private Toolbar toolbar;
+    private MenuAdapter mMenuAdapter;
+    private ViewHolder mViewHolder;
+    private ArrayList<String> mTitles = new ArrayList<>();
     TextView textView;
     SwitchCompat switchCompat;
     TabLayout tabLayout;
     ViewPager viewPager;
 
+    // khoi tao icon tabLayout
     private int[] tabIcons = {
             R.drawable.ic_today_black_24dp,
             R.drawable.ic_hourly_black_24dp,
@@ -94,18 +115,50 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView (R.layout.activity_main);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(drawerToggle);
+        /*drawerLayout = (DuoDrawerLayout) findViewById(R.id.duo_navigation);
+        drawerToggle = new DuoDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        */
+
+        mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
+
+        // Initialize the views
+        mViewHolder = new ViewHolder();
+
+        // Handle toolbar actions
+        handleToolbar();
+
+        // Handle menu actions
+        handleMenu();
+
+        // Handle drawer actions
+        handleDrawer();
+
+// Phần comment này tạm thời không xóa đi nhé
+
+        // Show main fragment in container
+        //goToFragment(new fragment_today(), false);
+        //mMenuAdapter.setViewSelected(0, true);
+        //setTitle(mTitles.get(0));
 
 
-        switchCompat = findViewById(R.id.switch_1);
-        switchCompat = findViewById(R.id.switch_2);
 
-        switchCompat.setOnCheckedChangeListener(this);
+        //switchCompat = findViewById(R.id.switch_1);
+        //switchCompat = findViewById(R.id.switch_2);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //switchCompat.setOnCheckedChangeListener(this);
+
+        /*toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        */
+// Loại bỏ tiểu đề mặc định
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
+
 
         //viewPager
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -145,6 +198,122 @@ public class MainActivity extends AppCompatActivity
                 addOnConnectionFailedListener(this).build();
         WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q,this);
         weatherAsyncTask.execute();
+    }
+
+    //handle Toolbar and Menu
+    private void handleToolbar() {
+        setSupportActionBar(mViewHolder.mToolbar);
+    }
+
+    private void handleDrawer() {
+        DuoDrawerToggle duoDrawerToggle = new DuoDrawerToggle(this,
+                mViewHolder.mDuoDrawerLayout,
+                mViewHolder.mToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
+        mViewHolder.mDuoDrawerLayout.setDrawerListener(duoDrawerToggle);
+        duoDrawerToggle.syncState();
+
+    }
+
+    private void handleMenu() {
+        mMenuAdapter = new MenuAdapter(mTitles);
+
+        mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
+        mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
+    }
+
+    //set up header, footer of duo navigation view
+    @Override
+    public void onFooterClicked() {
+        Toast.makeText(this, "onFooterClicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onHeaderClicked() {
+        Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
+    }
+
+    //Mở màn hình quản lý vị trí
+    public void showMenuClick(int position)
+    {
+        switch(position) {
+            case 0: {
+                Intent iLoc = new Intent(MainActivity.this, ManagerLocationActivity.class);
+                startActivity(iLoc);
+                break;
+            }
+            case 1: {
+                Intent iNot = new Intent(MainActivity.this, ManagerNotificationActivity.class);
+                startActivity(iNot);
+                break;
+            }
+            case 4: {
+                Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
+                startActivity(iUni);
+                break;
+            }
+        }
+
+    }
+
+    //Mở màn hình quản lý thông báo
+
+
+    private void goToFragment(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.add(R.id.today, fragment).commit();
+    }
+
+    @Override
+    public void onOptionClicked(int position, Object objectClicked) {
+        // Set the toolbar title
+        setTitle(mTitles.get(position));
+
+        // Set the right options selected
+        mMenuAdapter.setViewSelected(position, true);
+
+        // Navigate to the right fragment
+        switch (position) {
+            case 0:
+                showMenuClick(0);
+                break;
+            case 1:
+                showMenuClick(1);
+                break;
+            case 4:
+                showMenuClick(4);
+                break;
+            //case 0:
+                //goToFragment(new fragment_hourly(), false);
+            //case 1:
+                //goToFragment(new fragment_forecast(), false);
+            //default:
+                //goToFragment(new fragment_today(), false);
+
+        }
+
+        // Close the drawer
+        mViewHolder.mDuoDrawerLayout.closeDrawer();
+    }
+
+    //ViewHolder
+    private class ViewHolder {
+        private DuoDrawerLayout mDuoDrawerLayout;
+        private DuoMenuView mDuoMenuView;
+        private Toolbar mToolbar;
+
+        ViewHolder() {
+            mDuoDrawerLayout = (DuoDrawerLayout) findViewById(R.id.duo_navigation);
+            mDuoMenuView = (DuoMenuView) mDuoDrawerLayout.getMenuView();
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        }
     }
 
     // setup ViewPager and TabLayout icon
@@ -202,25 +371,30 @@ public class MainActivity extends AppCompatActivity
                 switchCompat.isChecked();
     }
 
-    @Override
+    /*@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
+    */
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
+
+
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -235,6 +409,8 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    */
+
 //    private void getCurrentLocation() {
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 //        fusedLocationClient.getLastLocation()
@@ -545,5 +721,7 @@ public class MainActivity extends AppCompatActivity
     public void onProviderEnabled(String provider) {
 
     }
+
+
 }
 
