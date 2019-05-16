@@ -62,7 +62,6 @@ public class GPSTracker implements LocationListener {
      */
     @SuppressLint("MissingPermission")
     public void getLocation() {
-
         try {
             locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
@@ -181,7 +180,7 @@ public class GPSTracker implements LocationListener {
      * Function to show settings alert dialog
      */
     public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
 
         //Setting Dialog Title
         alertDialog.setTitle("Thống báo");
@@ -209,8 +208,8 @@ public class GPSTracker implements LocationListener {
                 dialog.cancel();
             }
         });
-
-        alertDialog.show();
+        AlertDialog alert = alertDialog.create();
+        alert.show();
     }
 
     /**

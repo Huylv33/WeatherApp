@@ -29,7 +29,7 @@ public class fragment_hourly extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_hourly, null);
+        View view = inflater.inflate(R.layout.fragment_hourly, container,false);
         return view;
     }
 }

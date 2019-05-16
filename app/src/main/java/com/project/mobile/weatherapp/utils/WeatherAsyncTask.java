@@ -28,6 +28,7 @@ public class WeatherAsyncTask extends AsyncTask<Void,Void,OpenWeatherMap> {
         this.finish = finish;
         typePrediction = TypePrediction.LATITUDE_LONGITUDE;
     }
+
     @Override
     protected OpenWeatherMap doInBackground(Void... params) {
         OpenWeatherMap openWeatherMap = null;

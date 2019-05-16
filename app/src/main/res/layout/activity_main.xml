@@ -29,15 +29,7 @@
             android:layout_weight="1"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-
     </LinearLayout>
-
-
-
-
-
-
 
     <!-- Left Menu -->
 
@@ -66,8 +58,6 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
-
 
                 <TextView
                     android:id="@+id/activity_main_tv_user_name"
@@ -219,14 +209,6 @@
 
 
         </LinearLayout>
-
-
-
-
-
-
-
-
 
     </android.support.design.widget.NavigationView>
 
