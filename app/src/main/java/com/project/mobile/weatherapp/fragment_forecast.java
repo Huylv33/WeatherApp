@@ -48,13 +48,10 @@ public class fragment_forecast extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
-
         return view;
     }
     private void initView () {
         Daily daily = new Daily("THỨ NĂM, THG 5 16", "Nắng nhẹ", " 36", "26");
         mList.add(daily);
-
-
     }
 }
