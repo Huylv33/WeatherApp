@@ -3,13 +3,14 @@ package com.project.mobile.weatherapp.utils;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.OpenWeatherMap;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -18,35 +19,30 @@ public class WeatherAsyncTask extends AsyncTask {
     NumberFormat format = new DecimalFormat("#0.0");
     private  String q;
     private double lat, lon;
-    Activity activity;
-    TypePrediction typePrediction;
+    private Activity activity;
+    private TypePrediction typePrediction;
 
     public WeatherAsyncTask(String q, Activity activity) {
         this.q = q;
         this.activity = activity;
+        typePrediction = TypePrediction.ADDRESS_NAME;
     }
-
+    public WeatherAsyncTask(double lat, double lon, Activity activity) {
+        this.lat = lat;
+        this.lon = lon;
+        this.activity = activity;
+        typePrediction = TypePrediction.LATITUDE_LONGITUDE;
+    }
     @Override
     protected OpenWeatherMap doInBackground(Object[] objects) {
         OpenWeatherMap openWeatherMap = null;
-        openWeatherMap = WeatherMapApi.prediction(this.q);
-//        try {
-//            String idIcon = openWeatherMap.getWeather().get(0).getIcon().toString();
-//            String urlIcon = "http://openweathermap.org/img/w/"+idIcon+".png";
-////Tiến hành tạo đối tượng URL
-//            URL urlConnection = new URL(urlIcon);
-////Mở kết nối
-//            HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
-//            connection.setDoInput(true);
-//            connection.connect();
-////Đọc dữ liệu
-//            InputStream input = connection.getInputStream();
-////Tiến hành convert qua hình ảnh
-////            myBitmap = BitmapFactory.decodeStream(input);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        Log.d("Here", Double.toString(openWeatherMap.getCoord().getLat()));
+        if (typePrediction == TypePrediction.ADDRESS_NAME){
+            openWeatherMap = WeatherMapApi.prediction(this.q);
+        }
+        else if (typePrediction == TypePrediction.LATITUDE_LONGITUDE){
+            openWeatherMap = WeatherMapApi.prediction(this.lat,this.lon);
+        }
+
         return openWeatherMap;
     }
 
