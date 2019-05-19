@@ -51,6 +51,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.project.mobile.weatherapp.fragment.fragment_today;
 import com.project.mobile.weatherapp.utils.Constants;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 
@@ -189,15 +190,16 @@ public class MainActivity extends AppCompatActivity
 
         // we build google api client
 
-        googleApiClient = new GoogleApiClient.Builder(this).
+        /*googleApiClient = new GoogleApiClient.Builder(this).
 
                 addApi(LocationServices.API).
 
                 addConnectionCallbacks(this).
 
                 addOnConnectionFailedListener(this).build();
-        WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q,this);
+        WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q, doComplete);
         weatherAsyncTask.execute();
+        */
     }
 
     //handle Toolbar and Menu
@@ -249,9 +251,19 @@ public class MainActivity extends AppCompatActivity
                 startActivity(iNot);
                 break;
             }
+            case 3: {
+                Intent iPre = new Intent(MainActivity.this, PrepareDayActivity.class);
+                startActivity(iPre);
+                break;
+            }
             case 4: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
+                break;
+            }
+            case 5: {
+                Intent iCha = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
+                startActivity(iCha);
                 break;
             }
         }
@@ -287,8 +299,14 @@ public class MainActivity extends AppCompatActivity
             case 1:
                 showMenuClick(1);
                 break;
+            case 3:
+                showMenuClick(3);
+                break;
             case 4:
                 showMenuClick(4);
+                break;
+            case 5:
+                showMenuClick(5);
                 break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);
@@ -320,8 +338,8 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new fragment_today(), "Hôm nay");
-        adapter.addFragment(new fragment_hourly(), "Hằng giờ");
-        adapter.addFragment(new fragment_forecast(), "Dự báo");
+        adapter.addFragment(new com.project.mobile.weatherapp.fragment_hourly(), "Hằng giờ");
+        adapter.addFragment(new com.project.mobile.weatherapp.fragment_forecast(), "Dự báo");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
     }

@@ -15,11 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <service
-            android:name=".service.LocationService"
-            android:enabled="true"
-            android:exported="true" />
-
+        <activity android:name=".ChangeWallpaperActivity"></activity>
+        <activity android:name=".PrepareDayActivity" />
+        <activity android:name=".PermissionAboveMarshmellow" />
         <activity
             android:name=".MainActivity"
             android:usesCleartextTraffic="true">
@@ -31,7 +29,7 @@
         </activity>
         <activity android:name=".ManagerLocationActivity" />
         <activity android:name=".ManagerNotificationActivity" />
-        <activity android:name=".UnitSettingActivity"></activity>
+        <activity android:name=".UnitSettingActivity" />
     </application>
 
 </manifest>

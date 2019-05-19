@@ -183,7 +183,7 @@ public class GPSTracker implements LocationListener {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
 
         //Setting Dialog Title
-        alertDialog.setTitle("Thống báo");
+        alertDialog.setTitle("Thông báo");
 
         //Setting Dialog Message
         alertDialog.setMessage("Thiết bị chưa được bật dịch vụ vị trí");
