@@ -3,24 +3,25 @@ package com.project.mobile.weatherapp.utils;
 import android.os.AsyncTask;
 
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class WeatherAsyncTask extends AsyncTask<Void,Void,OpenWeatherMap> {
+public class Weather5DaysAsyncTask extends AsyncTask<Void,Void, OpenWeatherPredict> {
     private NumberFormat format = new DecimalFormat("#0.0");
     private  String q;
     private double lat, lon;
-    public doComplete finish = null;
+    public doComplete5Days finish = null;
 
     private TypePrediction typePrediction;
 
-    public WeatherAsyncTask(String q, doComplete finish) {
+    public Weather5DaysAsyncTask(String q, doComplete5Days finish) {
         this.q = q;
         this.finish = finish;
         typePrediction = TypePrediction.ADDRESS_NAME;
     }
-    public WeatherAsyncTask(double lat, double lon, doComplete finish) {
+    public Weather5DaysAsyncTask(double lat, double lon, doComplete5Days finish) {
         this.lat = lat;
         this.lon = lon;
         this.finish = finish;
@@ -28,15 +29,15 @@ public class WeatherAsyncTask extends AsyncTask<Void,Void,OpenWeatherMap> {
     }
 
     @Override
-    protected OpenWeatherMap doInBackground(Void... params) {
-        OpenWeatherMap openWeatherMap = null;
+    protected OpenWeatherPredict doInBackground(Void... params) {
+        OpenWeatherPredict openWeatherPredict = null;
         if (typePrediction == TypePrediction.ADDRESS_NAME){
-            openWeatherMap = WeatherMapApi.getWeatherInfor(this.q);
+            openWeatherPredict = WeatherMapApi.getWeather5Days(this.q);
         }
         else if (typePrediction == TypePrediction.LATITUDE_LONGITUDE){
-            openWeatherMap = WeatherMapApi.getWeatherInfor(this.lat,this.lon);
+            openWeatherPredict = WeatherMapApi.getWeather5Days(this.lat,this.lon);
         }
-        return openWeatherMap;
+        return openWeatherPredict;
     }
 
     @Override
@@ -45,9 +46,8 @@ public class WeatherAsyncTask extends AsyncTask<Void,Void,OpenWeatherMap> {
     }
 
     @Override
-    protected void onPostExecute(OpenWeatherMap openWeatherMap) {
-        super.onPostExecute(openWeatherMap);
-        finish.doComplete(openWeatherMap);
+    protected void onPostExecute(OpenWeatherPredict openWeatherPredict) {
+        super.onPostExecute(openWeatherPredict);
+        finish.doComplete(openWeatherPredict);
     }
-
 }

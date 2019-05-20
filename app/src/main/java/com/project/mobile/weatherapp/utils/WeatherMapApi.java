@@ -74,7 +74,7 @@ public class WeatherMapApi {
         }
         return null;
     }
-    public static OpenWeatherPredict getWeatherDailyInfor(double lat, double lon) {
+    public static OpenWeatherPredict getWeather5Days(double lat, double lon) {
         HttpURLConnection con = null;
         InputStream is = null;
         try {
@@ -102,7 +102,7 @@ public class WeatherMapApi {
         }
         return null;
     }
-    public static OpenWeatherPredict getWeatherDailyInfor(String q) {
+    public static OpenWeatherPredict getWeather5Days(String q) {
         HttpURLConnection con = null;
         InputStream is = null;
         try {
