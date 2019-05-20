@@ -2,7 +2,7 @@ package com.project.mobile.weatherapp.utils;
 
 
 import com.google.gson.Gson;
-import com.project.mobile.weatherapp.model.OpenWeatherMap;
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,11 +15,12 @@ import java.net.URL;
 public class WeatherMapApi {
 
     public static OpenWeatherMap getWeatherInfor(double lat, double lon) {
+
         HttpURLConnection con = null;
         InputStream is = null;
         try {
             URL url = new URL(Constants.OPEN_WEATHER_MAP_URL + "weather?lat=" + lat
-                    + "&lon=" + lon + "&APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY);
+                    + "&lon=" + lon +  "&APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY +"&lang=vi");
             con = (HttpURLConnection) (url).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
@@ -46,7 +47,7 @@ public class WeatherMapApi {
         HttpURLConnection con = null;
         InputStream is = null;
         try {
-            URL url = new URL("http://api.openweathermap.org/data/2.5/" + "weather?q=" + q +
+                URL url = new URL("http://api.openweathermap.org/data/2.5/" + "weather?q=" + q +
                     "&APPID=" +
                     Constants.OPEN_WEATHER_MAP_API_KEY);
             con = (HttpURLConnection) (url).openConnection();
@@ -76,7 +77,7 @@ public class WeatherMapApi {
         InputStream is = null;
         try {
             URL url = new URL(Constants.OPEN_WEATHER_MAP_URL + "forecast?lat=" + lat
-                    + "&lon=" + lon + "&APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY);
+                    + "&lon=" + lon + "&APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY +"&lang=vi" );
             con = (HttpURLConnection) (url).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);

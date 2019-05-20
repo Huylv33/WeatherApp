@@ -24,17 +24,17 @@ public class GPSTracker implements LocationListener {
     private final Activity activity;
     private final Context mContext;
     // flag for GPS Status
-    boolean isGPSEnabled = false;
+    private boolean isGPSEnabled = false;
 
     // flag for network status
-    boolean isNetworkEnabled = false;
+    private boolean isNetworkEnabled = false;
 
     // flag for GPS Tracking is enabled
-    boolean isGPSTrackingEnabled = false;
+    private boolean isGPSTrackingEnabled = false;
 
-    Location location;
-    double latitude;
-    double longitude;
+    private Location location;
+    private double latitude;
+    private double longitude;
 
     // How many Geocoder should return our GPSTracker
     int geocoderMaxResults = 1;
@@ -46,7 +46,7 @@ public class GPSTracker implements LocationListener {
 //    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
     // Declaring a Location Manager
-    protected LocationManager locationManager;
+    private LocationManager locationManager;
 
     // Store LocationManager.GPS_PROVIDER or LocationManager.NETWORK_PROVIDER information
     private String provider_info;

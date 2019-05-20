@@ -1,10 +1,8 @@
 package com.project.mobile.weatherapp.utils;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.project.mobile.weatherapp.model.OpenWeatherMap;
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
