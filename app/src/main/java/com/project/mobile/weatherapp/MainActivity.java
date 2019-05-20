@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -427,7 +427,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-    */
+
 
 //    private void getCurrentLocation() {
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
