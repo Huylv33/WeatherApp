@@ -35,7 +35,7 @@ import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.DataCommunication;
-import com.project.mobile.weatherapp.fragment.fragment_hourly;
+import com.project.mobile.weatherapp.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
 import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.utils.GPSTracker;
@@ -180,9 +180,19 @@ public class MainActivity extends AppCompatActivity  implements
                 startActivity(iNot);
                 break;
             }
+            case 3: {
+                Intent iPre = new Intent(MainActivity.this, PrepareDayActivity.class);
+                startActivity(iPre);
+                break;
+            }
             case 4: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
+                break;
+            }
+            case 5: {
+                Intent iCha = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
+                startActivity(iCha);
                 break;
             }
         }
@@ -217,8 +227,14 @@ public class MainActivity extends AppCompatActivity  implements
             case 1:
                 showMenuClick(1);
                 break;
+            case 3:
+                showMenuClick(3);
+                break;
             case 4:
                 showMenuClick(4);
+                break;
+            case 5:
+                showMenuClick(5);
                 break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);

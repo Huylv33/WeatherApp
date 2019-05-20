@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
 
     android:id="@+id/today"
-    tools:context=".fragment_today">
+    tools:context=".fragment.fragment_today">
 
 
     <!-- TODO: Update blank fragment layout -->

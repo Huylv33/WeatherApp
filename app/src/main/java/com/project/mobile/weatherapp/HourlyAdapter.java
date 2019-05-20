@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.project.mobile.weatherapp.model.Daily;
 import com.project.mobile.weatherapp.model.Hourly;
-import com.project.mobile.weatherapp.model.Weather;
+import com.project.mobile.weatherapp.model.open_weather_map.Weather;
 
 import java.util.List;
 
