@@ -1,4 +1,4 @@
-package com.project.mobile.weatherapp;
+package com.project.mobile.weatherapp.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,7 @@ public class MenuAdapter extends BaseAdapter {
     private ArrayList<String> mOptions = new ArrayList<>();
     private ArrayList<DuoOptionView> mOptionViews = new ArrayList<>();
 
-    MenuAdapter(ArrayList<String> options) {
+    public MenuAdapter(ArrayList<String> options) {
         mOptions = options;
     }
 
@@ -30,7 +30,7 @@ public class MenuAdapter extends BaseAdapter {
         return mOptions.get(position);
     }
 
-    void setViewSelected(int position, boolean selected) {
+    public void setViewSelected(int position, boolean selected) {
 
         // Looping through the options in the menu
         // Selecting the chosen option

@@ -1,59 +1,44 @@
 package com.project.mobile.weatherapp;
 
-import android.Manifest;
-import android.content.DialogInterface;
+
+
+
+import android.content.Context;
+
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
+
 import android.content.res.Configuration;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
+
+
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.os.Bundle;
+
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.TextView;
+
 import android.widget.Toast;
-import android.support.v4.widget.DrawerLayout;
+
 import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
 import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
+
+import com.project.mobile.weatherapp.adapter.MenuAdapter;
+import com.project.mobile.weatherapp.fragment.DataCommunication;
+import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
-import com.project.mobile.weatherapp.utils.Constants;
-import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
+import com.project.mobile.weatherapp.fragment.fragment_forecast;
+import com.project.mobile.weatherapp.utils.GPSTracker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,21 +46,22 @@ import java.util.List;
 
 
 
-public class MainActivity extends AppCompatActivity
-        implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, CompoundButton.OnCheckedChangeListener, DuoMenuView.OnMenuClickListener {
+public class MainActivity extends AppCompatActivity  implements
+        CompoundButton.OnCheckedChangeListener, DuoMenuView.OnMenuClickListener {
+    private Context context;
+//    private DrawerLayout drawerLayout;
+    private GPSTracker gpsTracker;
+    private SwitchCompat switchCompat;
+//    private WeatherAsyncTask weatherAsyncTask;
 
-    private Location location;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ArrayList<String> mTitles = new ArrayList<>();
+
     private DuoDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private MenuAdapter mMenuAdapter;
     private ViewHolder mViewHolder;
-    private ArrayList<String> mTitles = new ArrayList<>();
-    TextView textView;
-    SwitchCompat switchCompat;
-    TabLayout tabLayout;
-    ViewPager viewPager;
-
     // khoi tao icon tabLayout
     private int[] tabIcons = {
             R.drawable.ic_today_black_24dp,
@@ -84,37 +70,11 @@ public class MainActivity extends AppCompatActivity
     };
 
     @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    private GoogleApiClient googleApiClient;
-
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
-    private LocationRequest locationRequest;
-
-    private static final long UPDATE_INTERVAL = 5000, FASTEST_INTERVAL = 5000; // = 5 seconds
-
-    // lists for permissions
-
-    private ArrayList<String> permissionsToRequest;
-
-    private ArrayList<String> permissionsRejected = new ArrayList<>();
-
-    private ArrayList<String> permissions = new ArrayList<>();
-
-    // integer for permissions results request
-
-    private static final int ALL_PERMISSIONS_RESULT = 1011;
-
-
-    private FusedLocationProviderClient fusedLocationClient;
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String q = "London";
+        context = getApplicationContext();
         super.onCreate(savedInstanceState);
-        setContentView (R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
 
         /*drawerLayout = (DuoDrawerLayout) findViewById(R.id.duo_navigation);
         drawerToggle = new DuoDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -155,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         */
 // Loại bỏ tiểu đề mặc định
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeButtonEnabled(true);
@@ -164,42 +124,11 @@ public class MainActivity extends AppCompatActivity
         //viewPager
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager= (ViewPager) findViewById(R.id.viewpager);
-
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-        // we add permissions we need to request location of the users
-
-        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-
-        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        permissionsToRequest = permissionsToRequest(permissions);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            if (permissionsToRequest.size() > 0) {
-
-                requestPermissions(permissionsToRequest.toArray(
-
-                        new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
-
-            }
-
-        }
-
-        // we build google api client
-
-        /*googleApiClient = new GoogleApiClient.Builder(this).
-
-                addApi(LocationServices.API).
-
-                addConnectionCallbacks(this).
-
-                addOnConnectionFailedListener(this).build();
-        WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(q, doComplete);
-        weatherAsyncTask.execute();
-        */
+//        loadWeatherInfor();
+        gpsTracker = new GPSTracker(this);
     }
 
     //handle Toolbar and Menu
@@ -251,19 +180,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(iNot);
                 break;
             }
-            case 3: {
-                Intent iPre = new Intent(MainActivity.this, PrepareDayActivity.class);
-                startActivity(iPre);
-                break;
-            }
             case 4: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
-                break;
-            }
-            case 5: {
-                Intent iCha = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
-                startActivity(iCha);
                 break;
             }
         }
@@ -271,7 +190,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     //Mở màn hình quản lý thông báo
-
 
     private void goToFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -299,14 +217,8 @@ public class MainActivity extends AppCompatActivity
             case 1:
                 showMenuClick(1);
                 break;
-            case 3:
-                showMenuClick(3);
-                break;
             case 4:
                 showMenuClick(4);
-                break;
-            case 5:
-                showMenuClick(5);
                 break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);
@@ -320,6 +232,17 @@ public class MainActivity extends AppCompatActivity
         // Close the drawer
         mViewHolder.mDuoDrawerLayout.closeDrawer();
     }
+
+//    @Override
+//    public void sendData(DataCommunication dataCommunication) {
+//        fragment_forecast fragmentForecast  = new fragment_forecast();
+//        Bundle args = new Bundle();
+//        args.putSerializable("data",dataCommunication);
+//        fragmentForecast.setArguments(args);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.today,fragmentForecast)
+//        .addToBackStack(null).commit();
+//    }
+
 
     //ViewHolder
     private class ViewHolder {
@@ -338,8 +261,8 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new fragment_today(), "Hôm nay");
-        adapter.addFragment(new com.project.mobile.weatherapp.fragment_hourly(), "Hằng giờ");
-        adapter.addFragment(new com.project.mobile.weatherapp.fragment_forecast(), "Dự báo");
+        adapter.addFragment(new fragment_hourly(), "Hằng giờ");
+        adapter.addFragment(new fragment_forecast(), "Dự báo");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
     }
@@ -363,9 +286,14 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public Fragment getItem(int position) {
+            Bundle args = new Bundle();
+            args.putDouble("lat",gpsTracker.getLatitude());
+            args.putDouble("lon",gpsTracker.getLongitude());
+
+//            args.putString("lon",gpsTracker.getLongitude() + "");
+            mFragmentList.get(position).setArguments(args);
             return mFragmentList.get(position);
         }
-
         @Override
         public int getCount() {
             return mFragmentList.size();
@@ -384,12 +312,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+
     public void onCheckedChanged(CompoundButton compoundButton,
                                  boolean b) {
-                switchCompat.isChecked();
+        switchCompat.isChecked();
     }
 
     /*@Override
+>>>>>>> erik
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -412,9 +342,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -422,12 +352,19 @@ public class MainActivity extends AppCompatActivity
             case R.id.app_bar_search:
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
                 return true;
-
         }
 
         return super.onOptionsItemSelected(item);
     }
-
+<<<<<<< HEAD
+//    private void loadWeatherInfor() {
+//        if (shouldAskPermissions() && !isFirstTimeLauncher()) {
+//            startActivity(new Intent(this,PermissionAboveMarshmellow.class));
+//            getWeather();
+//        }
+//        else getWeather();
+=======
+    */
 
 //    private void getCurrentLocation() {
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -445,300 +382,77 @@ public class MainActivity extends AppCompatActivity
 //                        }
 //                    }
 //                });
+
+//    }
+//    private boolean isFirstTimeLauncher() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
+//        boolean is = sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
+//        return  sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
+//    }
+//    private void getWeather() {
+//        if (NetworkChecking.isNetworkAvailable(getApplicationContext())) {
+//            GPSTracker gpsTracker = new GPSTracker(this);
+//            gpsTracker.getLocation();
+//            weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(), gpsTracker.getLongitude(), new doComplete() {
+//                @Override
+//                public void doCompele(OpenWeatherMap openWeatherMap) {
+//                    NumberFormat format = new DecimalFormat("#0.0");
+//                    ImageView imgWeather = (ImageView) findViewById(R.id.imgWeather);
+//                    TextView txtTemperature=(TextView) findViewById(R.id.txtTemperature);
+//                    TextView txtCurrentAddressName=(TextView) findViewById(R.id.txtCurrentAddressName);
+//                    TextView txtMaxTemp=(TextView) findViewById(R.id.txtMaxTemp);
+//                    TextView txtMinTemp=(TextView) findViewById(R.id.txtMinTemp);
+//                    TextView txtWind=(TextView) findViewById(R.id.txtWind);
+//                    TextView txtCloudliness= (TextView) findViewById(R.id.txtCloudliness);
+//                    TextView txtPressure= (TextView) findViewById(R.id.txtPressure);
+//                    TextView txtHumidty= (TextView) findViewById(R.id.txtHumidty);
+//                    TextView txtSunrise= (TextView) findViewById(R.id.txtSunrise);
+//                    TextView txtSunset= (TextView) findViewById(R.id.txtSunset);
+//                    imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
+//                    String temperature= format.format(openWeatherMap.getMain().getTemp()-273.15)+"°C";
+//                    String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
+//                    String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+//                    txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
+//                    txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+//                    txtCurrentAddressName.setText(openWeatherMap.getName());
+//                    txtTemperature.setText(temperature);
+//                    txtMinTemp.setText(minTemp);
+//                    txtMaxTemp.setText(maxTemp);
+//                    String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+//                    String mesg = openWeatherMap.getWeather().get(0).getMain();
+//                    String cloudiness= mesg;
+//                    String pressure= openWeatherMap.getMain().getPressure()+" hpa";
+//                    String humidity=openWeatherMap.getMain().getHumidity()+" %";
+//                    txtWind.setText(wind);
+//                    txtCloudliness.setText(cloudiness);
+//                    txtPressure.setText(pressure);
+//                    txtHumidty.setText(humidity);
+//                }
+//            });
+//            weatherAsyncTask.execute();
+//        }
+//    }
+//    private boolean shouldAskPermissions() {
+//        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+//    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (weatherAsyncTask != null) {
+//            weatherAsyncTask.cancel(true);
+//        }
 //    }
 
-    private ArrayList<String> permissionsToRequest(ArrayList<String> wantedPermissions) {
-
-        ArrayList<String> result = new ArrayList<>();
-
-        for (String perm : wantedPermissions) {
-
-            if (!hasPermission(perm)) {
-
-                result.add(perm);
-
-            }
-
-        }
-
-        return result;
-
-    }
-
-    private boolean hasPermission(String permission) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-
-        }
-
-        return true;
-
-    }
-
-
-
-    @Override
-
-    protected void onStart() {
-
-        super.onStart();
-
-
-
-        if (googleApiClient != null) {
-
-            googleApiClient.connect();
-
-        }
-
-    }
-
-
-
-    @Override
-
-    protected void onResume() {
-
-        super.onResume();
-
-
-
-        if (!checkPlayServices()) {
-
-
-        }
-
-    }
-
-    @Override
-
-    protected void onPause() {
-
-        super.onPause();
-
-
-
-        // stop location updates
-
-//        if (googleApiClient != null  &&  googleApiClient.isConnected()) {
-//
-//            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-//
-//            googleApiClient.disconnect();
-//
-//        }
-
-    }
-
-
-
-    private boolean checkPlayServices() {
-
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-
-        if (resultCode != ConnectionResult.SUCCESS) {
-
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
-
-            } else {
-
-                finish();
-
-            }
-
-
-
-            return false;
-
-        }
-
-
-
-        return true;
-
-    }
-
-
-
-    @Override
-
-    public void onConnected(@Nullable Bundle bundle) {
-
-        if (ActivityCompat.checkSelfPermission(this,
-
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-
-                &&  ActivityCompat.checkSelfPermission(this,
-
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-
-        }
-
-
-
-        // Permissions ok, we get last location
-
-//        location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-
-
-
-        if (location != null) {
-
-        }
-
-
-
-        startLocationUpdates();
-
-    }
-    private void startLocationUpdates() {
-
-        locationRequest = new LocationRequest();
-
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        locationRequest.setInterval(UPDATE_INTERVAL);
-
-        locationRequest.setFastestInterval(FASTEST_INTERVAL);
-
-
-
-        if (ActivityCompat.checkSelfPermission(this,
-
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-
-                &&  ActivityCompat.checkSelfPermission(this,
-
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            Toast.makeText(this, "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
-
-        }
-
-
-//        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-
-    }
-
-
-
-    @Override
-
-    public void onConnectionSuspended(int i) {
-
-    }
-
-
-
-    @Override
-
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-
-
-    @Override
-
-    public void onLocationChanged(Location location) {
-
-        if (location != null) {
-
-        }
-
-    }
-
-    @Override
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        switch(requestCode) {
-
-            case ALL_PERMISSIONS_RESULT:
-
-                for (String perm : permissionsToRequest) {
-
-                    if (!hasPermission(perm)) {
-
-                        permissionsRejected.add(perm);
-
-                    }
-
-                }
-
-
-
-                if (permissionsRejected.size() > 0) {
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                        if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-
-                            new AlertDialog.Builder(MainActivity.this).
-
-                                    setMessage("These permissions are mandatory to get your location. You need to allow them.").
-
-                                    setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                                        @Override
-
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                                                requestPermissions(permissionsRejected.
-
-                                                        toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-
-                                            }
-
-                                        }
-
-                                    }).setNegativeButton("Cancel", null).create().show();
-
-
-
-                            return;
-
-                        }
-
-                    }
-
-                } else {
-
-                    if (googleApiClient != null) {
-
-                        googleApiClient.connect();
-
-                    }
-
-                }
-
-
-
-                break;
-
-        }
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
 
 
 }

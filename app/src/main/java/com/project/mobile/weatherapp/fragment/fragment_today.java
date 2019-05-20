@@ -3,9 +3,10 @@ package com.project.mobile.weatherapp.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.project.mobile.weatherapp.MainActivity;
 import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.R;
-import com.project.mobile.weatherapp.model.OpenWeatherMap;
-import com.project.mobile.weatherapp.utils.GPSTracker;
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.utils.NetworkChecking;
 import com.project.mobile.weatherapp.utils.TimeAndDateConverter;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
@@ -40,13 +39,20 @@ import java.text.NumberFormat;
 public class fragment_today extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    static DataCommunication dataCommunication;
     private  Context context;
     private WeatherAsyncTask weatherAsyncTask;
+
+    private double lat;
+    private double lon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
+        Bundle args = getArguments();
+        lat = args.getDouble("lat");
+        lon = args.getDouble("lon");
         loadWeatherInfor();
     }
 
@@ -59,8 +65,14 @@ public class fragment_today extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
-
         return view;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+//        dataCommunication = new DataCommunication(gpsTracker.getLatitude(),gpsTracker.getLongitude());
+//        sendingData.sendData(dataCommunication);
     }
 
     private void loadWeatherInfor() {
@@ -77,9 +89,7 @@ public class fragment_today extends Fragment {
     }
     private void getWeather() {
         if (NetworkChecking.isNetworkAvailable(context)) {
-            GPSTracker gpsTracker = new GPSTracker(getActivity());
-            gpsTracker.getLocation();
-            weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(), gpsTracker.getLongitude(), new doComplete() {
+            weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
                 @Override
                 public void doCompele(OpenWeatherMap openWeatherMap) {
                     NumberFormat format = new DecimalFormat("#0.0");
@@ -130,4 +140,14 @@ public class fragment_today extends Fragment {
         }
     }
 
+//    @Override
+//    public void onAttach(Context context)
+//    {
+//        super.onAttach(context);
+//        try {
+//            sendingData = (SendingData) getActivity();
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException("Error in retrieving data. Please try again");
+//        }
+//    }
 }

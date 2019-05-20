@@ -1,4 +1,4 @@
-package com.project.mobile.weatherapp;
+package com.project.mobile.weatherapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.Daily;
-import com.project.mobile.weatherapp.model.Weather;
 
 import java.util.List;
 
