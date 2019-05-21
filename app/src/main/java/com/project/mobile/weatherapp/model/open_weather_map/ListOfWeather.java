@@ -5,7 +5,7 @@ import java.util.List;
 public class ListOfWeather {
     private java.util.List<Weather> weather;
     private Main main;
-    private  Clouds clouds;
+    private Clouds clouds;
     private Wind wind;
     private String dt_txt;
     private double temp_max;
