@@ -1,7 +1,5 @@
 package com.project.mobile.weatherapp.model.open_weather_map;
 
-import java.util.List;
-
 public class OpenWeather5Days3Hours {
     private City city;
     private Coord coord;
@@ -9,7 +7,7 @@ public class OpenWeather5Days3Hours {
     private int cod;
     private float message;
     private int cnt;
-    private List<ListWeather> list;
+    private java.util.List<List> list;
 
     public City getCity() {
         return city;
@@ -31,12 +29,12 @@ public class OpenWeather5Days3Hours {
         return cod;
     }
 
-    public void setList(List<ListWeather> list) {
-        this.list = list;
+    public java.util.List<List> getList() {
+        return list;
     }
 
-    public List<ListWeather> getList() {
-        return list;
+    public void setList(java.util.List<List> list) {
+        this.list = list;
     }
 
     public String getCountry() {

@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OpenWeatherPredict {
-    private List<ListOfWeather> listOfWeather;
+    private java.util.List<ListOfWeather> listOfWeather;
 
-    public List<ListOfWeather> getListWeather() {
+    public java.util.List<ListOfWeather> getListWeather() {
         return listOfWeather;
     }
 
-    public void setListWeather(List<ListOfWeather> listOfWeather) {
+    public void setListWeather(java.util.List<ListOfWeather> listOfWeather) {
         this.listOfWeather = listOfWeather;
     }
 
     public OpenWeatherPredict(OpenWeather5Days3Hours openWeather5Days3Hours) {
-        List<ListOfWeather> weather5Days = new ArrayList<ListOfWeather>();
+        java.util.List<ListOfWeather> weather5Days = new ArrayList<ListOfWeather>();
 
         for( int i = 0; i < 40; i += 5) {
             double temp_max = 0;

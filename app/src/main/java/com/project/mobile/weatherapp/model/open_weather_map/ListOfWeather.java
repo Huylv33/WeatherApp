@@ -1,7 +1,9 @@
 package com.project.mobile.weatherapp.model.open_weather_map;
 
+import java.util.List;
+
 public class ListOfWeather {
-    private Weather weather;
+    private java.util.List<Weather> weather;
     private Main main;
     private  Clouds clouds;
     private Wind wind;
@@ -9,8 +11,12 @@ public class ListOfWeather {
     private double temp_max;
     private double temp_min;
 
-    public void setWeather(Weather weather) {
+    public void setWeather(List<Weather> weather) {
         this.weather = weather;
+    }
+
+    public List<Weather> getWeather() {
+        return weather;
     }
 
     public Wind getWind() {
@@ -61,7 +67,5 @@ public class ListOfWeather {
         this.temp_min = temp_min;
     }
 
-    public Weather getWeather() {
-        return weather;
-    }
+
 }

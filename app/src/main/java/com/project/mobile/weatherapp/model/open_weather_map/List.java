@@ -1,11 +1,11 @@
 package com.project.mobile.weatherapp.model.open_weather_map;
 
-import java.util.List;
 
-public class ListWeather {
+
+public class List {
     private double dt;
     private Main main;
-    private Weather weather;
+    private java.util.List<Weather> weather;
     private Clouds clouds;
     private Wind wind;
     private Sys sys;
@@ -19,8 +19,12 @@ public class ListWeather {
         return dt;
     }
 
-    public Weather getWeather() {
+    public java.util.List<Weather> getWeather() {
         return weather;
+    }
+
+    public void setWeather(java.util.List<Weather> weather) {
+        this.weather = weather;
     }
 
     public Main getMain() {
@@ -55,9 +59,7 @@ public class ListWeather {
         this.sys = sys;
     }
 
-    public void setWeather(Weather weather) {
-        this.weather = weather;
-    }
+
 
     public void setWind(Wind wind) {
         this.wind = wind;
