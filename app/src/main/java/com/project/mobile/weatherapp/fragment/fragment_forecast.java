@@ -49,47 +49,54 @@ public class fragment_forecast extends Fragment {
         Bundle args = getArguments();
         lat = args.getDouble("lat");
         lon = args.getDouble("lon");
-        Log.i("Log", "check");
-        getForecastWeather();
+//        Log.i("Log", "check");
     }
 
-    private void getForecastWeather() {
-//        if (NetworkChecking.isNetworkAvailable(getContext())) {
-            weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon, new doComplete5Days() {
 
-                @Override
-                public void doComplete(OpenWeatherPredict openWeatherPredict) {
-                        for (ListOfWeather list : openWeatherPredict.getListWeather()) {
-                            Daily daily = new Daily();
-                            daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                            daily.setmTextDate(list.getDt_txt());
-                            daily.setmTempMin(list.getTemp_min() + "");
-                            daily.setmTempMax(list.getTemp_max() + "");
-                            mList.add(daily);
-                        }
-                    }
-            });
-            weather5DaysAsyncTask.execute();
-//        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        Log.i("Log", "check 1");
-//        Log.i("Log", "check 2");
-
         View view = inflater.inflate(R.layout.fragment_forecast, null);
-//        initView();
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
-        mAdapter = new DailyAdapter(mList,getContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(mAdapter);
+
+        weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon,mAdapter,recyclerView, new doComplete5Days() {
+            @Override
+            public void doComplete(OpenWeatherPredict openWeatherPredict) {
+                Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
+                for (ListOfWeather list : openWeatherPredict.getListWeather()) {
+                    Log.i("Content", list.getDt_txt());
+                    Log.i("Content", list.getTemp_max() + "");
+                    Log.i("Content", list.getTemp_min() + "");
+                    Daily daily = new Daily();
+                    daily.setmTextWeather(list.getWeather().get(0).getDescription());
+                    daily.setmTextDate(list.getDt_txt());
+                    daily.setmTempMin(list.getTemp_min() + "");
+                    daily.setmTempMax(list.getTemp_max() + "");
+                    mList.add(daily);
+//                            Log.i("mList i", daily.getmTempMin());
+
+                }
+                mAdapter = new DailyAdapter(mList,getContext());
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setAdapter(mAdapter);
+                Log.i("mList size in here ", mList.size() + "");
+
+            }
+        });
+        weather5DaysAsyncTask.execute();
+        Log.i("do first", "ádasdasd");
+
+
+
         return view;
     }
     private void initView () {
         Daily daily = new Daily("THỨ NĂM, THG 5 16", "Nắng nhẹ", " 36", "26");
+        Daily daily1 = new Daily("THỨ NĂM, THG 5 16", "Nắng nhẹ", " 36", "26");
+
         mList.add(daily);
+        mList.add(daily1);
     }
 
     public List<Daily> getmList() {
