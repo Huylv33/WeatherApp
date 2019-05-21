@@ -16,7 +16,7 @@ public class ManagerLocationActivity extends AppCompatActivity {
 
     public void onClick(int v) {
         switch (v) {
-            case R.id.text_add_location: {
+            case R.id.text_cur_location: {
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
                 break;
             }
