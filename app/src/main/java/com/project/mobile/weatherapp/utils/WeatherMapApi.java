@@ -1,6 +1,8 @@
 package com.project.mobile.weatherapp.utils;
 
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeather5Days3Hours;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
@@ -88,7 +90,13 @@ public class WeatherMapApi {
             is = con.getInputStream();
             Reader targetReader = new InputStreamReader(is);
             OpenWeather5Days3Hours results = new Gson().fromJson(targetReader, OpenWeather5Days3Hours.class);
-            return new OpenWeatherPredict(results);
+            if (results == null) {
+                Log.d("docho","ne");
+            }
+            else {
+                Log.d("docho2","ne");
+            }
+;           return new OpenWeatherPredict(results);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

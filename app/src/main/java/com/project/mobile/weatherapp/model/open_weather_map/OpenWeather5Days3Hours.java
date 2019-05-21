@@ -64,4 +64,5 @@ public class OpenWeather5Days3Hours {
     public void setMessage(float message) {
         this.message = message;
     }
+
 }

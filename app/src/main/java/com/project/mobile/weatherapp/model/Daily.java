@@ -5,6 +5,9 @@ public class Daily {
     private String mTextWeather;
     private String mTempMax;
     private String mTempMin;
+    public Daily() {
+
+    }
     public  Daily (String mTextDate, String mTextWeather, String mTempMax, String mTempMin) {
         this.mTextDate = mTextDate;
         this.mTextWeather = mTextWeather;

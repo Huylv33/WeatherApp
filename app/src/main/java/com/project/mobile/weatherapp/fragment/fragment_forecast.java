@@ -51,27 +51,25 @@ public class fragment_forecast extends Fragment {
         lon = args.getDouble("lon");
         Log.i("Log", "check");
         getForecastWeather();
-
-
     }
-
 
     private void getForecastWeather() {
 //        if (NetworkChecking.isNetworkAvailable(getContext())) {
             weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon, new doComplete5Days() {
+
                 @Override
                 public void doComplete(OpenWeatherPredict openWeatherPredict) {
-                    int i = 0;
-                    for (ListOfWeather list : openWeatherPredict.getListWeather()) {
-                        mList.get(i).setmTextWeather(list.getWeather().get(0).getDescription());
-                        mList.get(i).setmTextDate(list.getDt_txt());
-                        mList.get(i).setmTempMin(list.getTemp_min() + "");
-                        mList.get(i).setmTempMax(list.getTemp_max() + "");
-                        i ++ ;
-                        Log.i("Debug", openWeatherPredict.getListWeather().get(i).getClouds() + "");
+                        for (ListOfWeather list : openWeatherPredict.getListWeather()) {
+                            Daily daily = new Daily();
+                            daily.setmTextWeather(list.getWeather().get(0).getDescription());
+                            daily.setmTextDate(list.getDt_txt());
+                            daily.setmTempMin(list.getTemp_min() + "");
+                            daily.setmTempMax(list.getTemp_max() + "");
+                            mList.add(daily);
+                        }
                     }
-                }
             });
+            weather5DaysAsyncTask.execute();
 //        }
     }
 
@@ -81,7 +79,7 @@ public class fragment_forecast extends Fragment {
 //        Log.i("Log", "check 2");
 
         View view = inflater.inflate(R.layout.fragment_forecast, null);
-        initView();
+//        initView();
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
         mAdapter = new DailyAdapter(mList,getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
