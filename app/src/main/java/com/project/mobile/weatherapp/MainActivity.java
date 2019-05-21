@@ -146,12 +146,10 @@ public class MainActivity extends AppCompatActivity  implements
 
         mViewHolder.mDuoDrawerLayout.setDrawerListener(duoDrawerToggle);
         duoDrawerToggle.syncState();
-
     }
 
     private void handleMenu() {
         mMenuAdapter = new MenuAdapter(mTitles);
-
         mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
         mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
     }

@@ -91,7 +91,8 @@ public class fragment_today extends Fragment {
         if (NetworkChecking.isNetworkAvailable(context)) {
             weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
                 @Override
-                public void doCompele(OpenWeatherMap openWeatherMap) {
+                public  void doComplete(OpenWeatherMap openWeatherMap) {
+                    Log.i("debug 1", "check");
                     NumberFormat format = new DecimalFormat("#0.0");
                     ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
                     TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
