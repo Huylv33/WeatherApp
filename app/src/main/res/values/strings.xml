@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">WeatherForecast</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="app_name">WeatherApp</string>
     <string name="menu_item_current_location">Vị trí hiện tại</string>
     <string name="menu_item_city_manage">Quản lý thành phố</string>
     <string name="menu_item_language">Ngôn ngữ</string>
@@ -32,6 +30,20 @@
     <string name="_do">°</string>
     <string name="_doC">°C</string>
     <string name="_doF">°F</string>
+    <string name="umbrella">Ô</string>
+    <string name="coat">Áo mưa</string>
+    <string name="feature_setting">Cài đặt tính năng</string>
+    <string name="summary_coat_temp">Thông báo giúp bạn chuẩn bị áo khoác khi thời tiết lạnh dưới mức</string>
+    <string name="summary_high_temperature">Đưa ra cảnh báo cho bạn khi nhiệt độ cao hơn mức</string>
+    <string name="summary_low_temperature">Đưa ra cảnh báo cho bạn khi nhiệt độ thấp hơn mức</string>
+    <string name="summary_prepare">Bạn cần chúng tôi thông báo cho bạn những khi cần mang ô, mang áo khoác hay cảnh báo nhiệt độ khắc nghiệt</string>
+    <string name="summary_umbrella">Thông báo giúp bạn chuẩn bị ô(dù) nếu trời có khả năng mưa</string>
+    <string name="high_temperature">Nhiệt độ cao</string>
+    <string name="high_temperature_warning">Cảnh báo nhiệt độ cao</string>
+    <string name="low_temperature">Nhiệt độ thấp</string>
+    <string name="low_temperature_warning">Cảnh báo nhiệt độ thấp</string>
+    <string name="select">Lựa chọn</string>
+    <string name="cancel">Hủy</string>
     <string-array name="arrTinhThanh">
         <item>An Giang</item>
         <item>Vũng Tàu</item>
@@ -104,6 +116,7 @@
         <item>Nhiệt độ</item>
         <item>Chuẩn bị ngày của bạn</item>
         <item>Cài đặt đơn vị</item>
+        <item>Hình ảnh nền</item>
         <item>Widget thời tiết</item>
     </array>
 

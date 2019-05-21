@@ -6,7 +6,7 @@ public class OpenWeatherMap {
     private Coord coord;
     private List<Weather> weather;
     private String base;
-    private  Main main;
+    private Main main;
     private Wind wind;
     private Rain rain;
     private Clouds clouds;
@@ -16,11 +16,11 @@ public class OpenWeatherMap {
     private String name;
     private int cod;
 
-    public  OpenWeatherMap() {
+    public OpenWeatherMap() {
 
     }
 
-    public  OpenWeatherMap(Coord coord, List<Weather> weatherList, String base, Main main, Wind wind, Rain rain, Clouds clouds, int dt, Sys sys, int id, String name, int cod) {
+    public OpenWeatherMap(Coord coord, List<Weather> weatherList, String base, Main main, Wind wind, Rain rain, Clouds clouds, int dt, Sys sys, int id, String name, int cod) {
         this.coord = coord;
         this.weather = weatherList;
         this.base = base;
@@ -35,103 +35,104 @@ public class OpenWeatherMap {
         this.cod = cod;
     }
 
-    public  Coord getCoord() {
+    public Coord getCoord() {
         return coord;
     }
 
-    public  void setCoord(Coord coord) {
+    public void setCoord(Coord coord) {
         this.coord = coord;
     }
 
 
-    public  List<Weather> getWeather() {
+    public List<Weather> getWeather() {
         return weather;
     }
 
-    public  void setWeather(List<Weather> weather) {
+    public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }
 
-    public  String getBase() {
+    public String getBase() {
         return base;
     }
 
-    public  void setBase(String base) {
+    public void setBase(String base) {
         this.base = base;
     }
 
-    public  Main getMain() {
+    public Main getMain() {
         return main;
     }
 
-    public  void setMain(Main main) {
+    public void setMain(Main main) {
         this.main = main;
     }
 
-    public  Wind getWind() {
+    public Wind getWind() {
         return wind;
     }
 
-    public  void setWind(Wind wind) {
+    public void setWind(Wind wind) {
         this.wind = wind;
     }
 
-    public  Rain getRain() {
+    public Rain getRain() {
         return rain;
     }
 
-    public  void setRain(Rain rain) {
+    public void setRain(Rain rain) {
         this.rain = rain;
     }
 
-    public  Clouds getClouds() {
+    public Clouds getClouds() {
         return clouds;
     }
 
-    public  void setClouds(Clouds clouds) {
+    public void setClouds(Clouds clouds) {
         this.clouds = clouds;
     }
 
-    public  int getDt() {
+    public int getDt() {
         return dt;
     }
 
-    public  void setDt(int dt) {
+    public void setDt(int dt) {
         this.dt = dt;
     }
 
-    public  Sys getSys() {
+    public Sys getSys() {
         return sys;
     }
 
-    public  void setSys(Sys sys) {
+    public void setSys(Sys sys) {
         this.sys = sys;
     }
 
-    public  int getId() {
+    public int getId() {
         return id;
     }
 
-    public  void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public  String getName() {
+    public String getName() {
         return name;
     }
 
-    public  void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public  int getCod() {
+    public int getCod() {
         return cod;
     }
 
-    public  void setCod(int cod) {
+    public void setCod(int cod) {
         this.cod = cod;
     }
 
 
 }
+
 

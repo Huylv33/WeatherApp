@@ -48,7 +48,7 @@ public class fragment_forecast extends Fragment {
         if (NetworkChecking.isNetworkAvailable(getContext())) {
             WeatherAsyncTask weatherAsyncTask = new WeatherAsyncTask(lat, lon, new doComplete() {
                 @Override
-                public void doCompele(OpenWeatherMap openWeatherMap) {
+                public void doComplete(OpenWeatherMap openWeatherMap) {
 
                 }
             });

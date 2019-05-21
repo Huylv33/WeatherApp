@@ -92,7 +92,9 @@
                 android:background="?selectableItemBackground"
                 android:orientation="horizontal"
                 android:paddingTop="14dip"
-                android:paddingBottom="14dip">
+                android:paddingBottom="14dip"
+                android:onClick="onClick"
+                android:clickable="true">
 
                 <LinearLayout
                     android:layout_width="0.0dip"
@@ -100,7 +102,8 @@
                     android:layout_marginEnd="4dip"
                     android:layout_marginRight="6dip"
                     android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:id="@+id/time_noti">
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -139,7 +142,9 @@
                 android:background="?selectableItemBackground"
                 android:orientation="vertical"
                 android:paddingTop="14dip"
-                android:paddingBottom="14dip">
+                android:paddingBottom="14dip"
+                android:onClick="onClick"
+                android:clickable="true">
 
                 <TextView
                     android:layout_width="fill_parent"

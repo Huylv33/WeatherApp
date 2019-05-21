@@ -2,7 +2,9 @@ package com.project.mobile.weatherapp.utils;
 
 
 import com.google.gson.Gson;
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeather5Days3Hours;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,7 +74,7 @@ public class WeatherMapApi {
         }
         return null;
     }
-    public static OpenWeatherMap getWeatherDailyInfor(double lat, double lon) {
+    public static OpenWeatherPredict getWeather5Days(double lat, double lon) {
         HttpURLConnection con = null;
         InputStream is = null;
         try {
@@ -85,8 +87,8 @@ public class WeatherMapApi {
             con.connect();
             is = con.getInputStream();
             Reader targetReader = new InputStreamReader(is);
-            OpenWeatherMap results = new Gson().fromJson(targetReader, OpenWeatherMap.class);
-            return results;
+            OpenWeather5Days3Hours results = new Gson().fromJson(targetReader, OpenWeather5Days3Hours.class);
+            return new OpenWeatherPredict(results);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -100,7 +102,7 @@ public class WeatherMapApi {
         }
         return null;
     }
-    public static OpenWeatherMap getWeatherDailyInfor(String q) {
+    public static OpenWeatherPredict getWeather5Days(String q) {
         HttpURLConnection con = null;
         InputStream is = null;
         try {
@@ -114,8 +116,8 @@ public class WeatherMapApi {
             con.connect();
             is = con.getInputStream();
             Reader targetReader = new InputStreamReader(is);
-            OpenWeatherMap results = new Gson().fromJson(targetReader, OpenWeatherMap.class);
-            return results;
+            OpenWeather5Days3Hours results = new Gson().fromJson(targetReader, OpenWeather5Days3Hours.class);
+            return new OpenWeatherPredict(results);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
