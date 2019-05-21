@@ -32,7 +32,6 @@ public class OpenWeatherPredict {
             }
             Log.d("dem",i + "");
             ListOfWeather listOfWeather = new ListOfWeather();
-
            listOfWeather.setTemp_max(temp_max);
            listOfWeather.setTemp_min(temp_min);
            listOfWeather.setClouds(openWeather5Days3Hours.getList().get(i + 2).getClouds());

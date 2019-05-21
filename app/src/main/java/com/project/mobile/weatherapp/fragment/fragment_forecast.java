@@ -75,8 +75,7 @@ public class fragment_forecast extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        Log.i("Log", "check 1");
-//        Log.i("Log", "check 2");
+
 
         View view = inflater.inflate(R.layout.fragment_forecast, null);
 //        initView();

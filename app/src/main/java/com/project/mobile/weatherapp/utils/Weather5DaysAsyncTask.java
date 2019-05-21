@@ -21,6 +21,7 @@ public class Weather5DaysAsyncTask extends AsyncTask<Void,Void, OpenWeatherPredi
         this.finish = finish;
         typePrediction = TypePrediction.ADDRESS_NAME;
     }
+
     public Weather5DaysAsyncTask(double lat, double lon, doComplete5Days finish) {
         this.lat = lat;
         this.lon = lon;
