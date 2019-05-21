@@ -4,6 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackgroundBorderless"
+    android:onClick="onItemClick"
+    android:clickable="true"
     android:gravity="center_vertical"
     android:padding="10dip">
 

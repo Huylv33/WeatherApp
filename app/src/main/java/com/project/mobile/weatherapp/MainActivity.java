@@ -24,6 +24,7 @@ import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 
 import android.widget.Toast;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity  implements
         ActionBar actionBar = getSupportActionBar();
         */
 // Loại bỏ tiểu đề mặc định
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeButtonEnabled(true);
@@ -358,20 +359,19 @@ public class MainActivity extends AppCompatActivity  implements
 
 
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
 
         switch (item.getItemId()) {
             case R.id.app_bar_search:
-                Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
+                Intent iLoc = new Intent(MainActivity.this, ManagerLocationActivity.class);
+                startActivity(iLoc);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+    /*
 <<<<<<< HEAD
 //    private void loadWeatherInfor() {
 //        if (shouldAskPermissions() && !isFirstTimeLauncher()) {

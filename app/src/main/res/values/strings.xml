@@ -44,6 +44,10 @@
     <string name="low_temperature_warning">Cảnh báo nhiệt độ thấp</string>
     <string name="select">Lựa chọn</string>
     <string name="cancel">Hủy</string>
+    <string name="humidity">Độ ẩm</string>
+    <string name="cloud_cover">Mây che phủ</string>
+    <string name="wind">Gió</string>
+    <string name="snow">Tuyết</string>
     <string-array name="arrTinhThanh">
         <item>An Giang</item>
         <item>Vũng Tàu</item>

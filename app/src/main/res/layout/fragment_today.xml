@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +11,8 @@
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -103,12 +101,21 @@
                     android:layout_height="match_parent"
                     android:paddingTop="40dp">
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_wind"
+                        android:layout_margin="3dip"/>
+
                     <TextView
                         android:id="@+id/textView21"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Gió:"
+                        android:layout_weight="4"
+                        android:text=" Gió:"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
@@ -118,12 +125,13 @@
                         android:id="@+id/txtWind"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="8"
                         android:gravity="center"
 
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
+
                 </TableRow>
 
                 <TableRow
@@ -131,12 +139,21 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="40dp">
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_cloud_cover"
+                        android:layout_margin="3dip"/>
+
                     <TextView
                         android:id="@+id/textView22"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mây:"
+                        android:layout_weight="4"
+                        android:text=" Mây:"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
@@ -146,7 +163,7 @@
                         android:id="@+id/txtCloudliness"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="8"
                         android:gravity="center"
 
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -159,12 +176,21 @@
                     android:layout_height="match_parent"
                     android:paddingTop="40dp">
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_pressure"
+                        android:layout_margin="3dip"/>
+
                     <TextView
                         android:id="@+id/textView23"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Áp suất:"
+                        android:layout_weight="4"
+                        android:text=" Áp suất:"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
@@ -174,7 +200,7 @@
                         android:id="@+id/txtPressure"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="8"
                         android:gravity="center"
 
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -187,12 +213,21 @@
                     android:layout_height="match_parent"
                     android:paddingTop="40dp">
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_dew_point"
+                        android:layout_margin="3dip"/>
+
                     <TextView
                         android:id="@+id/textView24"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Độ ẩm:"
+                        android:layout_weight="4"
+                        android:text=" Độ ẩm:"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
@@ -202,7 +237,7 @@
                         android:id="@+id/txtHumidty"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="8"
                         android:hint="82 %"
 
                         android:gravity="center"
@@ -216,12 +251,21 @@
                     android:layout_height="match_parent"
                     android:paddingTop="40dp">
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_sun"
+                        android:layout_margin="3dip"/>
+
                     <TextView
                         android:id="@+id/textView25"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mặt trời mọc: "
+                        android:layout_weight="4"
+                        android:text=" Mặt trời mọc: "
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
@@ -231,7 +275,7 @@
                         android:id="@+id/txtSunrise"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="8"
                         android:text="Đông"
                         android:gravity="center"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -244,12 +288,21 @@
                     android:layout_height="match_parent"
                     android:paddingTop="40dp">
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_star"
+                        android:layout_margin="3dip"/>
+
                     <TextView
                         android:id="@+id/textView26"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mặt trời lặn: "
+                        android:layout_weight="4"
+                        android:text=" Mặt trời lặn: "
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
@@ -259,7 +312,7 @@
                         android:id="@+id/txtSunset"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="8"
                         android:text="Tây"
                         android:gravity="center"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -267,6 +320,11 @@
                         android:textSize="18sp" />
                 </TableRow>
             </TableLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
