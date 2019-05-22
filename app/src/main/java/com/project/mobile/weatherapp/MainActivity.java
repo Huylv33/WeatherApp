@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity  implements
             R.drawable.ic_forecast_black_24dp
     };
 
-    public String city;
-    public String country;
+    public String city = "Hanoi";
+    public String country = "Vietnam";
     public Boolean usingLocation;
 
     @Override
@@ -159,7 +159,13 @@ public class MainActivity extends AppCompatActivity  implements
             this.country = locationBundle.getString("Country");
             Log.i("check xem chay ntn", this.country);
         }
-        else usingLocation = true;
+
+
+        Intent currentIntent = getIntent();
+        Bundle currentBundle = currentIntent.getBundleExtra("CurrentLocation");
+        if(currentBundle != null) {
+            usingLocation = true;
+        }
 
 
 
@@ -343,6 +349,8 @@ public class MainActivity extends AppCompatActivity  implements
             args.putDouble("lon", gpsTracker.getLongitude());
             args.putString("city", city);
             args.putString("country", country);
+            Log.i("Kiem tra mot ty", country);
+            Log.i("Kiem tra mot ty", usingLocation.toString());
             args.putBoolean("usingLocation", usingLocation);
 
 //            args.putString("lon",gpsTracker.getLongitude() + "");

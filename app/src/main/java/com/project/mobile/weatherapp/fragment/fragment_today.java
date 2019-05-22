@@ -51,6 +51,9 @@ public class fragment_today extends Fragment {
     private CurrentWeatherDB currentWeatherDB;
     private double lat;
     private double lon;
+    public Boolean usingLocation;
+    public String city;
+    public String country;
     private OpenWeatherMap openWeatherMapToday;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,9 @@ public class fragment_today extends Fragment {
         Bundle args = getArguments();
         lat = args.getDouble("lat");
         lon = args.getDouble("lon");
+        usingLocation = args.getBoolean("usingLocation");
+        city = args.getString("city");
+        country = args.getString("country");
 //        currentWeatherDB = new CurrentWeatherDB(context);
     }
 
@@ -139,49 +145,50 @@ public class fragment_today extends Fragment {
     }
     private void getWeather() {
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
-            weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
-                @Override
-                public  void doComplete(OpenWeatherMap openWeatherMap) {
-                    NumberFormat format = new DecimalFormat("#0.0");
-                    ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
-                    TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
-                    TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
-                    TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
-                    TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
-                    TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
-                    TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
-                    TextView txtPressure= (TextView) getActivity().findViewById(R.id.txtPressure);
-                    TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
-                    TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
-                    TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
-                    imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
-                    String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
-                    String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
-                    String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
-                    txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
-                    txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
-                    txtCurrentAddressName.setText(openWeatherMap.getName());
-                    txtTemperature.setText(temperature);
-                    txtMinTemp.setText(minTemp);
-                    txtMaxTemp.setText(maxTemp);
-                    String wind= openWeatherMap.getWind().getSpeed()+" m/s";
-                    String mesg = openWeatherMap.getWeather().get(0).getDescription();
-                    String cloudiness= mesg;
-                    String pressure= openWeatherMap.getMain().getPressure()+" hpa";
-                    String humidity=openWeatherMap.getMain().getHumidity()+" %";
-                    txtWind.setText(wind);
-                    txtCloudliness.setText(cloudiness);
-                    txtPressure.setText(pressure);
-                    txtHumidty.setText(humidity);
-                    String openWeatherMapJson = new Gson().toJson(openWeatherMap);
-                    Log.d("json",openWeatherMapJson);
+            if(usingLocation) {
+                weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
+                    @Override
+                    public  void doComplete(OpenWeatherMap openWeatherMap) {
+                        NumberFormat format = new DecimalFormat("#0.0");
+                        ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
+                        TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
+                        TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
+                        TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
+                        TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
+                        TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
+                        TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
+                        TextView txtPressure= (TextView) getActivity().findViewById(R.id.txtPressure);
+                        TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
+                        TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
+                        TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
+                        imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
+                        String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
+                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
+                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+                        txtCurrentAddressName.setText(openWeatherMap.getName());
+                        txtTemperature.setText(temperature);
+                        txtMinTemp.setText(minTemp);
+                        txtMaxTemp.setText(maxTemp);
+                        String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+                        String mesg = openWeatherMap.getWeather().get(0).getDescription();
+                        String cloudiness= mesg;
+                        String pressure= openWeatherMap.getMain().getPressure()+" hpa";
+                        String humidity=openWeatherMap.getMain().getHumidity()+" %";
+                        txtWind.setText(wind);
+                        txtCloudliness.setText(cloudiness);
+                        txtPressure.setText(pressure);
+                        txtHumidty.setText(humidity);
+                        String openWeatherMapJson = new Gson().toJson(openWeatherMap);
+                        Log.d("json",openWeatherMapJson);
 
-                    SharedPreferences sharedPref = getActivity().getSharedPreferences
-                            ("current_weather_data", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("current_weather",openWeatherMapJson);
-                    editor.apply();
-                    // Cap nhat cho bang
+                        SharedPreferences sharedPref = getActivity().getSharedPreferences
+                                ("current_weather_data", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("current_weather",openWeatherMapJson);
+                        editor.apply();
+                        // Cap nhat cho bang
 //                    if (currentWeatherDB.TableNotEmpty()){
 //                        currentWeatherDB.updateValues("1",openWeatherMap.getWeather().get(0).getMain(),
 //                                openWeatherMap.getWeather().get(0).getDescription(),
@@ -199,9 +206,76 @@ public class fragment_today extends Fragment {
 //                                minTemp,openWeatherMap.getWind().getSpeed() + "",
 //                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
 //                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
-                }
-            });
-            weatherAsyncTask.execute();
+                    }
+                });
+                weatherAsyncTask.execute();
+            }
+            else {
+                weatherAsyncTask = new WeatherAsyncTask(city, new doComplete() {
+                    @Override
+                    public  void doComplete(OpenWeatherMap openWeatherMap) {
+                        NumberFormat format = new DecimalFormat("#0.0");
+                        ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
+                        TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
+                        TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
+                        TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
+                        TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
+                        TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
+                        TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
+                        TextView txtPressure= (TextView) getActivity().findViewById(R.id.txtPressure);
+                        TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
+                        TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
+                        TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
+                        imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
+                        String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
+                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
+                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+                        txtCurrentAddressName.setText(openWeatherMap.getName());
+                        txtTemperature.setText(temperature);
+                        txtMinTemp.setText(minTemp);
+                        txtMaxTemp.setText(maxTemp);
+                        String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+                        String mesg = openWeatherMap.getWeather().get(0).getDescription();
+                        String cloudiness= mesg;
+                        String pressure= openWeatherMap.getMain().getPressure()+" hpa";
+                        String humidity=openWeatherMap.getMain().getHumidity()+" %";
+                        txtWind.setText(wind);
+                        txtCloudliness.setText(cloudiness);
+                        txtPressure.setText(pressure);
+                        txtHumidty.setText(humidity);
+                        String openWeatherMapJson = new Gson().toJson(openWeatherMap);
+                        Log.d("json",openWeatherMapJson);
+
+                        SharedPreferences sharedPref = getActivity().getSharedPreferences
+                                ("current_weather_data", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("current_weather",openWeatherMapJson);
+                        editor.apply();
+                        // Cap nhat cho bang
+//                    if (currentWeatherDB.TableNotEmpty()){
+//                        currentWeatherDB.updateValues("1",openWeatherMap.getWeather().get(0).getMain(),
+//                                openWeatherMap.getWeather().get(0).getDescription(),
+//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
+//                                humidity,maxTemp,
+//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
+//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
+//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
+//                    }
+//                    else
+//                        currentWeatherDB.addDataInDB(openWeatherMap.getWeather().get(0).getMain(),
+//                                openWeatherMap.getWeather().get(0).getDescription(),
+//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
+//                                humidity,maxTemp,
+//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
+//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
+//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
+                    }
+                });
+                weatherAsyncTask.execute();
+            }
+
         }
         else useLocalData();
     }
