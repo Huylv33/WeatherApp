@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity  implements
             R.drawable.ic_forecast_black_24dp
     };
 
-    public Location location;
     public String city;
     public String country;
     public Boolean usingLocation;
@@ -144,6 +143,7 @@ public class MainActivity extends AppCompatActivity  implements
 //        }
         LocationSetting locationSetting = new LocationSetting(this);
         locationSetting.loadLocationSetting();
+        usingLocation = locationSetting.usingLocation;
         if (locationSetting.usingLocation) {
             gpsTracker = new GPSTracker(this);
         }
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity  implements
             Log.i("check xem chay ntn", this.country);
         }
         else usingLocation = true;
+
 
 
     }
@@ -340,6 +341,9 @@ public class MainActivity extends AppCompatActivity  implements
             Bundle args = new Bundle();
             args.putDouble("lat",gpsTracker.getLongitude());
             args.putDouble("lon", gpsTracker.getLongitude());
+            args.putString("city", city);
+            args.putString("country", country);
+            args.putBoolean("usingLocation", usingLocation);
 
 //            args.putString("lon",gpsTracker.getLongitude() + "");
             mFragmentList.get(position).setArguments(args);
