@@ -31,8 +31,7 @@ public class OpenWeatherPredict {
                     temp_min = openWeather5Days3Hours.getList().get(j).getMain().getTemp_min();
                 }
             }
-            temp_max -= 273;
-            temp_min -= 273;
+
             Log.i("Check temp max", temp_max + " ");
             Log.i("Check temp min", temp_min + " ");
             ListOfWeather listOfWeather = new ListOfWeather();

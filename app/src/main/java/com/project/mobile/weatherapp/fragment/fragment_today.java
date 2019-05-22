@@ -142,7 +142,7 @@ public class fragment_today extends Fragment {
                     ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
                     TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
                     TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
-//                    TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
+                    TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
                     TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
                     TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
                     TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
@@ -159,7 +159,7 @@ public class fragment_today extends Fragment {
                     txtCurrentAddressName.setText(openWeatherMap.getName());
                     txtTemperature.setText(temperature);
                     txtMinTemp.setText(minTemp);
-//                    txtMaxTemp.setText(maxTemp);
+                    txtMaxTemp.setText(maxTemp);
                     String wind= openWeatherMap.getWind().getSpeed()+" m/s";
                     String mesg = openWeatherMap.getWeather().get(0).getDescription();
                     String cloudiness= mesg;

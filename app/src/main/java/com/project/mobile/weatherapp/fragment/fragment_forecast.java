@@ -22,6 +22,8 @@ import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.doComplete;
 import com.project.mobile.weatherapp.utils.doComplete5Days;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class fragment_forecast extends Fragment {
         weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon,mAdapter,recyclerView, new doComplete5Days() {
             @Override
             public void doComplete(OpenWeatherPredict openWeatherPredict) {
+                NumberFormat format = new DecimalFormat("#0.0");
                 Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
                 for (ListOfWeather list : openWeatherPredict.getListWeather()) {
                     Log.i("Content", list.getDt_txt());
@@ -71,8 +74,8 @@ public class fragment_forecast extends Fragment {
                     Daily daily = new Daily();
                     daily.setmTextWeather(list.getWeather().get(0).getDescription());
                     daily.setmTextDate(list.getDt_txt());
-                    daily.setmTempMin(list.getTemp_min() + "");
-                    daily.setmTempMax(list.getTemp_max() + "");
+                    daily.setmTempMin(format.format(list.getTemp_min() - 273.15)+ "°C");
+                    daily.setmTempMax(format.format(list.getTemp_max() - 273.15) + "°C");
                     daily.setmIconId(list.getWeather().get(0).getIcon());
                     mList.add(daily);
 //                            Log.i("mList i", daily.getmTempMin());

@@ -5,15 +5,29 @@ public class Hourly {
     private String mTextTemp;
     private String mTextWind;
     private String mTextHumidity;
+    private String WeatherIcon;
     public  Hourly (String mTextTime, String mTextTemp, String mTextWind, String mTextHumidity) {
         this.mTextTime = mTextTime;
         this.mTextTemp = mTextTemp;
         this.mTextWind = mTextWind;
         this.mTextHumidity = mTextHumidity;
     }
+    public Hourly() {
+
+    }
+
+
 
     public  String getmTextTime() {
         return mTextTime;
+    }
+
+    public String getWeatherIcon() {
+        return WeatherIcon;
+    }
+
+    public void setWeatherIcon(String weatherIcon) {
+        WeatherIcon = weatherIcon;
     }
 
     public  void setmTextTime(String mTextTime) {
