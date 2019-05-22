@@ -68,7 +68,7 @@ public class fragment_today extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
         final ArcProgress arcProgress= (ArcProgress) view.findViewById(R.id.arc_progress);
-        arcProgress.setProgress(175);
+        arcProgress.setProgress(250);
         arcProgress.setMax(300);
         arcProgress.setStrokeWidth(40);
         if(arcProgress.getProgress() < 50){
@@ -105,6 +105,7 @@ public class fragment_today extends Fragment {
             arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
             arcProgress.setTextColor(Color.argb(255,103,58,183));
             arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
             return view;
         }
 
