@@ -20,6 +20,7 @@ import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
     private List<AutocompletePrediction> placeList;
+
     public LocationAdapter(List<AutocompletePrediction> places){
         placeList = places;
     }
