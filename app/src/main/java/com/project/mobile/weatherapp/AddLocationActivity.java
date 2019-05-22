@@ -17,6 +17,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.project.mobile.weatherapp.adapter.LocationAdapter;
@@ -49,7 +50,7 @@ public class AddLocationActivity extends AppCompatActivity {
         placesClient = Places.createClient(this);
         initSearchBar();
         rvLocation = (RecyclerView) findViewById(R.id.rv_location);
-        locationAdapter = new LocationAdapter(locations);
+        locationAdapter = new LocationAdapter(locations, this);
         rvLocation.setAdapter(locationAdapter);
         rvLocation.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -59,6 +60,7 @@ public class AddLocationActivity extends AppCompatActivity {
         FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
                 .setQuery(query)
                 .setSessionToken(token)
+                .setTypeFilter(TypeFilter.CITIES)
                 .build();
         placesClient.findAutocompletePredictions(request).addOnSuccessListener((response) -> {
             locations.clear();

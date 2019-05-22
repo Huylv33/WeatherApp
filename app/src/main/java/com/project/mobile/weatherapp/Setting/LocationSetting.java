@@ -7,8 +7,11 @@ import android.content.SharedPreferences;
 import android.location.Location;
 
 public class LocationSetting {
-    public Location location;
-    public String placeName;
+    public float lat;
+    public float lon;
+    public String city;
+    public String country;
+    public Boolean usingLocation = true;
     public Activity activity;
 
     public LocationSetting(Activity activity) {
@@ -18,19 +21,23 @@ public class LocationSetting {
     public void loadLocationSetting() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("LocationSetting", Context.MODE_PRIVATE);
         if(sharedPreferences != null) {
-            this.location.setLongitude(sharedPreferences.getFloat("Lon", 0));
-            this.location.setLatitude(sharedPreferences.getFloat("Lat", 0));
-            this.placeName = sharedPreferences.getString("PlaceName", "Hanoi");
-
+            this.lat = sharedPreferences.getFloat("Lat", 0);
+            this.lon = sharedPreferences.getFloat("Lon", 0);
+            this.city = sharedPreferences.getString("City", "Hanoi");
+            this.city = sharedPreferences.getString("Country", "Vietnam");
+            this.usingLocation = sharedPreferences.getBoolean("usingLocation", true);
         }
+
     }
 
     public void saveLocationSetting() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("LocationSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat("Lon",  (float) this.location.getLongitude());
-        editor.putFloat("Lat", (float) this.location.getLatitude());
-        editor.putString("PlaceName", this.placeName);
+        editor.putFloat("Lon",  (float) this.lon);
+        editor.putFloat("Lat", (float) this.lat);
+        editor.putString("City", this.city);
+        editor.putString("Country", this.country);
+        editor.putBoolean("usingLocation", this.usingLocation);
     }
 
 

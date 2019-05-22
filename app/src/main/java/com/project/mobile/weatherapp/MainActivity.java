@@ -11,6 +11,7 @@ import android.content.Intent;
 
 import android.content.res.Configuration;
 
+import android.location.Location;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
@@ -37,6 +39,7 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
+import com.project.mobile.weatherapp.Setting.LocationSetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
@@ -72,6 +75,11 @@ public class MainActivity extends AppCompatActivity  implements
             R.drawable.ic_hourly_black_24dp,
             R.drawable.ic_forecast_black_24dp
     };
+
+    public Location location;
+    public String city;
+    public String country;
+    public Boolean usingLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +142,26 @@ public class MainActivity extends AppCompatActivity  implements
 //        if (!NetworkAndGPSChecking.isNetworkAvailable(this)) {
 //            showNetworkAlert();
 //        }
+        LocationSetting locationSetting = new LocationSetting(this);
+        locationSetting.loadLocationSetting();
+        if (locationSetting.usingLocation) {
+            gpsTracker = new GPSTracker(this);
+        }
+        else {
+            this.city = locationSetting.city;
+            this.country = locationSetting.country;
+        }
+        Intent locationIntent = getIntent();
+        Bundle locationBundle = locationIntent.getBundleExtra("Place");
+        if(locationBundle != null){
+            usingLocation = false;
+            this.city = locationBundle.getString("City");
+            this.country = locationBundle.getString("Country");
+            Log.i("check xem chay ntn", this.country);
+        }
+        else usingLocation = true;
 
-        gpsTracker = new GPSTracker(this);
+
     }
 
     //handle Toolbar and Menu
@@ -312,8 +338,8 @@ public class MainActivity extends AppCompatActivity  implements
         @Override
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
-            args.putDouble("lat",gpsTracker.getLatitude());
-            args.putDouble("lon",gpsTracker.getLongitude());
+            args.putDouble("lat",gpsTracker.getLongitude());
+            args.putDouble("lon", gpsTracker.getLongitude());
 
 //            args.putString("lon",gpsTracker.getLongitude() + "");
             mFragmentList.get(position).setArguments(args);
