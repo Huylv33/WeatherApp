@@ -151,7 +151,7 @@ public class fragment_today extends Fragment {
                     TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
                     TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
                     imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
-                    String temperature= format.format(openWeatherMap.getMain().getTemp()-273.15)+"°C";
+                    String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
                     String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
                     String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
                     txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
