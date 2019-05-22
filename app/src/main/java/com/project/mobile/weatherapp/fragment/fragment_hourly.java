@@ -97,7 +97,6 @@ public class fragment_hourly extends Fragment {
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setAdapter(mAdapter);
                 Log.i("mList size in here ", mList.size() + "");
-
             }
         });
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
