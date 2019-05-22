@@ -37,6 +37,7 @@ import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
+import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
 import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.utils.GPSTracker;
@@ -280,7 +281,7 @@ public class MainActivity extends AppCompatActivity  implements
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new fragment_today(), "Hôm nay");
-        adapter.addFragment(new com.project.mobile.weatherapp.fragment_hourly(), "Hằng giờ");
+        adapter.addFragment(new fragment_hourly(), "Hằng giờ");
         adapter.addFragment(new fragment_forecast(), "Dự báo");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);

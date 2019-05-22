@@ -37,13 +37,10 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Hourly itemweather = mHourly.get(position);
-
         holder.texttime.setText(itemweather.getmTextTime());
         holder.texttemp.setText(itemweather.getmTextTemp());
         holder.textwind.setText(itemweather.getmTextWind());
         holder.texthumidity.setText(itemweather.getmTextHumidity());
-
-
     }
 
     @Override

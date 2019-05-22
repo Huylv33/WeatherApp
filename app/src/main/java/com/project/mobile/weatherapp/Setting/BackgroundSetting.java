@@ -10,7 +10,6 @@ public class BackgroundSetting {
 
     public BackgroundSetting(Activity activity){
         this.activity = activity;
-
     }
 
     public void loadBackgroundSetting() {

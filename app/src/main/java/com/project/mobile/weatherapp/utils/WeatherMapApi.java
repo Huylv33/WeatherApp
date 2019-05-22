@@ -53,8 +53,7 @@ public class WeatherMapApi {
         InputStream is = null;
         try {
                 URL url = new URL("http://api.openweathermap.org/data/2.5/" + "weather?q=" + q +
-                    "&APPID=" +
-                    Constants.OPEN_WEATHER_MAP_API_KEY);
+                    "&APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY);
             con = (HttpURLConnection) (url).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
