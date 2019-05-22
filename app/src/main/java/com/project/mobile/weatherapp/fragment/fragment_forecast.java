@@ -28,6 +28,8 @@ import com.project.mobile.weatherapp.utils.doComplete;
 import com.project.mobile.weatherapp.utils.doComplete5Days;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +63,6 @@ public class fragment_forecast extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
-
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
             weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon, mAdapter, recyclerView, new doComplete5Days() {
                 @Override

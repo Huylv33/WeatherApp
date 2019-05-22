@@ -3,7 +3,9 @@ package com.project.mobile.weatherapp.utils;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 
+import com.project.mobile.weatherapp.HourlyAdapter;
 import com.project.mobile.weatherapp.adapter.DailyAdapter;
+import com.project.mobile.weatherapp.model.Hourly;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherHours;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
@@ -14,7 +16,7 @@ import java.text.NumberFormat;
 public class WeatherHoursAsyncTask extends AsyncTask<Void,Void, OpenWeatherHours> {
 
     private NumberFormat format = new DecimalFormat("#0.0");
-    public DailyAdapter mAdapter;
+    public HourlyAdapter mAdapter;
     public RecyclerView recyclerView;
 
     private  String q;
@@ -23,13 +25,13 @@ public class WeatherHoursAsyncTask extends AsyncTask<Void,Void, OpenWeatherHours
 
     private TypePrediction typePrediction;
 
-    public WeatherHoursAsyncTask(String q,DailyAdapter mAdapter,RecyclerView recyclerView, doCompleteHours finish) {
+    public WeatherHoursAsyncTask(String q, HourlyAdapter mAdapter,RecyclerView recyclerView, doCompleteHours finish) {
         this.q = q;
         this.finish = finish;
         this.mAdapter = mAdapter;
         typePrediction = TypePrediction.ADDRESS_NAME;
     }
-    public WeatherHoursAsyncTask(double lat, double lon, DailyAdapter mAdapter, RecyclerView recyclerView, doCompleteHours finish) {
+    public WeatherHoursAsyncTask(double lat, double lon, HourlyAdapter mAdapter, RecyclerView recyclerView, doCompleteHours finish) {
         this.lat = lat;
         this.lon = lon;
         this.mAdapter = mAdapter;

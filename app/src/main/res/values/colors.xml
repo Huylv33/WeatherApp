@@ -6,5 +6,17 @@
     <color name="colorAccent">#05c8de</color>
     <color name="white70">#b4ffffff</color>
     <color name="orange">#e4a73e</color>
+    <color name="finish">#2196F3</color>
+    <color name="unfinish">#95CACADA</color>
+    <color name="good">#8BC34A</color>
+    <color name="moderate">#FFEB3B</color>
+    <color name="sensitive">#FF9800</color>
+    <color name="unhealthy">#F44336</color>
+    <color name="very_unhealthy">#9C27B0</color>
+    <color name="hazardous">#673AB7</color>
+    <color name="white10">#1affffff</color>
+    <color name="white15">#26ffffff</color>
+    <color name="white40">#66ffffff</color>
+
 </resources>
 

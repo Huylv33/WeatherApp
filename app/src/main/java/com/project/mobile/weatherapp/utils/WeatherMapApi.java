@@ -186,13 +186,8 @@ public class WeatherMapApi {
             is = con.getInputStream();
             Reader targetReader = new InputStreamReader(is);
             OpenWeather5Days3Hours results = new Gson().fromJson(targetReader, OpenWeather5Days3Hours.class);
-            if (results == null) {
-                Log.d("docho","ne");
-            }
-            else {
-                Log.d("docho2","ne");
-            }
-            ;           return new OpenWeatherHours(results);
+
+            return new OpenWeatherHours(results);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

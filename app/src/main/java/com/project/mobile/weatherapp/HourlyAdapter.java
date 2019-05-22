@@ -5,17 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.mobile.weatherapp.model.Daily;
 import com.project.mobile.weatherapp.model.Hourly;
 import com.project.mobile.weatherapp.model.open_weather_map.Weather;
+import com.project.mobile.weatherapp.utils.WeatherIcon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder>{
-    private List<Hourly> mHourly;
+    private List<Hourly> mHourly = new ArrayList<Hourly>();
     private Context mContext;
 
     public HourlyAdapter (List<Hourly> hourly, Context mContext) {
@@ -41,6 +44,9 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
         holder.texttemp.setText(itemweather.getmTextTemp());
         holder.textwind.setText(itemweather.getmTextWind());
         holder.texthumidity.setText(itemweather.getmTextHumidity());
+        holder.weatherIcon.setImageResource(WeatherIcon.getIconId(itemweather.getWeatherIcon()));
+
+
     }
 
     @Override
@@ -54,6 +60,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
         public TextView texttemp;
         public TextView textwind;
         public TextView texthumidity;
+        public ImageView weatherIcon;
 
         public ViewHolder (View itemView) {
             super(itemView);
@@ -62,6 +69,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
             texttemp = itemView.findViewById(R.id.text_temp);
             textwind = itemView.findViewById(R.id.text_wind);
             texthumidity = itemView.findViewById(R.id.text_humidity);
+            weatherIcon = itemView.findViewById(R.id.icon_weatherHour);
         }
 
     }

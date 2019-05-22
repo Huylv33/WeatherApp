@@ -14,12 +14,15 @@ public class ManagerLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manager_location);
     }
 
-    public void onClick(int v) {
-        switch (v) {
-            case R.id.text_cur_location: {
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.text_add_location: {
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
+                Intent iAddLocation = new Intent(this, AddLocationActivity.class);
+                startActivity(iAddLocation);
                 break;
             }
+
         }
     }
 }

@@ -27,6 +27,7 @@ import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 
 import android.widget.Toast;
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity  implements
         ActionBar actionBar = getSupportActionBar();
         */
 // Loại bỏ tiểu đề mặc định
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeButtonEnabled(true);
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity  implements
         Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
     }
 
-    //Mở màn hình quản lý vị trí
+    //Mở màn hình quản lý vị trí, click vao cai nao thi chuyen den activity do
     public void showMenuClick(int position)
     {
         switch(position) {
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity  implements
 
     }
 
-    //Mở màn hình quản lý thông báo
+    //Dang khong dung
 
     private void goToFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -215,6 +216,7 @@ public class MainActivity extends AppCompatActivity  implements
         transaction.add(R.id.today, fragment).commit();
     }
 
+    // Chay cai showmenuClick
     @Override
     public void onOptionClicked(int position, Object objectClicked) {
         // Set the toolbar title
@@ -264,7 +266,7 @@ public class MainActivity extends AppCompatActivity  implements
 //    }
 
 
-    //ViewHolder
+    //ViewHolder. Chức năng: tạo viewHolder để đổ vào view
     private class ViewHolder {
         private DuoDrawerLayout mDuoDrawerLayout;
         private DuoMenuView mDuoMenuView;
@@ -277,7 +279,7 @@ public class MainActivity extends AppCompatActivity  implements
         }
     }
 
-    // setup ViewPager and TabLayout icon
+    // setup ViewPager and TabLayout icon, add  trang thai cua 3 man hinh vao
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new fragment_today(), "Hôm nay");
@@ -287,6 +289,7 @@ public class MainActivity extends AppCompatActivity  implements
         viewPager.setOffscreenPageLimit(3);
     }
 
+    // Set up icon cho 3 tab
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
@@ -303,6 +306,8 @@ public class MainActivity extends AppCompatActivity  implements
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
+
+        // Chuyen các data qua đây, quan trong đoạn này vcl nè
 
         @Override
         public Fragment getItem(int position) {
@@ -362,99 +367,19 @@ public class MainActivity extends AppCompatActivity  implements
 
 
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
+        // Ấn vào nó ra cái Activity Location
         switch (item.getItemId()) {
             case R.id.app_bar_search:
-                Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
+                Intent iLoc = new Intent(MainActivity.this, ManagerLocationActivity.class);
+                startActivity(iLoc);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-<<<<<<< HEAD
-//    private void loadWeatherInfor() {
-//        if (shouldAskPermissions() && !isFirstTimeLauncher()) {
-//            startActivity(new Intent(this,PermissionAboveMarshmellow.class));
-//            getWeather();
-//        }
-//        else getWeather();
-=======
-    */
 
-//    private void getCurrentLocation() {
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-//        fusedLocationClient.getLastLocation()
-//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        // Got last known location. In some rare situations this can be null.
-//                        if (location != null) {
-//                            // Logic to handle location object
-//                            Log.d("Location", "location here");
-//                        }
-//                        else {
-//                            Log.d("Location", "location here");
-//                        }
-//                    }
-//                });
-
-//    }
-//    private boolean isFirstTimeLauncher() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
-//        boolean is = sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
-//        return  sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
-//    }
-//    private void getWeather() {
-//        if (NetworkAndGPSChecking.isNetworkAvailable(getApplicationContext())) {
-//            GPSTracker gpsTracker = new GPSTracker(this);
-//            gpsTracker.getLocation();
-//            weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(), gpsTracker.getLongitude(), new doComplete() {
-//                @Override
-//                public void doCompele(OpenWeatherMap openWeatherMap) {
-//                    NumberFormat format = new DecimalFormat("#0.0");
-//                    ImageView imgWeather = (ImageView) findViewById(R.id.imgWeather);
-//                    TextView txtTemperature=(TextView) findViewById(R.id.txtTemperature);
-//                    TextView txtCurrentAddressName=(TextView) findViewById(R.id.txtCurrentAddressName);
-//                    TextView txtMaxTemp=(TextView) findViewById(R.id.txtMaxTemp);
-//                    TextView txtMinTemp=(TextView) findViewById(R.id.txtMinTemp);
-//                    TextView txtWind=(TextView) findViewById(R.id.txtWind);
-//                    TextView txtCloudliness= (TextView) findViewById(R.id.txtCloudliness);
-//                    TextView txtPressure= (TextView) findViewById(R.id.txtPressure);
-//                    TextView txtHumidty= (TextView) findViewById(R.id.txtHumidty);
-//                    TextView txtSunrise= (TextView) findViewById(R.id.txtSunrise);
-//                    TextView txtSunset= (TextView) findViewById(R.id.txtSunset);
-//                    imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
-//                    String temperature= format.format(openWeatherMap.getMain().getTemp()-273.15)+"°C";
-//                    String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
-//                    String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
-//                    txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
-//                    txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
-//                    txtCurrentAddressName.setText(openWeatherMap.getName());
-//                    txtTemperature.setText(temperature);
-//                    txtMinTemp.setText(minTemp);
-//                    txtMaxTemp.setText(maxTemp);
-//                    String wind= openWeatherMap.getWind().getSpeed()+" m/s";
-//                    String mesg = openWeatherMap.getWeather().get(0).getMain();
-//                    String cloudiness= mesg;
-//                    String pressure= openWeatherMap.getMain().getPressure()+" hpa";
-//                    String humidity=openWeatherMap.getMain().getHumidity()+" %";
-//                    txtWind.setText(wind);
-//                    txtCloudliness.setText(cloudiness);
-//                    txtPressure.setText(pressure);
-//                    txtHumidty.setText(humidity);
-//                }
-//            });
-//            weatherAsyncTask.execute();
-//        }
-//    }
-//    private boolean shouldAskPermissions() {
-//        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
-//    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -496,13 +421,11 @@ public class MainActivity extends AppCompatActivity  implements
         AlertDialog alert = alertDialog.create();
         alert.show();
     }
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if (weatherAsyncTask != null) {
-//            weatherAsyncTask.cancel(true);
-//        }
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 
 
 

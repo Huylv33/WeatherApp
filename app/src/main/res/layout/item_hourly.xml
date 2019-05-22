@@ -4,6 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackgroundBorderless"
+    android:onClick="onItemClick"
+    android:clickable="true"
     android:gravity="center_vertical"
     android:padding="10dip">
 
@@ -16,7 +18,7 @@
         android:textSize="13sp" />
 
     <ImageView
-        android:id="@id/icon_weather"
+        android:id="@id/icon_weatherHour"
         android:layout_width="32dip"
         android:layout_height="32dip"
         android:src="@drawable/img_fewclouds_day"/>
@@ -35,7 +37,7 @@
         android:layout_height="14dip"
         android:layout_marginLeft="4dip"
         android:layout_marginRight="4dip"
-        android:src="@drawable/ic_precipitation" />
+        android:src="@drawable/ic_wind" />
 
     <TextView
         android:id="@+id/text_wind"
@@ -50,7 +52,7 @@
         android:layout_height="14dip"
         android:layout_marginLeft="4dip"
         android:layout_marginRight="4dip"
-        android:src="@drawable/ic_humidity" />
+        android:src="@drawable/ic_dew_point" />
 
     <TextView
         android:id="@+id/text_humidity"
