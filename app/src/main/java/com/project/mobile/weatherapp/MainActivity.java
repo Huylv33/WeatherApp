@@ -6,10 +6,12 @@ package com.project.mobile.weatherapp;
 import android.content.Context;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.res.Configuration;
 
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.os.Bundle;
@@ -35,11 +38,10 @@ import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
-import com.project.mobile.weatherapp.fragment.DataCommunication;
-import com.project.mobile.weatherapp.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
 import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.utils.GPSTracker;
+import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity  implements
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         /*drawerLayout = (DuoDrawerLayout) findViewById(R.id.duo_navigation);
         drawerToggle = new DuoDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -129,6 +130,10 @@ public class MainActivity extends AppCompatActivity  implements
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
 //        loadWeatherInfor();
+//        if (!NetworkAndGPSChecking.isNetworkAvailable(this)) {
+//            showNetworkAlert();
+//        }
+
         gpsTracker = new GPSTracker(this);
     }
 
@@ -276,7 +281,7 @@ public class MainActivity extends AppCompatActivity  implements
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new fragment_today(), "Hôm nay");
-        adapter.addFragment(new fragment_hourly(), "Hằng giờ");
+        adapter.addFragment(new com.project.mobile.weatherapp.fragment_hourly(), "Hằng giờ");
         adapter.addFragment(new fragment_forecast(), "Dự báo");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
@@ -404,7 +409,7 @@ public class MainActivity extends AppCompatActivity  implements
 //        return  sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
 //    }
 //    private void getWeather() {
-//        if (NetworkChecking.isNetworkAvailable(getApplicationContext())) {
+//        if (NetworkAndGPSChecking.isNetworkAvailable(getApplicationContext())) {
 //            GPSTracker gpsTracker = new GPSTracker(this);
 //            gpsTracker.getLocation();
 //            weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(), gpsTracker.getLongitude(), new doComplete() {
@@ -458,7 +463,38 @@ public class MainActivity extends AppCompatActivity  implements
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
+    private void showNetworkAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        Context mContext = getApplicationContext();
+        //Setting Dialog Title
+        alertDialog.setTitle("Thông báo");
 
+        //Setting Dialog Message
+        alertDialog.setMessage("Thiết bị chưa được bật dịch vụ mạng");
+
+        //On Pressing Setting button
+        alertDialog.setPositiveButton("Cài đặt", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                mContext.startActivity(intent);
+            }
+        });
+
+        //On pressing cancel button
+        alertDialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+    }
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();

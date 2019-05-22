@@ -1,14 +1,8 @@
 package com.project.mobile.weatherapp.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,24 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.adapter.DailyAdapter;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.Daily;
 import com.project.mobile.weatherapp.model.open_weather_map.ListOfWeather;
-import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
-import com.project.mobile.weatherapp.utils.NetworkChecking;
+import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.Weather5DaysAsyncTask;
-import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
-import com.project.mobile.weatherapp.utils.doComplete;
 import com.project.mobile.weatherapp.utils.doComplete5Days;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 
 /**
@@ -44,7 +31,7 @@ import java.util.ListIterator;
 public class fragment_forecast extends Fragment {
     private double lat;
     private double lon;
-    public ArrayList<Daily> mList = new ArrayList<>();
+    public List<Daily> mList = new ArrayList<>();
     private RecyclerView recyclerView;
     private DailyAdapter mAdapter;
     private DataCommunication dataCommunication;
@@ -59,78 +46,46 @@ public class fragment_forecast extends Fragment {
         Bundle args = getArguments();
         lat = args.getDouble("lat");
         lon = args.getDouble("lon");
-        //Log.i("Log", "check");
-        //getForecastWeather();
-
 
     }
 
-    private void getForecastWeather() {
-//        if (NetworkChecking.isNetworkAvailable(getContext())) {
-            weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon, new doComplete5Days() {
-
-                @Override
-                public void doComplete(OpenWeatherPredict openWeatherPredict) {
-                        for (ListOfWeather list : openWeatherPredict.getListWeather()) {
-                            Daily daily = new Daily();
-                            daily.setmTextDate(list.getDt_txt());
-                            daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                            daily.setmTempMin(list.getTemp_min() + "");
-                            daily.setmTempMax(list.getTemp_max() + "");
-                            mList.add(daily);
-                        }
-                    }
-            });
-            weather5DaysAsyncTask.execute();
-//        }
-    }
-
-    private void loadWeatherInfor() {
-        if (shouldAskPermissions() && !isFirstTimeLauncher()) {
-            startActivity(new Intent(getActivity(), PermissionAboveMarshmellow.class));
-            getForecastWeather();
-        }
-        else getForecastWeather();
-    }
-
-    private boolean isFirstTimeLauncher() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
-        boolean is = sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
-        return  sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
-    }
-
-    private boolean shouldAskPermissions() {
-        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        Log.i("Log", "check 1");
-//        Log.i("Log", "check 2");
-
-        View view = inflater.inflate(R.layout.fragment_forecast, null);
-
-//        initView();
-
+        View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
-        mAdapter = new DailyAdapter(mList,getContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(mAdapter);
-        loadWeatherInfor();
+
+        weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon,mAdapter,recyclerView, new doComplete5Days() {
+            @Override
+            public void doComplete(OpenWeatherPredict openWeatherPredict) {
+
+                for (ListOfWeather list : openWeatherPredict.getListWeather()) {
+                    Log.i("Content", list.getDt_txt());
+                    Log.i("Content", list.getTemp_max() + "");
+                    Log.i("Content", list.getTemp_min() + "");
+                    Daily daily = new Daily();
+                    daily.setmTextWeather(list.getWeather().get(0).getDescription());
+                    daily.setmTextDate(list.getDt_txt());
+                    daily.setmTempMin(list.getTemp_min() + "");
+                    daily.setmTempMax(list.getTemp_max() + "");
+                    mList.add(daily);
+                }
+                mAdapter = new DailyAdapter(mList,getContext());
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setAdapter(mAdapter);
+                Log.i("mList size in here ", mList.size() + "");
+
+            }
+        });
+        if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
+            weather5DaysAsyncTask.execute();
+        }
         return view;
     }
+    private void initView () {
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
-    /*private void initView () {
-        Daily daily = new Daily("THỨ NĂM, THG 5 16", "Nắng nhẹ", " 36", "26");
-        mList.add(daily);
-    }
-    */
-
 
     public List<Daily> getmList() {
         return mList;

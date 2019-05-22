@@ -20,7 +20,7 @@ import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
-import com.project.mobile.weatherapp.utils.NetworkChecking;
+import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.TimeAndDateConverter;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherIcon;
@@ -41,13 +41,12 @@ import java.text.NumberFormat;
 public class fragment_today extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    static DataCommunication dataCommunication;
     private  Context context;
     private WeatherAsyncTask weatherAsyncTask;
 
     private double lat;
     private double lon;
-
+    private OpenWeatherMap openWeatherMapToday;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,16 +132,17 @@ public class fragment_today extends Fragment {
         return  sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
     }
     private void getWeather() {
-        if (NetworkChecking.isNetworkAvailable(context)) {
+
+        if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
             weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
                 @Override
                 public  void doComplete(OpenWeatherMap openWeatherMap) {
-                    Log.i("debug 1", "check");
+                    openWeatherMapToday = openWeatherMap;
                     NumberFormat format = new DecimalFormat("#0.0");
                     ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
                     TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
                     TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
-                    TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
+//                    TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
                     TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
                     TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
                     TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
@@ -159,7 +159,7 @@ public class fragment_today extends Fragment {
                     txtCurrentAddressName.setText(openWeatherMap.getName());
                     txtTemperature.setText(temperature);
                     txtMinTemp.setText(minTemp);
-                    txtMaxTemp.setText(maxTemp);
+//                    txtMaxTemp.setText(maxTemp);
                     String wind= openWeatherMap.getWind().getSpeed()+" m/s";
                     String mesg = openWeatherMap.getWeather().get(0).getDescription();
                     String cloudiness= mesg;
@@ -173,6 +173,7 @@ public class fragment_today extends Fragment {
             });
             weatherAsyncTask.execute();
         }
+
     }
     private boolean shouldAskPermissions() {
         return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
@@ -186,7 +187,12 @@ public class fragment_today extends Fragment {
         }
     }
 
-//    @Override
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    //    @Override
 //    public void onAttach(Context context)
 //    {
 //        super.onAttach(context);
