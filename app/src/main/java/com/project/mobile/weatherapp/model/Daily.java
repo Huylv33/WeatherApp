@@ -1,6 +1,7 @@
 package com.project.mobile.weatherapp.model;
 
 public class Daily {
+    private String mIconId;
     private String mTextDate;
     private String mTextWeather;
     private String mTempMax;
@@ -8,11 +9,20 @@ public class Daily {
     public Daily() {
 
     }
-    public  Daily (String mTextDate, String mTextWeather, String mTempMax, String mTempMin) {
+    public  Daily (String mTextDate, String mTextWeather, String mTempMax, String mTempMin, String mIconId) {
         this.mTextDate = mTextDate;
         this.mTextWeather = mTextWeather;
         this.mTempMax = mTempMax;
         this.mTempMin = mTempMin;
+        this.mIconId = mIconId;
+    }
+
+    public String getmIconId() {
+        return mIconId;
+    }
+
+    public void setmIconId(String mIconId) {
+        this.mIconId = mIconId;
     }
 
     public  String getmTextDate() {

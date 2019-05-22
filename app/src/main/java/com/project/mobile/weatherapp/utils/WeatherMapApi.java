@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeather5Days3Hours;
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherHours;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
 
@@ -76,6 +77,7 @@ public class WeatherMapApi {
         }
         return null;
     }
+
     public static OpenWeatherPredict getWeather5Days(double lat, double lon) {
         HttpURLConnection con = null;
         InputStream is = null;
@@ -110,6 +112,7 @@ public class WeatherMapApi {
         }
         return null;
     }
+
     public static OpenWeatherPredict getWeather5Days(String q) {
         HttpURLConnection con = null;
         InputStream is = null;
@@ -126,6 +129,71 @@ public class WeatherMapApi {
             Reader targetReader = new InputStreamReader(is);
             OpenWeather5Days3Hours results = new Gson().fromJson(targetReader, OpenWeather5Days3Hours.class);
             return new OpenWeatherPredict(results);
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        finally {
+            try { is.close(); } catch(Throwable t) {}
+            try { con.disconnect(); } catch(Throwable t) {}
+        }
+        return null;
+    }
+
+    public static OpenWeatherHours getWeatherHours(String q) {
+        HttpURLConnection con = null;
+        InputStream is = null;
+        try {
+            URL url = new URL("http://api.openweathermap.org/data/2.5/" + "forecast?q=" + q +
+                    "&APPID=" +
+                    Constants.OPEN_WEATHER_MAP_API_KEY);
+            con = (HttpURLConnection) (url).openConnection();
+            con.setRequestMethod("GET");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+            con.connect();
+            is = con.getInputStream();
+            Reader targetReader = new InputStreamReader(is);
+            OpenWeather5Days3Hours results = new Gson().fromJson(targetReader, OpenWeather5Days3Hours.class);
+            return new OpenWeatherHours(results);
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        finally {
+            try { is.close(); } catch(Throwable t) {}
+            try { con.disconnect(); } catch(Throwable t) {}
+        }
+        return null;
+    }
+
+    public static OpenWeatherHours getWeatherHours(double lat, double lon) {
+        HttpURLConnection con = null;
+        InputStream is = null;
+        try {
+            URL url = new URL(Constants.OPEN_WEATHER_MAP_URL + "forecast?lat=" + lat
+                    + "&lon=" + lon + "&APPID=" + Constants.OPEN_WEATHER_MAP_API_KEY +"&lang=vi" );
+            con = (HttpURLConnection) (url).openConnection();
+            con.setRequestMethod("GET");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+            con.connect();
+            is = con.getInputStream();
+            Reader targetReader = new InputStreamReader(is);
+            OpenWeather5Days3Hours results = new Gson().fromJson(targetReader, OpenWeather5Days3Hours.class);
+            if (results == null) {
+                Log.d("docho","ne");
+            }
+            else {
+                Log.d("docho2","ne");
+            }
+            ;           return new OpenWeatherHours(results);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

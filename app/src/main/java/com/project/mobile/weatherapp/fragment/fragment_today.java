@@ -117,7 +117,7 @@ public class fragment_today extends Fragment {
                     txtMinTemp.setText(minTemp);
                     txtMaxTemp.setText(maxTemp);
                     String wind= openWeatherMap.getWind().getSpeed()+" m/s";
-                    String mesg = openWeatherMap.getWeather().get(0).getMain();
+                    String mesg = openWeatherMap.getWeather().get(0).getDescription();
                     String cloudiness= mesg;
                     String pressure= openWeatherMap.getMain().getPressure()+" hpa";
                     String humidity=openWeatherMap.getMain().getHumidity()+" %";

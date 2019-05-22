@@ -3,12 +3,12 @@ package com.project.mobile.weatherapp.model;
 public class Hourly {
     private String mTextTime;
     private String mTextTemp;
-    private String mTextPrecipitation;
+    private String mTextWind;
     private String mTextHumidity;
-    public  Hourly (String mTextTime, String mTextTemp, String mTextPrecipitation, String mTextHumidity) {
+    public  Hourly (String mTextTime, String mTextTemp, String mTextWind, String mTextHumidity) {
         this.mTextTime = mTextTime;
         this.mTextTemp = mTextTemp;
-        this.mTextPrecipitation = mTextPrecipitation;
+        this.mTextWind = mTextWind;
         this.mTextHumidity = mTextHumidity;
     }
 
@@ -28,12 +28,12 @@ public class Hourly {
         this.mTextTemp = mTextTemp;
     }
 
-    public  String getmTextPrecipitation() {
-        return mTextPrecipitation;
+    public  String getmTextWind() {
+        return mTextWind;
     }
 
-    public  void setmTextPrecipitation(String mTextPrecipitation) {
-        this.mTextPrecipitation = mTextPrecipitation;
+    public  void setmTextWind(String mTextWind) {
+        this.mTextWind = mTextWind;
     }
 
     public  String getmTextHumidity() {
