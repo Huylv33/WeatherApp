@@ -3,6 +3,7 @@ package com.project.mobile.weatherapp.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
@@ -54,6 +56,7 @@ public class fragment_today extends Fragment {
         lat = args.getDouble("lat");
         lon = args.getDouble("lon");
         loadWeatherInfor();
+
     }
 
     @Override
@@ -65,7 +68,49 @@ public class fragment_today extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
-        return view;
+        final ArcProgress arcProgress= (ArcProgress) view.findViewById(R.id.arc_progress);
+        arcProgress.setProgress(175);
+        arcProgress.setMax(300);
+        arcProgress.setStrokeWidth(40);
+        if(arcProgress.getProgress() < 50){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+            arcProgress.setTextColor(Color.argb(255,139,195,74));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+            arcProgress.setTextColor(Color.argb(255,255,235,59));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+            arcProgress.setTextColor(Color.argb(255,255,152,0));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+            arcProgress.setTextColor(Color.argb(255,244,67,54));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+            arcProgress.setTextColor(Color.argb(255,156,39,176));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+            arcProgress.setTextColor(Color.argb(255,103,58,183));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+
+
+        else return view;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -116,7 +161,7 @@ public class fragment_today extends Fragment {
                     txtMinTemp.setText(minTemp);
                     txtMaxTemp.setText(maxTemp);
                     String wind= openWeatherMap.getWind().getSpeed()+" m/s";
-                    String mesg = openWeatherMap.getWeather().get(0).getMain();
+                    String mesg = openWeatherMap.getWeather().get(0).getDescription();
                     String cloudiness= mesg;
                     String pressure= openWeatherMap.getMain().getPressure()+" hpa";
                     String humidity=openWeatherMap.getMain().getHumidity()+" %";

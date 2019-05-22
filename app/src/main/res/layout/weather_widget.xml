@@ -21,7 +21,7 @@
             style="@style/WidgetTextViewNormal"
             android:layout_below="@id/icon_weather"
             android:layout_width="match_parent"
-            />
+             />
 
         <TextView
             android:id="@id/text_temperature"
