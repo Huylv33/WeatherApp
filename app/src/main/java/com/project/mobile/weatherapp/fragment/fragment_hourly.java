@@ -1,6 +1,7 @@
 package com.project.mobile.weatherapp.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.project.mobile.weatherapp.HourlyAdapter;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.adapter.DailyAdapter;
@@ -25,6 +28,7 @@ import com.project.mobile.weatherapp.utils.WeatherHoursAsyncTask;
 import com.project.mobile.weatherapp.utils.doComplete5Days;
 import com.project.mobile.weatherapp.utils.doCompleteHours;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -80,8 +84,14 @@ public class fragment_hourly extends Fragment {
                     hourly.setmTextWind(list.getWind().getSpeed() + " m/s");
                     hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
                     mList.add(hourly);
-
                 }
+                String openWeatherHoursJson = new Gson().toJson(openWeatherHours);
+                Log.d("hourly",openWeatherHoursJson);
+                SharedPreferences sharedPref = getActivity().getSharedPreferences
+                        ("hourly_weather_data", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("hourly_weather",openWeatherHoursJson);
+                editor.apply();
                 mAdapter = new HourlyAdapter(mList,getContext());
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(mLayoutManager);
@@ -93,6 +103,7 @@ public class fragment_hourly extends Fragment {
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
             weatherHoursAsyncTask.execute();
         }
+        else useLocalData();
         return  view;
     }
 
@@ -100,5 +111,30 @@ public class fragment_hourly extends Fragment {
     private void initView () {
         Hourly hourly = new Hourly("18:00", "35°", " 22 mm", " 87%");
         mList.add(hourly);
+    }
+    private void useLocalData() {
+        NumberFormat format = new DecimalFormat("#0.0");
+
+        SharedPreferences sharedPref = getActivity().getSharedPreferences
+                ("hourly_weather_data", Context.MODE_PRIVATE);
+        if (sharedPref != null) {
+            String openWeatherHoursJson = sharedPref.getString("hourly_weather","");
+            openWeatherHoursJson = openWeatherHoursJson.substring(8,openWeatherHoursJson.length() - 1);
+            Type listType = new TypeToken<List<com.project.mobile.weatherapp.model.open_weather_map.List>>(){}.getType();
+            List<com.project.mobile.weatherapp.model.open_weather_map.List> lists = new Gson().fromJson(openWeatherHoursJson, listType);
+            for (com.project.mobile.weatherapp.model.open_weather_map.List list : lists) {
+                Hourly hourly = new Hourly();
+                hourly.setmTextHumidity(list.getMain().getHumidity() + "%");
+                hourly.setmTextTemp(format.format(list.getMain().getTemp() - 273.15)+ "°C");
+                hourly.setmTextTime(list.getDt_txt());
+                hourly.setmTextWind(list.getWind().getSpeed() + " m/s");
+                hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
+                mList.add(hourly);
+            }
+            mAdapter = new HourlyAdapter(mList,getContext());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setAdapter(mAdapter);
+        }
     }
 }
