@@ -176,7 +176,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center"
-
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
@@ -266,6 +265,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
                 </TableRow>
+
             </TableLayout>
         </LinearLayout>
     </ScrollView>

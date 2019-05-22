@@ -8,6 +8,7 @@ import java.util.List;
 public class OpenWeatherPredict {
     private java.util.List<ListOfWeather> listOfWeather;
 
+
     public java.util.List<ListOfWeather> getListWeather() {
         return listOfWeather;
     }
@@ -21,7 +22,7 @@ public class OpenWeatherPredict {
         Log.d("check",openWeather5Days3Hours.getList().size() + "");
         for( int i = 0; i < openWeather5Days3Hours.getList().size(); i += 8) {
             double temp_max = 0;
-            double temp_min = 0;
+            double temp_min = openWeather5Days3Hours.getList().get(0).getMain().getTemp_min() ;
             for(int j = i; j < i + 8; j++) {
                 if (openWeather5Days3Hours.getList().get(j).getMain().getTemp_max() > temp_max) {
                     temp_max = openWeather5Days3Hours.getList().get(0).getMain().getTemp_max();
@@ -30,7 +31,10 @@ public class OpenWeatherPredict {
                     temp_min = openWeather5Days3Hours.getList().get(j).getMain().getTemp_min();
                 }
             }
-            Log.d("dem",i + "");
+            temp_max -= 273;
+            temp_min -= 273;
+            Log.i("Check temp max", temp_max + " ");
+            Log.i("Check temp min", temp_min + " ");
             ListOfWeather listOfWeather = new ListOfWeather();
            listOfWeather.setTemp_max(temp_max);
            listOfWeather.setTemp_min(temp_min);
