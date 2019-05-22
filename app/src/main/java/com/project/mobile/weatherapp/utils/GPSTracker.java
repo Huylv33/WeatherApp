@@ -25,7 +25,6 @@ public class GPSTracker implements LocationListener {
     private final Context mContext;
     // flag for GPS Status
     private boolean isGPSEnabled = false;
-
     // flag for network status
     private boolean isNetworkEnabled = false;
 
@@ -37,19 +36,19 @@ public class GPSTracker implements LocationListener {
     private double longitude;
 
     // How many Geocoder should return our GPSTracker
-    int geocoderMaxResults = 1;
+    private int geocoderMaxResults = 1;
 
-//    // The minimum distance to change updates in meters
-//    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-//
-//    // The minimum time between updates in milliseconds
-//    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    // The minimum distance to change updates in meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 2; // 1 minute
 
     // Declaring a Location Manager
     private LocationManager locationManager;
 
     // Store LocationManager.GPS_PROVIDER or LocationManager.NETWORK_PROVIDER information
-    private String provider_info;
+    private String provider_info = "";
 
     public GPSTracker(Activity activity) {
         this.activity = activity;
@@ -61,7 +60,8 @@ public class GPSTracker implements LocationListener {
      * Try to get my current location by GPS or Network Provider
      */
     @SuppressLint("MissingPermission")
-    public void getLocation() {
+
+    private void getLocation() {
         try {
             locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
@@ -103,16 +103,18 @@ public class GPSTracker implements LocationListener {
             // Application can use GPS or Network Provider
 
             if (!provider_info.isEmpty()) {
-//                locationManager.requestLocationUpdates(
-//                        provider_info,
-//                        MIN_TIME_BW_UPDATES,
-//                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
-//                        this
-//                );
+                locationManager.requestLocationUpdates(
+                        provider_info,
+                        MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                        this
+                );
 
                 if (locationManager != null) {
+
                     location = locationManager.getLastKnownLocation(provider_info);
                     updateGPSCoordinates();
+                    stopUsingGPS();
                 }
             }
         }
@@ -277,6 +279,7 @@ public class GPSTracker implements LocationListener {
      * Try to get Postal Code
      * @return null or postalCode
      */
+
     public String getPostalCode(Context context) {
         List<Address> addresses = getGeocoderAddress(context);
 
@@ -308,6 +311,7 @@ public class GPSTracker implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+
     }
 
     @Override
@@ -316,10 +320,12 @@ public class GPSTracker implements LocationListener {
 
     @Override
     public void onProviderEnabled(String provider) {
+
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+
     }
 
 

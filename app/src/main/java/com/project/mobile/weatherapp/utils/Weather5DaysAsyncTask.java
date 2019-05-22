@@ -18,7 +18,7 @@ public class Weather5DaysAsyncTask extends AsyncTask<Void,Void, OpenWeatherPredi
 
     private  String q;
     private double lat, lon;
-    public doComplete5Days finish = null;
+    private doComplete5Days finish = null;
 
     private TypePrediction typePrediction;
 
@@ -28,6 +28,7 @@ public class Weather5DaysAsyncTask extends AsyncTask<Void,Void, OpenWeatherPredi
         this.mAdapter = mAdapter;
         typePrediction = TypePrediction.ADDRESS_NAME;
     }
+
     public Weather5DaysAsyncTask(double lat, double lon, DailyAdapter mAdapter, RecyclerView recyclerView, doComplete5Days finish) {
         this.lat = lat;
         this.lon = lon;
@@ -35,7 +36,6 @@ public class Weather5DaysAsyncTask extends AsyncTask<Void,Void, OpenWeatherPredi
         this.finish = finish;
         typePrediction = TypePrediction.LATITUDE_LONGITUDE;
     }
-
     @Override
     protected OpenWeatherPredict doInBackground(Void... params) {
         OpenWeatherPredict openWeatherPredict = null;

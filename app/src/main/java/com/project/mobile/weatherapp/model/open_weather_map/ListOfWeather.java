@@ -10,7 +10,7 @@ public class ListOfWeather {
     private String dt_txt;
     private double temp_max;
     private double temp_min;
-
+    
     public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }

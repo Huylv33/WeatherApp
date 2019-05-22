@@ -16,7 +16,7 @@ import com.project.mobile.weatherapp.model.Daily;
 import com.project.mobile.weatherapp.model.open_weather_map.ListOfWeather;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
-import com.project.mobile.weatherapp.utils.NetworkChecking;
+import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.Weather5DaysAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.doComplete;
@@ -86,8 +86,9 @@ public class fragment_forecast extends Fragment {
 
             }
         });
-        weather5DaysAsyncTask.execute();
-        Log.i("do first", "ádasdasd");
+        if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
+            weather5DaysAsyncTask.execute();
+        }
 
 
 

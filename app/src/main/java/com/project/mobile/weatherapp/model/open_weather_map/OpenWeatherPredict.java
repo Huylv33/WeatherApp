@@ -36,7 +36,6 @@ public class OpenWeatherPredict {
             Log.i("Check temp max", temp_max + " ");
             Log.i("Check temp min", temp_min + " ");
             ListOfWeather listOfWeather = new ListOfWeather();
-
            listOfWeather.setTemp_max(temp_max);
            listOfWeather.setTemp_min(temp_min);
            listOfWeather.setClouds(openWeather5Days3Hours.getList().get(i + 2).getClouds());
