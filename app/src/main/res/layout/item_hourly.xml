@@ -16,7 +16,7 @@
         android:textSize="13sp" />
 
     <ImageView
-        android:id="@id/icon_weather"
+        android:id="@id/icon_weatherHour"
         android:layout_width="32dip"
         android:layout_height="32dip"
         android:src="@drawable/img_fewclouds_day"/>

@@ -33,6 +33,7 @@
         <activity android:name=".ManagerLocationActivity" />
         <activity android:name=".ManagerNotificationActivity" />
         <activity android:name=".UnitSettingActivity"></activity>
+        <activity android:name=".PrepareDayActivity"></activity>
     </application>
 
 </manifest>
