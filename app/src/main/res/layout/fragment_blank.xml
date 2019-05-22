@@ -1,9 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@id/swipe_refresh_layout"
+    android:id="@+id/today"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_trans"
+                android:padding="@dimen/_10sdp">
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline60"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="233dp" />
+
+                <TextView
+                    android:id="@+id/txtTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_72ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtCurrentAddressName"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:gravity="left"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintEnd_toEndOf="@id/guideline60"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtTemperature" />
+
+
+
+
+
+                <ImageView
+                    android:id="@+id/imgWeather"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    app:layout_constraintBottom_toTopOf="@id/txtCurrentAddressName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline60"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@id/txtCurrentAddressName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline60">
+
+                    <ImageView
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_margin="@dimen/_6sdp"
+                        android:src="@drawable/ic_up_arrow" />
+
+                    <TextView
+                        android:id="@+id/txtMaxTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_margin="@dimen/_6sdp"
+                        android:rotation="180.0"
+                        android:src="@drawable/ic_up_arrow" />
+
+                    <TextView
+                        android:id="@+id/txtMinTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_14ssp" />
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:text="@string/detail"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_13ssp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_trans"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_12sdp"
+                android:paddingRight="@dimen/_12sdp">
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
+
+                    <ImageView
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_wind" />
+
+                    <TextView
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/wind" />
+
+                    <TextView
+                        android:id="@+id/txtWind"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
+
+                <View style="@style/CurConditionItem.Divider" />
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
+
+                    <ImageView
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_cloud_cover" />
+
+                    <TextView
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/cloud_cover" />
+
+                    <TextView
+                        android:id="@+id/txtCloudliness"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
+
+                <View style="@style/CurConditionItem.Divider" />
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
+
+                    <ImageView
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_pressure" />
+
+                    <TextView
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/pressure" />
+
+                    <TextView
+                        android:id="@+id/txtPressure"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
+
+                <View style="@style/CurConditionItem.Divider" />
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
+
+                    <ImageView
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_dew_point" />
+
+                    <TextView
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/humidity" />
+
+                    <TextView
+                        android:id="@+id/txtHumidty"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
+
+                <View style="@style/CurConditionItem.Divider" />
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
+
+                    <ImageView
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_sun" />
+
+                    <TextView
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/sunrise" />
+
+                    <TextView
+                        android:id="@+id/txtSunrise"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
+
+                <View style="@style/CurConditionItem.Divider" />
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
+
+                    <ImageView
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_star" />
+
+                    <TextView
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/sunset" />
+
+                    <TextView
+                        android:id="@+id/txtSunset"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

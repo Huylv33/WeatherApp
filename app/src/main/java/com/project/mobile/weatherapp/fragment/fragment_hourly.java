@@ -1,4 +1,4 @@
-package com.project.mobile.weatherapp;
+package com.project.mobile.weatherapp.fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.project.mobile.weatherapp.HourlyAdapter;
+import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.Hourly;
 
 import java.util.ArrayList;

@@ -29,7 +29,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         LayoutInflater inflater = LayoutInflater.from(context);
 
         //Nạp layout View Item
-        View dailyView = inflater.inflate(R.layout.item_daily,parent, true);
+        View dailyView = inflater.inflate(R.layout.item_daily,parent, false);
         ViewHolder viewHolder = new ViewHolder(dailyView);
         return viewHolder;
     }

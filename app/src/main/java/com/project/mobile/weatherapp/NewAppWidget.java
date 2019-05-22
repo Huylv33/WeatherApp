@@ -12,7 +12,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
-import com.project.mobile.weatherapp.utils.NetworkChecking;
+import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherIcon;
 import com.project.mobile.weatherapp.utils.doComplete;

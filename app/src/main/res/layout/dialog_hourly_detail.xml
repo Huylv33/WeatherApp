@@ -76,20 +76,7 @@
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp">
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:orientation="horizontal">
 
-                <TextView
-                    style="@style/DetailItem.Text"
-                    android:text="@string/precipitation" />
-
-                <TextView
-                    android:id="@id/text_precipitation"
-                    style="@style/DetailItem.TextValue" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -122,20 +109,7 @@
                     style="@style/DetailItem.TextValue" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:orientation="horizontal">
 
-                <TextView
-                    style="@style/DetailItem.Text"
-                    android:text="@string/snow" />
-
-                <TextView
-                    android:id="@+id/text_snow"
-                    style="@style/DetailItem.TextValue" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"

@@ -1,347 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
+    xmlns:custom="http://schemas.android.com/tools"
     android:id="@+id/today"
-    tools:context=".fragment.fragment_today">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ScrollView android:layout_height="wrap_content"
-        android:layout_width="match_parent">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            tools:context="com.project.mobile.weatherapp.MainActivity">
+            android:padding="@dimen/_10sdp">
 
-            <TextView
-                android:id="@+id/txtCurrentAddressName"
-                android:layout_width="match_parent"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="Địa chỉ hiện tại"
+                android:background="@drawable/bg_trans"
+                android:padding="@dimen/_10sdp">
 
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white" />
-
-            <ImageView
-                android:id="@+id/imgWeather"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                app:srcCompat= "@drawable/img_fewclouds_day"/>
-
-            <TextView
-                android:id="@+id/txtTemperature"
-                android:layout_width="match_parent"
-                android:layout_height="119dp"
-                android:gravity="center"
-                android:hint="nhiệt độ ở đây"
-
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"
-                android:textSize="80sp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="120dp">
-                <TextView
-                    android:id="@+id/txtMinTemp"
-                    android:layout_width="0dp"
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline60"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:gravity="right"
-                    android:hint="Nhiệt độ nhỏ nhất"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="233dp" />
 
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                <TextView
+                    android:id="@+id/txtTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:textColor="@android:color/white"
-                    android:textSize="22sp" />
+                    android:textSize="@dimen/_72ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/daucach"
-                    android:layout_width="0dp"
+                    android:id="@+id/txtCurrentAddressName"
+                    android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="-"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@android:color/white"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:id="@+id/txtMaxTemp"
-                    android:layout_width="0dp"
-                    android:layout_weight="5"
-                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:gravity="left"
-                    android:hint="Nhiệt độ lớn nhất ở đây"
-
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@android:color/white"
-                    android:textSize="22sp" />
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintEnd_toEndOf="@id/guideline60"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtTemperature" />
 
-            </LinearLayout>
 
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                >
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="40dp">
+
+                <ImageView
+                    android:id="@+id/imgWeather"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    app:layout_constraintBottom_toTopOf="@id/txtCurrentAddressName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline60"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@id/txtCurrentAddressName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline60">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dip"
-                        android:layout_marginRight="4dip"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_wind"
-                        android:layout_margin="3dip"/>
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_margin="@dimen/_6sdp"
+                        android:src="@drawable/ic_up_arrow" />
 
                     <TextView
-                        android:id="@+id/textView21"
-                        android:layout_width="0dp"
+                        android:id="@+id/txtMaxTemp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text=" Gió:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/_14ssp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_margin="@dimen/_6sdp"
+                        android:rotation="180.0"
+                        android:src="@drawable/ic_up_arrow" />
+
+                    <TextView
+                        android:id="@+id/txtMinTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_14ssp" />
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:text="@string/detail"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_13ssp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_trans"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_12sdp"
+                android:paddingRight="@dimen/_12sdp">
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
+
+                    <ImageView
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_wind" />
+
+                    <TextView
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/wind" />
 
                     <TextView
                         android:id="@+id/txtWind"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:gravity="center"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
 
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                <View style="@style/CurConditionItem.Divider" />
 
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="40dp">
+                <LinearLayout style="@style/CurConditionItem.Layout">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dip"
-                        android:layout_marginRight="4dip"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_cloud_cover"
-                        android:layout_margin="3dip"/>
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_cloud_cover" />
 
                     <TextView
-                        android:id="@+id/textView22"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text=" Mây:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/cloud_cover" />
 
                     <TextView
                         android:id="@+id/txtCloudliness"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:gravity="center"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
 
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp" />
-                </TableRow>
+                <View style="@style/CurConditionItem.Divider" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="40dp">
+                <LinearLayout style="@style/CurConditionItem.Layout">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dip"
-                        android:layout_marginRight="4dip"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_pressure"
-                        android:layout_margin="3dip"/>
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_pressure" />
 
                     <TextView
-                        android:id="@+id/textView23"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text=" Áp suất:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/pressure" />
 
                     <TextView
                         android:id="@+id/txtPressure"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </TableRow>
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="40dp">
+                <View style="@style/CurConditionItem.Divider" />
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dip"
-                        android:layout_marginRight="4dip"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_dew_point"
-                        android:layout_margin="3dip"/>
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_dew_point" />
 
                     <TextView
-                        android:id="@+id/textView24"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text=" Độ ẩm:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/humidity" />
 
                     <TextView
                         android:id="@+id/txtHumidty"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:hint="82 %"
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
 
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </TableRow>
+                <View style="@style/CurConditionItem.Divider" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="40dp">
+                <LinearLayout style="@style/CurConditionItem.Layout">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dip"
-                        android:layout_marginRight="4dip"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_sun"
-                        android:layout_margin="3dip"/>
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_sun" />
 
                     <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text=" Mặt trời mọc: "
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/sunrise" />
 
                     <TextView
                         android:id="@+id/txtSunrise"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:text="Đông"
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </TableRow>
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="40dp">
+                <View style="@style/CurConditionItem.Divider" />
+
+                <LinearLayout style="@style/CurConditionItem.Layout">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dip"
-                        android:layout_marginRight="4dip"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_star"
-                        android:layout_margin="3dip"/>
+                        style="@style/CurConditionItem.Icon"
+                        android:src="@drawable/ic_star" />
 
                     <TextView
-                        android:id="@+id/textView26"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text=" Mặt trời lặn: "
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/CurConditionItem.Text"
+                        android:text="@string/sunset" />
 
                     <TextView
                         android:id="@+id/txtSunset"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:text="Tây"
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </TableRow>
-
-            </TableLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <com.github.lzyzsd.circleprogress.ArcProgress
-                    android:id="@+id/arc_progress"
-                    android:layout_marginTop="@dimen/_40sdp"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_centerInParent="true"
-                    custom:arc_bottom_text="AIR"
-                    custom:arc_progress="145"
-                    custom:arc_suffix_text=""
-                    custom:arc_suffix_text_size="0dp"
-                    custom:arc_max="300"
-                    custom:arc_finished_color="@android:color/transparent"
-                    custom:arc_unfinished_color="@android:color/transparent"
-                    android:layout_gravity="center"
-                    custom:arc_bottom_text_size="28sp"/>
+                        style="@style/CurConditionItem.TextValue" />
+                </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:text="@string/air"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_13ssp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_trans"
+                android:padding="@dimen/_8sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <com.github.lzyzsd.circleprogress.ArcProgress
+                        android:id="@+id/arc_progress"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        custom:arc_bottom_text="AIR"
+                        custom:arc_bottom_text_size="28sp"
+                        custom:arc_finished_color="@android:color/transparent"
+                        custom:arc_max="300"
+                        custom:arc_progress="145"
+                        custom:arc_suffix_text=""
+                        custom:arc_suffix_text_size="0dp"
+                        custom:arc_unfinished_color="@android:color/transparent" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:text="Radar"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_13ssp"
+                android:visibility="gone" />
+
+
         </LinearLayout>
     </ScrollView>
-
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

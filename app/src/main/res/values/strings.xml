@@ -48,6 +48,11 @@
     <string name="cloud_cover">Mây che phủ</string>
     <string name="wind">Gió</string>
     <string name="snow">Tuyết</string>
+    <string name="sunset">Hoàng hôn</string>
+    <string name="sunrise">Bình minh</string>
+    <string name="detail">Chi tiết</string>
+    <string name="today">Hôm nay</string>
+    <string name="air">Không Khí</string>
     <string-array name="arrTinhThanh">
         <item>An Giang</item>
         <item>Vũng Tàu</item>
