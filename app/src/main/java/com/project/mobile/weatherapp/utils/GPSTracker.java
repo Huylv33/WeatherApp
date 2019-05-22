@@ -103,18 +103,18 @@ public class GPSTracker implements LocationListener {
             // Application can use GPS or Network Provider
 
             if (!provider_info.isEmpty()) {
-                locationManager.requestLocationUpdates(
-                        provider_info,
-                        MIN_TIME_BW_UPDATES,
-                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
-                        this
-                );
+//                locationManager.requestLocationUpdates(
+//                        provider_info,
+//                        MIN_TIME_BW_UPDATES,
+//                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
+//                        this
+//                );
 
                 if (locationManager != null) {
 
                     location = locationManager.getLastKnownLocation(provider_info);
                     updateGPSCoordinates();
-                    stopUsingGPS();
+//                    stopUsingGPS();
                 }
             }
         }
@@ -133,6 +133,7 @@ public class GPSTracker implements LocationListener {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
         }
+
     }
 
     /**
