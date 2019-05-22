@@ -48,7 +48,7 @@ public class fragment_hourly extends Fragment {
         return view;
     }
     private void initView () {
-        Hourly hourly = new Hourly("18:00", "35°", " 12 mm", " 87%");
+        Hourly hourly = new Hourly("18:00", "35°", " 22 mm", " 87%");
         mList.add(hourly);
     }
 }

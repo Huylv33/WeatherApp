@@ -40,7 +40,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
 
         holder.texttime.setText(itemweather.getmTextTime());
         holder.texttemp.setText(itemweather.getmTextTemp());
-        holder.textprecipitation.setText(itemweather.getmTextPrecipitation());
+        holder.textwind.setText(itemweather.getmTextWind());
         holder.texthumidity.setText(itemweather.getmTextHumidity());
 
 
@@ -55,7 +55,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
         private View itemView;
         public TextView texttime;
         public TextView texttemp;
-        public TextView textprecipitation;
+        public TextView textwind;
         public TextView texthumidity;
 
         public ViewHolder (View itemView) {
@@ -63,7 +63,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
             itemView = itemView;
             texttime = itemView.findViewById(R.id.text_time);
             texttemp = itemView.findViewById(R.id.text_temp);
-            textprecipitation = itemView.findViewById(R.id.text_precipitation);
+            textwind = itemView.findViewById(R.id.text_wind);
             texthumidity = itemView.findViewById(R.id.text_humidity);
         }
 
