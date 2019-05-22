@@ -25,7 +25,7 @@ public class OpenWeatherPredict {
             double temp_min = openWeather5Days3Hours.getList().get(0).getMain().getTemp_min() ;
             for(int j = i; j < i + 8; j++) {
                 if (openWeather5Days3Hours.getList().get(j).getMain().getTemp_max() > temp_max) {
-                    temp_max = openWeather5Days3Hours.getList().get(0).getMain().getTemp_max();
+                    temp_max = openWeather5Days3Hours.getList().get(j).getMain().getTemp_max();
                 }
                 if (openWeather5Days3Hours.getList().get(j).getMain().getTemp_min() < temp_min) {
                     temp_min = openWeather5Days3Hours.getList().get(j).getMain().getTemp_min();

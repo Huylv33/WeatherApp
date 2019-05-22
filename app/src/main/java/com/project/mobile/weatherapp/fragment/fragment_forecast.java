@@ -67,11 +67,13 @@ public class fragment_forecast extends Fragment {
                     Log.i("Content", list.getDt_txt());
                     Log.i("Content", list.getTemp_max() + "");
                     Log.i("Content", list.getTemp_min() + "");
+                    Log.i("Content", list.getWeather().get(0).getDescription());
                     Daily daily = new Daily();
                     daily.setmTextWeather(list.getWeather().get(0).getDescription());
                     daily.setmTextDate(list.getDt_txt());
                     daily.setmTempMin(list.getTemp_min() + "");
                     daily.setmTempMax(list.getTemp_max() + "");
+                    daily.setmIconId(list.getWeather().get(0).getIcon());
                     mList.add(daily);
 //                            Log.i("mList i", daily.getmTempMin());
 
@@ -91,13 +93,7 @@ public class fragment_forecast extends Fragment {
 
         return view;
     }
-    private void initView () {
-        Daily daily = new Daily("THỨ NĂM, THG 5 16", "Nắng nhẹ", " 36", "26");
-        Daily daily1 = new Daily("THỨ NĂM, THG 5 16", "Nắng nhẹ", " 36", "26");
 
-        mList.add(daily);
-        mList.add(daily1);
-    }
 
     public List<Daily> getmList() {
         return mList;
