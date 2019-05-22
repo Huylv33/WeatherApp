@@ -10,25 +10,28 @@
         android:layout_marginTop="4.0dip">
 
         <ImageView
-            android:id="@id/icon_weather"
+            android:id="@+id/icon_weather_widget"
             android:layout_width="52.0dip"
             android:layout_height="52.0dip"
             android:layout_marginLeft="8.0dip"
             android:layout_marginRight="8.0dip" />
 
         <TextView
-            android:id="@id/text_weather"
+            android:id="@+id/text_weather_widget"
             style="@style/WidgetTextViewNormal"
-            android:layout_below="@id/icon_weather"
+            android:layout_below="@id/icon_weather_widget"
             android:layout_width="match_parent"
+            android:layout_marginLeft="12.0dip"
+
+            android:textSize="@dimen/_16ssp"
             />
 
         <TextView
-            android:id="@id/text_temperature"
+            android:id="@+id/text_temperature_widget"
             style="@style/WidgetTextViewNormal"
-            android:layout_toRightOf="@id/icon_weather"
-            android:layout_above="@id/text_weather"
+            android:layout_toRightOf="@id/icon_weather_widget"
+            android:layout_above="@id/text_weather_widget"
             android:layout_width="wrap_content"
-            android:textSize="34.0sp" />
+            android:textSize="40.0sp" />
     </RelativeLayout>
 </LinearLayout>

@@ -37,10 +37,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginBottom="24dp"
+
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_72ssp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/txtCurrentAddressName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
                     android:layout_marginBottom="24dp"
                     android:gravity="left"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/_18ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/guideline60"
                     app:layout_constraintStart_toStartOf="parent"
@@ -65,8 +65,8 @@
 
                 <ImageView
                     android:id="@+id/imgWeather"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
                     app:layout_constraintBottom_toTopOf="@id/txtCurrentAddressName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/guideline60"
@@ -75,7 +75,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@id/txtCurrentAddressName"
@@ -83,9 +83,10 @@
                     app:layout_constraintStart_toStartOf="@id/guideline60">
 
                     <ImageView
-                        android:layout_width="@dimen/_13sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        android:layout_margin="@dimen/_6sdp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+
                         android:src="@drawable/ic_up_arrow" />
 
                     <TextView
@@ -93,12 +94,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_16ssp" />
 
                     <ImageView
-                        android:layout_width="@dimen/_13sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        android:layout_margin="@dimen/_6sdp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+
                         android:rotation="180.0"
                         android:src="@drawable/ic_up_arrow" />
 
@@ -107,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_16ssp" />
                 </LinearLayout>
             </android.support.constraint.ConstraintLayout>
 
