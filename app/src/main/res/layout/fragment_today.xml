@@ -64,7 +64,7 @@
 
 
                 <ImageView
-                    android:id="@+id/imgWeather"
+                    android:id="@+id/imgWeatherToday"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     app:layout_constraintBottom_toTopOf="@id/txtCurrentAddressName"
@@ -110,7 +110,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/_16ssp" />
+                        android:textSize="@dimen/_16ssp"
+                        />
                 </LinearLayout>
             </android.support.constraint.ConstraintLayout>
 

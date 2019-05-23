@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity  implements
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
 
-                args.putDouble("lat",gpsTracker.getLongitude());
+                args.putDouble("lat",gpsTracker.getLatitude());
                 args.putDouble("lon", gpsTracker.getLongitude());
 
 
