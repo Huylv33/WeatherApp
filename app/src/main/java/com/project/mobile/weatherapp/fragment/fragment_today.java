@@ -60,6 +60,7 @@ public class fragment_today extends Fragment {
     public String country;
     private OpenWeatherMap openWeatherMapToday;
     private AirVisual airVisualToday;
+    private boolean airHave = true;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
@@ -188,30 +189,11 @@ public class fragment_today extends Fragment {
                         txtPressure.setText(pressure);
                         txtHumidty.setText(humidity);
                         String openWeatherMapJson = new Gson().toJson(openWeatherMap);
-                        Log.d("json",openWeatherMapJson);
                         SharedPreferences sharedPref = getActivity().getSharedPreferences
                                 ("current_weather_data", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("current_weather",openWeatherMapJson);
                         editor.apply();
-                        // Cap nhat cho bang
-//                    if (currentWeatherDB.TableNotEmpty()){
-//                        currentWeatherDB.updateValues("1",openWeatherMap.getWeather().get(0).getMain(),
-//                                openWeatherMap.getWeather().get(0).getDescription(),
-//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
-//                                humidity,maxTemp,
-//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
-//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
-//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
-//                    }
-//                    else
-//                        currentWeatherDB.addDataInDB(openWeatherMap.getWeather().get(0).getMain(),
-//                                openWeatherMap.getWeather().get(0).getDescription(),
-//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
-//                                humidity,maxTemp,
-//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
-//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
-//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
 
                     }
                 });
@@ -220,55 +202,146 @@ public class fragment_today extends Fragment {
                     @Override
                     public void doComplete(AirVisual airVisual) {
                         Log.d("air location",airVisual.getStatus());
+                        if (airVisual != null) {
+                            if (airVisual.getStatus().equals("success")) {
+                                int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
+                                Log.d("aqius1",aqius + "");
+                                SharedPreferences sharedPreferences = context.getSharedPreferences
+                                        ("current_weather_data",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("aqius",aqius);
+                                editor.apply();
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setProgress(aqius);
+                                arcProgress.setMax(300);
+                                arcProgress.setStrokeWidth(20);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                if(arcProgress.getProgress() < 50){
+                                    status.setText("GOOD");
+                                    status.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+                                    arcProgress.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                                    status.setText("MODERATE");
+                                    status.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+                                    arcProgress.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+                                    arcProgress.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+                                    arcProgress.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                                    status.setText("VERY UNHEALTHY");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+                                    arcProgress.setTextColor(Color.argb(255,156,39,176));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+                                    status.setText("HAZARDOUS");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+                                    arcProgress.setTextColor(Color.argb(255,103,58,183));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                    //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+                                }
+                            }
+                            else {
+                                //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
+                                airHave = false;
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setVisibility(View.INVISIBLE);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                status.setText("Sorry, We don't hava data for this city");
+                                status.setTextSize(20);
+                                status.setTextColor(Color.parseColor("#FDFEFE"));
+                            }
 
-                        if (airVisual.getStatus().equals("success")) {
-                            int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
-                            Log.d("aqius1",aqius + "");
-                            SharedPreferences sharedPreferences = context.getSharedPreferences
-                                    ("current_weather_data",Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt("aqius",aqius);
-                            editor.apply();
-                            ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
-                            arcProgress.setProgress(aqius);
-                            arcProgress.setMax(300);
-                            arcProgress.setStrokeWidth(40);
-                            if(arcProgress.getProgress() < 50){
-                                arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
-                                arcProgress.setTextColor(Color.argb(255,139,195,74));
-                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                            }
-                            if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
-                                arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
-                                arcProgress.setTextColor(Color.argb(255,255,235,59));
-                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                            }
-                            if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
-                                arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
-                                arcProgress.setTextColor(Color.argb(255,255,152,0));
-                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                            }
-                            if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
-                                arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
-                                arcProgress.setTextColor(Color.argb(255,244,67,54));
-                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                            }
-                            if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
-                                arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
-                                arcProgress.setTextColor(Color.argb(255,156,39,176));
-                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                            }
-                            if(arcProgress.getProgress() >= 250){
-                                arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
-                                arcProgress.setTextColor(Color.argb(255,103,58,183));
-                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                                //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
-                            }
                         }
                         else {
-                            //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
-                        }
+                            if (airVisual.getStatus().equals("success")) {
+                                int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
+                                Log.d("aqius1",aqius + "");
+                                SharedPreferences sharedPreferences = context.getSharedPreferences
+                                        ("current_weather_data",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("aqius",aqius);
+                                editor.apply();
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setProgress(aqius);
+                                arcProgress.setMax(300);
+                                arcProgress.setStrokeWidth(20);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                if(arcProgress.getProgress() < 50){
+                                    status.setText("GOOD");
+                                    status.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+                                    arcProgress.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                                    status.setText("MODERATE");
+                                    status.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+                                    arcProgress.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+                                    arcProgress.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+                                    arcProgress.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                                    status.setText("VERY UNHEALTHY");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+                                    arcProgress.setTextColor(Color.argb(255,156,39,176));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+                                    status.setText("HAZARDOUS");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+                                    arcProgress.setTextColor(Color.argb(255,103,58,183));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                    //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+                                }
+                            }
+                            else {
+                                //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
+                                airHave = false;
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setVisibility(View.INVISIBLE);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                status.setText("Sorry, We don't hava data for this city");
+                                status.setTextSize(20);
+                                status.setTextColor(Color.parseColor("#FDFEFE"));
+                            }
 
+                        }
                     }
                 });
                 airVisualAsyncTask.execute();
@@ -316,24 +389,7 @@ public class fragment_today extends Fragment {
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("current_weather",openWeatherMapJson);
                         editor.apply();
-                        // Cap nhat cho bang
-//                    if (currentWeatherDB.TableNotEmpty()){
-//                        currentWeatherDB.updateValues("1",openWeatherMap.getWeather().get(0).getMain(),
-//                                openWeatherMap.getWeather().get(0).getDescription(),
-//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
-//                                humidity,maxTemp,
-//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
-//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
-//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
-//                    }
-//                    else
-//                        currentWeatherDB.addDataInDB(openWeatherMap.getWeather().get(0).getMain(),
-//                                openWeatherMap.getWeather().get(0).getDescription(),
-//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
-//                                humidity,maxTemp,
-//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
-//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
-//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
+
                     }
                 });
                 weatherAsyncTask.execute();
@@ -352,47 +408,70 @@ public class fragment_today extends Fragment {
                                 ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
                                 arcProgress.setProgress(aqius);
                                 arcProgress.setMax(300);
-                                arcProgress.setStrokeWidth(40);
+                                arcProgress.setStrokeWidth(20);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
                                 if(arcProgress.getProgress() < 50){
+                                    status.setText("GOOD");
+                                    status.setTextColor(Color.argb(255,139,195,74));
                                     arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
                                     arcProgress.setTextColor(Color.argb(255,139,195,74));
                                     arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
                                 }
                                 if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                                    status.setText("MODERATE");
+                                    status.setTextColor(Color.argb(255,255,235,59));
                                     arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
                                     arcProgress.setTextColor(Color.argb(255,255,235,59));
                                     arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
                                 }
                                 if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,255,152,0));
                                     arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
                                     arcProgress.setTextColor(Color.argb(255,255,152,0));
                                     arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
                                 }
                                 if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,244,67,54));
                                     arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
                                     arcProgress.setTextColor(Color.argb(255,244,67,54));
                                     arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
                                 }
                                 if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                                    status.setText("VERY UNHEALTHY");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
                                     arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
                                     arcProgress.setTextColor(Color.argb(255,156,39,176));
                                     arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
                                 }
-                                if(arcProgress.getProgress() >= 250){
+                                if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+                                    status.setText("HAZARDOUS");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
                                     arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
                                     arcProgress.setTextColor(Color.argb(255,103,58,183));
                                     arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
                                     //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
-
                                 }
                             }
                             else {
                                 //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setVisibility(View.INVISIBLE);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                status.setText("Sorry, We don't hava data for this city");
+                                status.setTextSize(20);
+                                status.setTextColor(Color.parseColor("#FDFEFE"));
                             }
-
                         }
                         else {
                             //airvisual nó lại bằng null, lai ra mac dinh
+                            ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                            arcProgress.setVisibility(View.INVISIBLE);
+                            TextView status = (TextView) getActivity().findViewById(R.id.status);
+                            status.setText("Sorry, We don't hava data for this city");
+                            status.setTextSize(20);
+                            status.setTextColor(Color.parseColor("#FDFEFE"));
                         }
                     }
                 });
@@ -465,39 +544,51 @@ public class fragment_today extends Fragment {
             int aqius = sharedPref.getInt("aqius",152);
             ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
             arcProgress.setProgress(aqius);
-            arcProgress.setMax(500);
-            arcProgress.setStrokeWidth(40);
+            arcProgress.setMax(300);
+            arcProgress.setStrokeWidth(20);
+            TextView status = (TextView) getActivity().findViewById(R.id.status);
             if(arcProgress.getProgress() < 50){
+                status.setText("GOOD");
+                status.setTextColor(Color.argb(255,139,195,74));
                 arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
                 arcProgress.setTextColor(Color.argb(255,139,195,74));
                 arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
             }
             if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                status.setText("MODERATE");
+                status.setTextColor(Color.argb(255,255,235,59));
                 arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
                 arcProgress.setTextColor(Color.argb(255,255,235,59));
                 arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
             }
             if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                status.setText("UNHEALTHY");
+                status.setTextColor(Color.argb(255,255,152,0));
                 arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
                 arcProgress.setTextColor(Color.argb(255,255,152,0));
                 arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
             }
             if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                status.setText("UNHEALTHY");
+                status.setTextColor(Color.argb(255,244,67,54));
                 arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
                 arcProgress.setTextColor(Color.argb(255,244,67,54));
                 arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
             }
             if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                status.setText("VERY UNHEALTHY");
+                status.setTextColor(Color.parseColor("#27AE60"));
                 arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
                 arcProgress.setTextColor(Color.argb(255,156,39,176));
                 arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
             }
-            if(arcProgress.getProgress() >= 250){
+            if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+                status.setText("HAZARDOUS");
+                status.setTextColor(Color.parseColor("#27AE60"));
                 arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
                 arcProgress.setTextColor(Color.argb(255,103,58,183));
                 arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
                 //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
-
             }
         }
     }
