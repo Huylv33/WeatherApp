@@ -468,9 +468,9 @@ public class MainActivity extends AppCompatActivity  implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationSetting.saveLocationSetting();
-        Log.i("Kiem tra luong ",this.usingLocation.toString());
-        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
+//        locationSetting.saveLocationSetting();
+//        Log.i("Kiem tra luong ",this.usingLocation.toString());
+//        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
 
     }
 

@@ -1,24 +1,21 @@
 package com.project.mobile.weatherapp.model.airvisual;
 
 public class AirVisual {
-    private Current current;
+    private String status;
     private Data data;
     private Location location;
-    private Pollution pollution;
 
-    public AirVisual(Current current, Data data, Location location, Pollution pollution) {
-        this.current = current;
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public AirVisual(Data data, Location location) {
         this.data = data;
         this.location = location;
-        this.pollution = pollution;
-    }
-
-    public Current getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(Current current) {
-        this.current = current;
     }
 
     public Data getData() {
@@ -37,11 +34,5 @@ public class AirVisual {
         this.location = location;
     }
 
-    public Pollution getPollution() {
-        return pollution;
-    }
 
-    public void setPollution(Pollution pollution) {
-        this.pollution = pollution;
-    }
 }

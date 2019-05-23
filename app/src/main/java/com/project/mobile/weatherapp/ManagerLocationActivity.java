@@ -29,7 +29,6 @@ public class ManagerLocationActivity extends AppCompatActivity {
                 currentLocation.putExtra("CurrentLocation", bundle);
                 startActivity(currentLocation);
             }
-
         }
     }
 }

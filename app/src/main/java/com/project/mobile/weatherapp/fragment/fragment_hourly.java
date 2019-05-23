@@ -1,9 +1,5 @@
 package com.project.mobile.weatherapp.fragment;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -48,7 +44,6 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class fragment_hourly extends Fragment {
-
     private double lat;
     private double lon;
     public Boolean usingLocation;
@@ -81,6 +76,7 @@ public class fragment_hourly extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hourly, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_hourly);
+
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
             if(usingLocation) {
                 weatherHoursAsyncTask = new WeatherHoursAsyncTask(lat, lon, mAdapter,recyclerView, new doCompleteHours() {
@@ -151,19 +147,6 @@ public class fragment_hourly extends Fragment {
         return  view;
     }
 
-//    @Override
-//    public void onActivityCreated (Bundle savedInstanceState){
-//        super.onActivityCreated(savedInstanceState);
-//        View views = (View) getActivity().findViewById(R.id.item_hour);
-//        views.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View views){
-//                showDialog();
-//            }
-
-//        });
-//    }
-
     // chi de cho test thu thoi
     private void initView () {
         Hourly hourly = new Hourly("18:00", "35°", " 22 mm", " 87%");
@@ -193,11 +176,5 @@ public class fragment_hourly extends Fragment {
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(mAdapter);
         }
-    }
-
-    public void showDialog(){
-        Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dialog_hourly_detail);
-        dialog.show();
     }
 }
