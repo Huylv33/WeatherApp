@@ -52,7 +52,7 @@ public class AirVisualApi {
         try {
             String requestUrl = "https://api.airvisual.com/v2/city?" + "city=" + city
                     + "&state=" + state + "&country=" + country + "&key=" + Constants.AIR_VISUAL_API_KEY;
-            Log.i("requestur2",requestUrl);
+            Log.i("requesturl2",requestUrl);
             URL url = new URL(requestUrl);
             con = (HttpURLConnection) (url).openConnection();
             con.setRequestMethod("GET");
