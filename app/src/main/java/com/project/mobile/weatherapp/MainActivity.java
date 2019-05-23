@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
     private void handleMenu() {
-        mMenuAdapter = new MenuAdapter(mTitles);
+        mMenuAdapter = new MenuAdapter(mTitles,this);
         mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
         mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
     }
@@ -228,11 +228,6 @@ public class MainActivity extends AppCompatActivity  implements
             case 4: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
-                break;
-            }
-            case 5: {
-                Intent iCha = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
-                startActivity(iCha);
                 break;
             }
         }
@@ -274,9 +269,9 @@ public class MainActivity extends AppCompatActivity  implements
             case 4:
                 showMenuClick(4);
                 break;
-            case 5:
-                showMenuClick(5);
-                break;
+            //case 5:
+                //showMenuClick(5);
+                //break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);
             //case 1:
