@@ -59,6 +59,8 @@ public class NewAppWidget extends AppWidgetProvider {
             Main main = openWeatherMap.getMain();
             String mesg = openWeatherMap.getWeather().get(0).getDescription();
             String temp = (int) (main.getTemp() - 273.15) + "°C";
+            String name = openWeatherMap.getName();
+            views.setTextViewText(R.id.text_location_widget, name);
             views.setTextViewText(R.id.text_weather_widget, mesg);
             views.setTextViewText(R.id.text_temperature_widget, temp);
             views.setImageViewResource(R.id.icon_weather_widget, WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
