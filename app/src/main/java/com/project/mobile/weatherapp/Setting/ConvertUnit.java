@@ -30,5 +30,7 @@ public class ConvertUnit {
         editor.putFloat("TempRatio", this.tempRatio);
         editor.putFloat("RainRatio", this.rainRatio);
         editor.putFloat("TimeRatio", this.timeRatio);
+        editor.apply();
+
     }
 }

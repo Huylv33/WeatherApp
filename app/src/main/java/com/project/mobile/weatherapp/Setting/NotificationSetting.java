@@ -36,5 +36,6 @@ public class NotificationSetting {
         editor.putString("TimePrepareDaily", this.timePrepareDaily);
         editor.putBoolean("Vibrate", this.vibrate);
         editor.putBoolean("Alarm", this.arlarm);
+        editor.apply();
     }
 }

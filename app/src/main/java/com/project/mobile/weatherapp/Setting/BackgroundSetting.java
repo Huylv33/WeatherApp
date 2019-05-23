@@ -23,6 +23,8 @@ public class BackgroundSetting {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("BackgroundSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("BackgroundSetting", this.backgroundId);
+        editor.apply();
+
     }
 
 

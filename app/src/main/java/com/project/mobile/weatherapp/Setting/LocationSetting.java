@@ -5,13 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.util.Log;
 
 public class LocationSetting {
     public float lat;
     public float lon;
     public String city;
     public String country;
-    public Boolean usingLocation = true;
+    public Boolean usingLocation;
     public Activity activity;
 
     public LocationSetting(Activity activity) {
@@ -24,8 +25,10 @@ public class LocationSetting {
             this.lat = sharedPreferences.getFloat("Lat", 0);
             this.lon = sharedPreferences.getFloat("Lon", 0);
             this.city = sharedPreferences.getString("City", "Hanoi");
-            this.city = sharedPreferences.getString("Country", "Vietnam");
+            this.country = sharedPreferences.getString("Country", "Vietnam");
             this.usingLocation = sharedPreferences.getBoolean("usingLocation", true);
+            Log.i("using location", this.usingLocation.toString());
+            Log.i("load ", this.city);
         }
 
     }
@@ -36,8 +39,11 @@ public class LocationSetting {
         editor.putFloat("Lon",  (float) this.lon);
         editor.putFloat("Lat", (float) this.lat);
         editor.putString("City", this.city);
-        editor.putString("Country", this.country);
         editor.putBoolean("usingLocation", this.usingLocation);
+
+        editor.putString("Country", this.country);
+        editor.apply();
+        Log.i("luu ", this.city);
     }
 
 
