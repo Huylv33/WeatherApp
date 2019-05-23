@@ -59,7 +59,7 @@
 
 
                 <ImageView
-                    android:id="@+id/imgWeather"
+                    android:id="@+id/imgWeatherToday"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_70sdp"
                     app:layout_constraintBottom_toTopOf="@id/txtCurrentAddressName"

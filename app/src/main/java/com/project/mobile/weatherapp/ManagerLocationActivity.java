@@ -22,7 +22,13 @@ public class ManagerLocationActivity extends AppCompatActivity {
                 startActivity(iAddLocation);
                 break;
             }
-
+            case R.id.text_cur_location: {
+                Intent currentLocation = new Intent(this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("usingLocation", true);
+                currentLocation.putExtra("CurrentLocation", bundle);
+                startActivity(currentLocation);
+            }
         }
     }
 }

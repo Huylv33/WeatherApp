@@ -13,10 +13,24 @@ public class AirVisualAsyncTask extends AsyncTask<Void,Void, AirVisual> {
         this.lon = lon;
         this.finish = finish;
     }
+
+    public AirVisualAsyncTask(String city, String state, String country, doCompleteAirVisual finish) {
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.finish = finish;
+    }
+
     @Override
     protected AirVisual doInBackground(Void... voids) {
-        AirVisual airVisual = AirVisualApi.getNearestCityData(lat,lon);
-        return airVisual;
+        if (city == null) {
+            AirVisual airVisual = AirVisualApi.getNearestCityData(lat,lon);
+            return airVisual;
+        }
+        else {
+            AirVisual airVisual = AirVisualApi.getNearestCityData(city,state,country);
+            return  airVisual;
+        }
     }
     @Override
     protected void onPostExecute(AirVisual airVisual) {

@@ -55,13 +55,20 @@ public class fragment_today extends Fragment {
     private CurrentWeatherDB currentWeatherDB;
     private double lat;
     private double lon;
-    @Override
+    public Boolean usingLocation;
+    public String city;
+    public String country;
+    private OpenWeatherMap openWeatherMapToday;
+    private AirVisual airVisualToday;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
         Bundle args = getArguments();
         lat = args.getDouble("lat");
         lon = args.getDouble("lon");
+        usingLocation = args.getBoolean("usingLocation");
+        city = args.getString("city");
+        country = args.getString("country");
 //        currentWeatherDB = new CurrentWeatherDB(context);
     }
 
@@ -123,8 +130,11 @@ public class fragment_today extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadWeatherInfor();
-
-//        dataCommunication = new DataCommunication(gpsTracker.getLatitude(),gpsTracker.getLongitude());
+        ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
+        if (imgWeather == null) {
+            Log.d("fuck","null");
+        }
+//        dataCommunication = new DtaCommunication(gpsTracker.getLatitude(),gpsTracker.getLongitude());
 //        sendingData.sendData(dataCommunication);
     }
 
@@ -142,49 +152,49 @@ public class fragment_today extends Fragment {
     }
     private void getWeather() {
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
-            weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
-                @Override
-                public  void doComplete(OpenWeatherMap openWeatherMap) {
-                    NumberFormat format = new DecimalFormat("#0.0");
-                    ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
-                    TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
-                    TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
-                    TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
-                    TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
-                    TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
-                    TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
-                    TextView txtPressure= (TextView) getActivity().findViewById(R.id.txtPressure);
-                    TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
-                    TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
-                    TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
-                    imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
-                    String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
-                    String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
-                    String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
-                    txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
-                    txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
-                    txtCurrentAddressName.setText(openWeatherMap.getName());
-                    txtTemperature.setText(temperature);
-                    txtMinTemp.setText(minTemp);
-                    txtMaxTemp.setText(maxTemp);
-                    String wind= openWeatherMap.getWind().getSpeed()+" m/s";
-                    String mesg = openWeatherMap.getWeather().get(0).getDescription();
-                    String cloudiness= mesg;
-                    String pressure= openWeatherMap.getMain().getPressure()+" hpa";
-                    String humidity=openWeatherMap.getMain().getHumidity()+" %";
-                    txtWind.setText(wind);
-                    txtCloudliness.setText(cloudiness);
-                    txtPressure.setText(pressure);
-                    txtHumidty.setText(humidity);
-                    String openWeatherMapJson = new Gson().toJson(openWeatherMap);
-                    Log.d("json",openWeatherMapJson);
-
-                    SharedPreferences sharedPref = getActivity().getSharedPreferences
-                            ("current_weather_data", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("current_weather",openWeatherMapJson);
-                    editor.apply();
-                    // Cap nhat cho bang
+            if(usingLocation) {
+                weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
+                    @Override
+                    public  void doComplete(OpenWeatherMap openWeatherMap) {
+                        NumberFormat format = new DecimalFormat("#0.0");
+                        ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
+                        TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
+                        TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
+                        TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
+                        TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
+                        TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
+                        TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
+                        TextView txtPressure= (TextView) getActivity().findViewById(R.id.txtPressure);
+                        TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
+                        TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
+                        TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
+                        imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
+                        String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
+                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
+                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+                        txtCurrentAddressName.setText(openWeatherMap.getName());
+                        txtTemperature.setText(temperature);
+                        txtMinTemp.setText(minTemp);
+                        txtMaxTemp.setText(maxTemp);
+                        String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+                        String mesg = openWeatherMap.getWeather().get(0).getDescription();
+                        String cloudiness= mesg;
+                        String pressure= openWeatherMap.getMain().getPressure()+" hpa";
+                        String humidity=openWeatherMap.getMain().getHumidity()+" %";
+                        txtWind.setText(wind);
+                        txtCloudliness.setText(cloudiness);
+                        txtPressure.setText(pressure);
+                        txtHumidty.setText(humidity);
+                        String openWeatherMapJson = new Gson().toJson(openWeatherMap);
+                        Log.d("json",openWeatherMapJson);
+                        SharedPreferences sharedPref = getActivity().getSharedPreferences
+                                ("current_weather_data", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("current_weather",openWeatherMapJson);
+                        editor.apply();
+                        // Cap nhat cho bang
 //                    if (currentWeatherDB.TableNotEmpty()){
 //                        currentWeatherDB.updateValues("1",openWeatherMap.getWeather().get(0).getMain(),
 //                                openWeatherMap.getWeather().get(0).getDescription(),
@@ -202,63 +212,193 @@ public class fragment_today extends Fragment {
 //                                minTemp,openWeatherMap.getWind().getSpeed() + "",
 //                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
 //                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
-                }
-            });
-            weatherAsyncTask.execute();
-            airVisualAsyncTask = new AirVisualAsyncTask(lat, lon, new doCompleteAirVisual() {
-                @Override
-                public void doComplete(AirVisual airVisual) {
-                    if (airVisual.getStatus() == "success") {
-                        int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
-                        SharedPreferences sharedPreferences = context.getSharedPreferences
-                                ("current_weather_data",Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("aqius",aqius);
+
+                    }
+                });
+                weatherAsyncTask.execute();
+                airVisualAsyncTask = new AirVisualAsyncTask(lat, lon, new doCompleteAirVisual() {
+                    @Override
+                    public void doComplete(AirVisual airVisual) {
+                        Log.d("air location",airVisual.getStatus());
+
+                        if (airVisual.getStatus().equals("success")) {
+                            int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
+                            Log.d("aqius1",aqius + "");
+                            SharedPreferences sharedPreferences = context.getSharedPreferences
+                                    ("current_weather_data",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("aqius",aqius);
+                            editor.apply();
+                            ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                            arcProgress.setProgress(aqius);
+                            arcProgress.setMax(300);
+                            arcProgress.setStrokeWidth(40);
+                            if(arcProgress.getProgress() < 50){
+                                arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+                                arcProgress.setTextColor(Color.argb(255,139,195,74));
+                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                            }
+                            if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                                arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+                                arcProgress.setTextColor(Color.argb(255,255,235,59));
+                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                            }
+                            if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                                arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+                                arcProgress.setTextColor(Color.argb(255,255,152,0));
+                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                            }
+                            if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                                arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+                                arcProgress.setTextColor(Color.argb(255,244,67,54));
+                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                            }
+                            if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                                arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+                                arcProgress.setTextColor(Color.argb(255,156,39,176));
+                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                            }
+                            if(arcProgress.getProgress() >= 250){
+                                arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+                                arcProgress.setTextColor(Color.argb(255,103,58,183));
+                                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+                            }
+                        }
+                        else {
+                            //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
+                        }
+
+                    }
+                });
+                airVisualAsyncTask.execute();
+            }
+            else {
+                weatherAsyncTask = new WeatherAsyncTask(city, new doComplete() {
+                    @Override
+                    public  void doComplete(OpenWeatherMap openWeatherMap) {
+                        NumberFormat format = new DecimalFormat("#0.0");
+                        ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
+                        TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
+                        TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
+                        TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
+                        TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
+                        TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
+                        TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
+                        TextView txtPressure= (TextView) getActivity().findViewById(R.id.txtPressure);
+                        TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
+                        TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
+                        TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
+                        imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
+                        String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
+                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
+                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+                        txtCurrentAddressName.setText(openWeatherMap.getName());
+                        txtTemperature.setText(temperature);
+                        txtMinTemp.setText(minTemp);
+                        txtMaxTemp.setText(maxTemp);
+                        String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+                        String mesg = openWeatherMap.getWeather().get(0).getDescription();
+                        String cloudiness= mesg;
+                        String pressure= openWeatherMap.getMain().getPressure()+" hpa";
+                        String humidity=openWeatherMap.getMain().getHumidity()+" %";
+                        txtWind.setText(wind);
+                        txtCloudliness.setText(cloudiness);
+                        txtPressure.setText(pressure);
+                        txtHumidty.setText(humidity);
+                        String openWeatherMapJson = new Gson().toJson(openWeatherMap);
+                        Log.d("json",openWeatherMapJson);
+
+                        SharedPreferences sharedPref = getActivity().getSharedPreferences
+                                ("current_weather_data", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("current_weather",openWeatherMapJson);
                         editor.apply();
-                        ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
-                        arcProgress.setProgress(aqius);
-                        arcProgress.setMax(500);
-                        arcProgress.setStrokeWidth(40);
-                        if(arcProgress.getProgress() < 50){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
-                            arcProgress.setTextColor(Color.argb(255,139,195,74));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
-                            arcProgress.setTextColor(Color.argb(255,255,235,59));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
-                            arcProgress.setTextColor(Color.argb(255,255,152,0));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
-                            arcProgress.setTextColor(Color.argb(255,244,67,54));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
-                            arcProgress.setTextColor(Color.argb(255,156,39,176));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 250){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
-                            arcProgress.setTextColor(Color.argb(255,103,58,183));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                            //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+                        // Cap nhat cho bang
+//                    if (currentWeatherDB.TableNotEmpty()){
+//                        currentWeatherDB.updateValues("1",openWeatherMap.getWeather().get(0).getMain(),
+//                                openWeatherMap.getWeather().get(0).getDescription(),
+//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
+//                                humidity,maxTemp,
+//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
+//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
+//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
+//                    }
+//                    else
+//                        currentWeatherDB.addDataInDB(openWeatherMap.getWeather().get(0).getMain(),
+//                                openWeatherMap.getWeather().get(0).getDescription(),
+//                                openWeatherMap.getWeather().get(0).getIcon(),temperature,
+//                                humidity,maxTemp,
+//                                minTemp,openWeatherMap.getWind().getSpeed() + "",
+//                                openWeatherMap.getSys().getCountry(),openWeatherMap.getSys().getSunrise() + "",
+//                                openWeatherMap.getSys().getSunset() + "",openWeatherMap.getName());
+                    }
+                });
+                weatherAsyncTask.execute();
+                airVisualAsyncTask = new AirVisualAsyncTask(city, city, country, new doCompleteAirVisual() {
+                    @Override
+                    public void doComplete(AirVisual airVisual) {
+                        if (airVisual != null) {
+                            if (airVisual.getStatus().equals("success")) {
+                                int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
+                                Log.d("aqius2",aqius + "");
+                                SharedPreferences sharedPreferences = context.getSharedPreferences
+                                        ("current_weather_data",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("aqius",aqius);
+                                editor.apply();
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setProgress(aqius);
+                                arcProgress.setMax(300);
+                                arcProgress.setStrokeWidth(40);
+                                if(arcProgress.getProgress() < 50){
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+                                    arcProgress.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+                                    arcProgress.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+                                    arcProgress.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+                                    arcProgress.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+                                    arcProgress.setTextColor(Color.argb(255,156,39,176));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 250){
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+                                    arcProgress.setTextColor(Color.argb(255,103,58,183));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                    //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+
+                                }
+                            }
+                            else {
+                                //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
+                            }
 
                         }
+                        else {
+                            //airvisual nó lại bằng null, lai ra mac dinh
+                        }
                     }
-                    else {
-                        //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
-                    }
+                });
+                airVisualAsyncTask.execute();
+            }
 
-                }
-            });
-            airVisualAsyncTask.execute();
         }
         else useLocalData();
     }

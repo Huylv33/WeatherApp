@@ -1,7 +1,11 @@
 package com.project.mobile.weatherapp.adapter;
 
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,20 +18,27 @@ import android.widget.Toast;
 
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.project.mobile.weatherapp.AddLocationActivity;
+import com.project.mobile.weatherapp.MainActivity;
 import com.project.mobile.weatherapp.R;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
     private List<AutocompletePrediction> placeList;
-    public LocationAdapter(List<AutocompletePrediction> places){
+    public Activity activity;
+
+    public LocationAdapter(List<AutocompletePrediction> places, Activity activity){
         placeList = places;
+        this.activity = activity;
     }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView text_location;
 
         public ViewHolder(View itemView) {
             super(itemView);
+
 
             text_location = (TextView) itemView.findViewById(R.id.text_location);
             itemView.setOnClickListener(this);
@@ -38,9 +49,24 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         public void onClick(View v) {
             int position = getLayoutPosition();
             AutocompletePrediction prediction = placeList.get(position);
-            Toast.makeText(v.getContext(), prediction.getPrimaryText(null).toString(), Toast.LENGTH_LONG).show();
+
+            String place = prediction.getFullText(null).toString();
+            String city = place.split(",")[0].trim();
+            String country = place.split(",")[place.split(",").length - 1].trim();
+            Intent intent = new Intent(activity, MainActivity.class);
+            Bundle locationBundle = new Bundle();
+            locationBundle.putString("City", city);
+            locationBundle.putString("Country", country);
+            intent.putExtra("Place", locationBundle);
+            activity.startActivity(intent);
+            Toast.makeText(v.getContext(), place, Toast.LENGTH_LONG).show();
+
+//            Toast.makeText(v.getContext(), prediction.getSecondaryText(null).toString(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(v.getContext(), prediction.getSecondaryText(null).toString(), Toast.LENGTH_LONG).show();
+
             Log.d("HUENT", "onClick: clicked" + prediction.getPrimaryText(null).toString());
             ((Activity) v.getContext()).finish();
+
         }
     }
 

@@ -42,6 +42,9 @@ import java.util.List;
 public class fragment_forecast extends Fragment {
     private double lat;
     private double lon;
+    public Boolean usingLocation;
+    public String city;
+    public String country;
     public List<Daily> mList = new ArrayList<>();
     private RecyclerView recyclerView;
     private DailyAdapter mAdapter;
@@ -57,6 +60,9 @@ public class fragment_forecast extends Fragment {
         Bundle args = getArguments();
         lat = args.getDouble("lat");
         lon = args.getDouble("lon");
+        usingLocation = args.getBoolean("usingLocation");
+        city = args.getString("city");
+        country = args.getString("country");
     }
 
     @Override
@@ -64,34 +70,67 @@ public class fragment_forecast extends Fragment {
         View view = inflater.inflate(R.layout.fragment_forecast, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
-            weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon, mAdapter, recyclerView, new doComplete5Days() {
-                @Override
-                public void doComplete(OpenWeatherPredict openWeatherPredict) {
-                    Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
-                    SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
-                            ("MyPrefsFile", Context.MODE_PRIVATE);
-                    String openWeatherPredictJson = new Gson().toJson(openWeatherPredict);
-                    Log.d("open",openWeatherPredictJson);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("forecast_weather",openWeatherPredictJson);
-                    editor.apply();
-                    for (ListOfWeather list : openWeatherPredict.getListWeather()) {
-                        Daily daily = new Daily();
-                        daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                        daily.setmTextDate(list.getDt_txt());
-                        daily.setmTempMin(list.getTemp_min() + "");
-                        daily.setmTempMax(list.getTemp_max() + "");
-                        daily.setmIconId(list.getWeather().get(0).getIcon());
-                        mList.add(daily);
+            if(usingLocation){
+                weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon, mAdapter, recyclerView, new doComplete5Days() {
+                    @Override
+                    public void doComplete(OpenWeatherPredict openWeatherPredict) {
+                        Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
+                        SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
+                                ("MyPrefsFile", Context.MODE_PRIVATE);
+                        String openWeatherPredictJson = new Gson().toJson(openWeatherPredict);
+                        Log.d("open",openWeatherPredictJson);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("forecast_weather",openWeatherPredictJson);
+                        editor.apply();
+                        for (ListOfWeather list : openWeatherPredict.getListWeather()) {
+                            Daily daily = new Daily();
+                            daily.setmTextWeather(list.getWeather().get(0).getDescription());
+                            daily.setmTextDate(list.getDt_txt());
+                            daily.setmTempMin(list.getTemp_min() + "");
+                            daily.setmTempMax(list.getTemp_max() + "");
+                            daily.setmIconId(list.getWeather().get(0).getIcon());
+                            mList.add(daily);
+                        }
+                        mAdapter = new DailyAdapter(mList,getContext());
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(mLayoutManager);
+                        recyclerView.setAdapter(mAdapter);
+                        Log.i("mList size in here ", mList.size() + "");
                     }
-                    mAdapter = new DailyAdapter(mList,getContext());
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setAdapter(mAdapter);
-                    Log.i("mList size in here ", mList.size() + "");
-                }
-            });
-            weather5DaysAsyncTask.execute();
+                });
+                weather5DaysAsyncTask.execute();
+            }
+            else {
+                weather5DaysAsyncTask = new Weather5DaysAsyncTask(city, mAdapter, recyclerView, new doComplete5Days() {
+                    @Override
+                    public void doComplete(OpenWeatherPredict openWeatherPredict) {
+                        Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
+                        SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
+                                ("MyPrefsFile", Context.MODE_PRIVATE);
+                        String openWeatherPredictJson = new Gson().toJson(openWeatherPredict);
+                        Log.d("open",openWeatherPredictJson);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("forecast_weather",openWeatherPredictJson);
+                        editor.apply();
+                        for (ListOfWeather list : openWeatherPredict.getListWeather()) {
+                            Daily daily = new Daily();
+                            daily.setmTextWeather(list.getWeather().get(0).getDescription());
+                            daily.setmTextDate(list.getDt_txt());
+                            daily.setmTempMin(list.getTemp_min() + "");
+                            daily.setmTempMax(list.getTemp_max() + "");
+                            daily.setmIconId(list.getWeather().get(0).getIcon());
+                            mList.add(daily);
+                        }
+                        mAdapter = new DailyAdapter(mList,getContext());
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(mLayoutManager);
+                        recyclerView.setAdapter(mAdapter);
+                        Log.i("mList size in here ", mList.size() + "");
+                    }
+                });
+                weather5DaysAsyncTask.execute();
+            }
+
         }
         else useLocalData();
         return view;

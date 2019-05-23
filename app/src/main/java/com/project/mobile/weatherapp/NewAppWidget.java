@@ -30,7 +30,6 @@ public class NewAppWidget extends AppWidgetProvider {
     private  Context context;
     private static double lat;
     private static double lon;
-
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         String timeString = DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date());
@@ -45,7 +44,6 @@ public class NewAppWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.text_temperature,temperature);
         views.setImageViewResource(R.id.icon_weather, R.drawable.img_fewclouds_day);
         views.setTextViewText(R.id.text_weather,weather);
-
 
         // Ấn vào widget khởi chạy màn hình chính
         Intent launchMain = new Intent(context, MainActivity.class);
