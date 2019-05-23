@@ -1,5 +1,9 @@
 package com.project.mobile.weatherapp.fragment;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -147,6 +151,19 @@ public class fragment_hourly extends Fragment {
         return  view;
     }
 
+//    @Override
+//    public void onActivityCreated (Bundle savedInstanceState){
+//        super.onActivityCreated(savedInstanceState);
+//        View views = (View) getActivity().findViewById(R.id.item_hour);
+//        views.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View views){
+//                showDialog();
+//            }
+
+//        });
+//    }
+
     // chi de cho test thu thoi
     private void initView () {
         Hourly hourly = new Hourly("18:00", "35°", " 22 mm", " 87%");
@@ -176,5 +193,11 @@ public class fragment_hourly extends Fragment {
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(mAdapter);
         }
+    }
+
+    public void showDialog(){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_hourly_detail);
+        dialog.show();
     }
 }
