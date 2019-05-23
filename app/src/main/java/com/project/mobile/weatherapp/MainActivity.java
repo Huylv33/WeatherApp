@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity  implements
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
 
-                args.putDouble("lat",gpsTracker.getLongitude());
+                args.putDouble("lat",gpsTracker.getLatitude());
                 args.putDouble("lon", gpsTracker.getLongitude());
 
 
@@ -468,9 +468,9 @@ public class MainActivity extends AppCompatActivity  implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationSetting.saveLocationSetting();
-        Log.i("Kiem tra luong ",this.usingLocation.toString());
-        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
+//        locationSetting.saveLocationSetting();
+//        Log.i("Kiem tra luong ",this.usingLocation.toString());
+//        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
 
     }
 

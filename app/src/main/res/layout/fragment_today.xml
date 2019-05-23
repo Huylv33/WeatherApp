@@ -64,7 +64,7 @@
 
 
                 <ImageView
-                    android:id="@+id/imgWeather"
+                    android:id="@+id/imgWeatherToday"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     app:layout_constraintBottom_toTopOf="@id/txtCurrentAddressName"

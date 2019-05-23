@@ -82,51 +82,51 @@ public class fragment_today extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
 
-//        final ArcProgress arcProgress= (ArcProgress) view.findViewById(R.id.arc_progress);
-//        arcProgress.setProgress(250);
-//        arcProgress.setMax(300);
-//        arcProgress.setStrokeWidth(40);
-//        if(arcProgress.getProgress() < 50){
-//            arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
-//            arcProgress.setTextColor(Color.argb(255,139,195,74));
-//            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-//            return view;
-//        }
-//        if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
-//            arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
-//            arcProgress.setTextColor(Color.argb(255,255,235,59));
-//            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-//            return view;
-//        }
-//        if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
-//            arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
-//            arcProgress.setTextColor(Color.argb(255,255,152,0));
-//            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-//            return view;
-//        }
-//        if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
-//            arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
-//            arcProgress.setTextColor(Color.argb(255,244,67,54));
-//            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-//            return view;
-//        }
-//        if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
-//            arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
-//            arcProgress.setTextColor(Color.argb(255,156,39,176));
-//            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-//            return view;
-//        }
-//        if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
-//            arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
-//            arcProgress.setTextColor(Color.argb(255,103,58,183));
-//            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-//            //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
-//            return view;
-//        }
-//
-//
-//        else return view;
-        return view;
+        final ArcProgress arcProgress= (ArcProgress) view.findViewById(R.id.arc_progress);
+        arcProgress.setProgress(250);
+        arcProgress.setMax(300);
+        arcProgress.setStrokeWidth(40);
+        if(arcProgress.getProgress() < 50){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+            arcProgress.setTextColor(Color.argb(255,139,195,74));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+            arcProgress.setTextColor(Color.argb(255,255,235,59));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+            arcProgress.setTextColor(Color.argb(255,255,152,0));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+            arcProgress.setTextColor(Color.argb(255,244,67,54));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+            arcProgress.setTextColor(Color.argb(255,156,39,176));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            return view;
+        }
+        if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+            arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+            arcProgress.setTextColor(Color.argb(255,103,58,183));
+            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+            //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+            return view;
+        }
+
+
+        else return view;
+
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -281,60 +281,6 @@ public class fragment_today extends Fragment {
                 weatherAsyncTask.execute();
             }
 
-            airVisualAsyncTask = new AirVisualAsyncTask(lat, lon, new doCompleteAirVisual() {
-                @Override
-                public void doComplete(AirVisual airVisual) {
-                    if (airVisual.getStatus() == "success") {
-                        int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
-                        SharedPreferences sharedPreferences = context.getSharedPreferences
-                                ("current_weather_data",Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("aqius",aqius);
-                        editor.apply();
-                        ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
-                        arcProgress.setProgress(aqius);
-                        arcProgress.setMax(500);
-                        arcProgress.setStrokeWidth(40);
-                        if(arcProgress.getProgress() < 50){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
-                            arcProgress.setTextColor(Color.argb(255,139,195,74));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
-                            arcProgress.setTextColor(Color.argb(255,255,235,59));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
-                            arcProgress.setTextColor(Color.argb(255,255,152,0));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
-                            arcProgress.setTextColor(Color.argb(255,244,67,54));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
-                            arcProgress.setTextColor(Color.argb(255,156,39,176));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                        }
-                        if(arcProgress.getProgress() >= 250){
-                            arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
-                            arcProgress.setTextColor(Color.argb(255,103,58,183));
-                            arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-                            //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
-
-                        }
-                    }
-                    else {
-                        //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
-                    }
-
-                }
-            });
-            airVisualAsyncTask.execute();
         }
         else useLocalData();
     }
