@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity  implements
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    LocationSetting locationSetting = new LocationSetting(this);
+
     private ArrayList<String> mTitles = new ArrayList<>();
 
     private DuoDrawerToggle drawerToggle;
@@ -76,9 +78,8 @@ public class MainActivity extends AppCompatActivity  implements
             R.drawable.ic_forecast_black_24dp
     };
 
-    public Location location;
-    public String city;
-    public String country;
+    public String city = "Hanoi";
+    public String country = "Vietnam";
     public Boolean usingLocation;
 
     @Override
@@ -142,15 +143,12 @@ public class MainActivity extends AppCompatActivity  implements
 //        if (!NetworkAndGPSChecking.isNetworkAvailable(this)) {
 //            showNetworkAlert();
 //        }
-        LocationSetting locationSetting = new LocationSetting(this);
         locationSetting.loadLocationSetting();
-        if (locationSetting.usingLocation) {
-            gpsTracker = new GPSTracker(this);
-        }
-        else {
-            this.city = locationSetting.city;
-            this.country = locationSetting.country;
-        }
+        usingLocation = locationSetting.usingLocation;
+        gpsTracker = new GPSTracker(this);
+        this.city = locationSetting.city;
+        this.country = locationSetting.country;
+
         Intent locationIntent = getIntent();
         Bundle locationBundle = locationIntent.getBundleExtra("Place");
         if(locationBundle != null){
@@ -159,8 +157,19 @@ public class MainActivity extends AppCompatActivity  implements
             this.country = locationBundle.getString("Country");
             Log.i("check xem chay ntn", this.country);
         }
-        else usingLocation = true;
 
+
+        Intent currentIntent = getIntent();
+        Bundle currentBundle = currentIntent.getBundleExtra("CurrentLocation");
+        if(currentBundle != null) {
+            usingLocation = true;
+        }
+
+        locationSetting.city = this.city;
+        locationSetting.country = this.country;
+        Log.i("city", this.city);
+        locationSetting.usingLocation = usingLocation;
+        locationSetting.saveLocationSetting();
 
     }
 
@@ -338,8 +347,17 @@ public class MainActivity extends AppCompatActivity  implements
         @Override
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
-            args.putDouble("lat",gpsTracker.getLongitude());
-            args.putDouble("lon", gpsTracker.getLongitude());
+
+                args.putDouble("lat",gpsTracker.getLongitude());
+                args.putDouble("lon", gpsTracker.getLongitude());
+
+
+            args.putString("city", city);
+
+            args.putString("country", country);
+//            Log.i("Kiem tra mot ty", country);
+//            Log.i("Kiem tra mot ty", usingLocation.toString());
+            args.putBoolean("usingLocation", usingLocation);
 
 //            args.putString("lon",gpsTracker.getLongitude() + "");
             mFragmentList.get(position).setArguments(args);
@@ -450,6 +468,9 @@ public class MainActivity extends AppCompatActivity  implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        locationSetting.saveLocationSetting();
+        Log.i("Kiem tra luong ",this.usingLocation.toString());
+        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
 
     }
 
