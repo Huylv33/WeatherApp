@@ -50,8 +50,9 @@ public class AirVisualApi {
         HttpURLConnection con = null;
         InputStream is = null;
         try {
-            String requestUrl = "https://api.airvisual.com/v2/nearest_city?" + "city=" + city
+            String requestUrl = "https://api.airvisual.com/v2/city?" + "city=" + city
                     + "&state=" + state + "&country=" + country + "&key=" + Constants.AIR_VISUAL_API_KEY;
+            Log.i("requestur2",requestUrl);
             URL url = new URL(requestUrl);
             con = (HttpURLConnection) (url).openConnection();
             con.setRequestMethod("GET");
