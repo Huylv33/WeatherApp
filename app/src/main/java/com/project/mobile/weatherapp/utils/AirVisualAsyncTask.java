@@ -6,6 +6,7 @@ import com.project.mobile.weatherapp.model.airvisual.AirVisual;
 
 public class AirVisualAsyncTask extends AsyncTask<Void,Void, AirVisual> {
     private double lat, lon;
+    private String city, state, country;
     private doCompleteAirVisual finish;
     public AirVisualAsyncTask(double lat, double lon, doCompleteAirVisual finish) {
         this.lat = lat;
@@ -14,8 +15,7 @@ public class AirVisualAsyncTask extends AsyncTask<Void,Void, AirVisual> {
     }
     @Override
     protected AirVisual doInBackground(Void... voids) {
-        AirVisual airVisual = null;
-        airVisual = AirVisualApi.getNearestCityData(lat,lon);
+        AirVisual airVisual = AirVisualApi.getNearestCityData(lat,lon);
         return airVisual;
     }
     @Override
@@ -23,5 +23,4 @@ public class AirVisualAsyncTask extends AsyncTask<Void,Void, AirVisual> {
         super.onPostExecute(airVisual);
         finish.doComplete(airVisual);
     }
-
 }
