@@ -290,16 +290,6 @@ public class MainActivity extends AppCompatActivity  implements
         mViewHolder.mDuoDrawerLayout.closeDrawer();
     }
 
-//    @Override
-//    public void sendData(DataCommunication dataCommunication) {
-//        fragment_forecast fragmentForecast  = new fragment_forecast();
-//        Bundle args = new Bundle();
-//        args.putSerializable("data",dataCommunication);
-//        fragmentForecast.setArguments(args);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.today,fragmentForecast)
-//        .addToBackStack(null).commit();
-//    }
-
 
     //ViewHolder. Chức năng: tạo viewHolder để đổ vào view
     private class ViewHolder {

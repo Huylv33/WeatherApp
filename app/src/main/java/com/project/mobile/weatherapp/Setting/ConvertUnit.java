@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.llollox.androidtoggleswitch.widgets.ToggleSwitch;
+import com.project.mobile.weatherapp.R;
+
 public class ConvertUnit {
     public float tempRatio;
     public float rainRatio;
@@ -16,6 +19,7 @@ public class ConvertUnit {
     }
 
     public void loadConvertUnit() {
+        ToggleSwitch toggleSwitchTemp = (ToggleSwitch) activity.findViewById(R.id.switch_temperature);
         SharedPreferences sharedPreferences = activity.getSharedPreferences("ConvertUnit", Context.MODE_PRIVATE);
         if(sharedPreferences != null) {
             this.tempRatio = sharedPreferences.getFloat("TempRatio", 1);
@@ -31,6 +35,5 @@ public class ConvertUnit {
         editor.putFloat("RainRatio", this.rainRatio);
         editor.putFloat("TimeRatio", this.timeRatio);
         editor.apply();
-
     }
 }

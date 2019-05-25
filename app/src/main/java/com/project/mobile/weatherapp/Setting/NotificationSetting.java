@@ -27,7 +27,6 @@ public class NotificationSetting {
             this.arlarm = sharedPreferences.getBoolean("Alarm", false);
         }
     }
-
     public void saveNotificationSetting() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("NotificationSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -39,3 +38,4 @@ public class NotificationSetting {
         editor.apply();
     }
 }
+
