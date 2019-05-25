@@ -59,13 +59,10 @@ public class MainActivity extends AppCompatActivity  implements
 //    private DrawerLayout drawerLayout;
     private GPSTracker gpsTracker;
     private SwitchCompat switchCompat;
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     LocationSetting locationSetting = new LocationSetting(this);
-
     private ArrayList<String> mTitles = new ArrayList<>();
-
     private DuoDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private MenuAdapter mMenuAdapter;
@@ -146,7 +143,6 @@ public class MainActivity extends AppCompatActivity  implements
 
         locationSetting.city = this.city;
         locationSetting.country = this.country;
-        Log.i("city", this.city);
         locationSetting.usingLocation = usingLocation;
         locationSetting.saveLocationSetting();
 
@@ -192,6 +188,7 @@ public class MainActivity extends AppCompatActivity  implements
             case 0: {
                 Intent iLoc = new Intent(MainActivity.this, ManagerLocationActivity.class);
                 startActivity(iLoc);
+                overridePendingTransition(R.anim.anim_enter,R.anim.anim_out);
                 break;
             }
             case 1: {

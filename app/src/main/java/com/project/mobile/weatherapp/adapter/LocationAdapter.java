@@ -40,9 +40,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             super(itemView);
             text_location = (TextView) itemView.findViewById(R.id.text_location);
             itemView.setOnClickListener(this);
-
         }
-
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition();

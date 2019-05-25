@@ -26,13 +26,11 @@ import com.project.mobile.weatherapp.utils.Weather5DaysAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.doComplete;
 import com.project.mobile.weatherapp.utils.doComplete5Days;
-
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Activities that contain this fragment must implement the
@@ -117,9 +115,8 @@ public class fragment_forecast extends Fragment {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
                             daily.setmTextDate(list.getDt_txt());
-
-                            daily.setmTempMin(format.format(list.getTemp_min() -273.15) + "°C");
-                            daily.setmTempMax(format.format(list.getTemp_max() -273.15) + "°C");
+                            daily.setmTempMin(format.format(list.getTemp_min() - 273.15) + "°C");
+                            daily.setmTempMax(format.format(list.getTemp_max() - 273.15) + "°C");
                             daily.setmIconId(list.getWeather().get(0).getIcon());
                             mList.add(daily);
                         }
@@ -156,7 +153,6 @@ public class fragment_forecast extends Fragment {
 
             Type listType = new TypeToken<List<ListOfWeather>>(){}.getType();
             List<ListOfWeather> listOfWeatherList = new Gson().fromJson(openWeatherPredictJson, listType);
-
             for (ListOfWeather list : listOfWeatherList) {
                 Daily daily = new Daily();
                 daily.setmTextWeather(list.getWeather().get(0).getDescription());

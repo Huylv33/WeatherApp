@@ -27,7 +27,6 @@ public class ConvertUnit {
             this.timeRatio = sharedPreferences.getFloat("TimeRatio", 1);
         }
     }
-
     public void saveConvertUnit() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("ConvertUnit", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

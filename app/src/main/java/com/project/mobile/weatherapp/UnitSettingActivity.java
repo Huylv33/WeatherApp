@@ -10,7 +10,10 @@ import com.google.gson.Gson;
 import com.llollox.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class UnitSettingActivity extends AppCompatActivity {
-    String tempUnit = "C";
+    private int tempUnit;
+    private int timeUnit;
+    private int distanceUnit;
+    private int precipitationUnit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,22 +22,22 @@ public class UnitSettingActivity extends AppCompatActivity {
         ToggleSwitch toggleSwitchTime = (ToggleSwitch) findViewById(R.id.switch_time_format);
         ToggleSwitch toggleSwitchDistance = (ToggleSwitch) findViewById(R.id.switch_distance);
         ToggleSwitch toggleSwitchPre = (ToggleSwitch) findViewById(R.id.switch_precipitation);
-
-        toggleSwitchTime.setCheckedPosition(0);
-        toggleSwitchTemp.setCheckedPosition(0);
-        toggleSwitchDistance.setCheckedPosition(0);
-        toggleSwitchPre.setCheckedPosition(0);
+        SharedPreferences sharedPreferences = getSharedPreferences("ConvertUnit",MODE_PRIVATE);
+        tempUnit = sharedPreferences.getInt("temp_unit",0);
+        timeUnit = sharedPreferences.getInt("time_unit",0);
+        distanceUnit = sharedPreferences.getInt("distance_unit",0);
+        precipitationUnit = sharedPreferences.getInt(   "precipitation_unit",0);
+        toggleSwitchTime.setCheckedPosition(tempUnit);
+        toggleSwitchTemp.setCheckedPosition(timeUnit);
+        toggleSwitchDistance.setCheckedPosition(distanceUnit);
+        toggleSwitchPre.setCheckedPosition(precipitationUnit);
         toggleSwitchTemp.setOnChangeListener(new ToggleSwitch.OnChangeListener() {
             @Override
             public void onToggleSwitchChanged(int i) {
-                if (i == 0) {
-                    tempUnit = "C";
-                } else tempUnit = "F";
+                tempUnit = i;
                 SharedPreferences sharedPreferences =  getSharedPreferences
                         ("ConvertUnit", Context.MODE_PRIVATE);
-                Log.d("open",tempUnit);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("unit_temp",tempUnit);
                 editor.apply();
             }
         });

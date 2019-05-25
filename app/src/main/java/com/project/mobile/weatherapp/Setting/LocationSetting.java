@@ -40,11 +40,8 @@ public class LocationSetting {
         editor.putFloat("Lat", (float) this.lat);
         editor.putString("City", this.city);
         editor.putBoolean("usingLocation", this.usingLocation);
-
         editor.putString("Country", this.country);
         editor.apply();
         Log.i("luu ", this.city);
     }
-
-
 }
