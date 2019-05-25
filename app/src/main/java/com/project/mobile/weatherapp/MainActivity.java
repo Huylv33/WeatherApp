@@ -199,12 +199,12 @@ public class MainActivity extends AppCompatActivity  implements
                 startActivity(iNot);
                 break;
             }
-            case 3: {
+            case 2: {
                 Intent iPre = new Intent(MainActivity.this, PrepareDayActivity.class);
                 startActivity(iPre);
                 break;
             }
-            case 4: {
+            case 3: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
                 break;
@@ -242,11 +242,11 @@ public class MainActivity extends AppCompatActivity  implements
             case 1:
                 showMenuClick(1);
                 break;
+            case 2:
+                showMenuClick(2);
+                break;
             case 3:
                 showMenuClick(3);
-                break;
-            case 4:
-                showMenuClick(4);
                 break;
             //case 5:
                 //showMenuClick(5);
