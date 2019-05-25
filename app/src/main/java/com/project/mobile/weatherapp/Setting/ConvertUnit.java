@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class ConvertUnit {
-    public float tempRatio;
+    public Boolean usingCelcius;
     public float rainRatio;
     public float timeRatio;
 
@@ -18,7 +18,7 @@ public class ConvertUnit {
     public void loadConvertUnit() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("ConvertUnit", Context.MODE_PRIVATE);
         if(sharedPreferences != null) {
-            this.tempRatio = sharedPreferences.getFloat("TempRatio", 1);
+            this.usingCelcius = sharedPreferences.getBoolean("usingCelcius", true);
             this.rainRatio = sharedPreferences.getFloat("RainRatio", 1);
             this.timeRatio = sharedPreferences.getFloat("TimeRatio", 1);
         }
@@ -27,7 +27,7 @@ public class ConvertUnit {
     public void saveConvertUnit() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("ConvertUnit", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat("TempRatio", this.tempRatio);
+        editor.putBoolean("usingCelcius", this.usingCelcius);
         editor.putFloat("RainRatio", this.rainRatio);
         editor.putFloat("TimeRatio", this.timeRatio);
         editor.apply();
