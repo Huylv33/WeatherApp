@@ -3,6 +3,8 @@ package com.project.mobile.weatherapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
@@ -17,17 +19,20 @@ public class ManagerNotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_notification);
-
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         this.weatherNoti = (SwitchCompat)findViewById(R.id.switch_notification);
         this.prepareDay = (SwitchCompat) findViewById(R.id.switch_warning);
         notificationSetting = new NotificationSetting(this);
         notificationSetting.loadNotificationSetting();
         weatherNoti.setChecked(notificationSetting.notification);
         prepareDay.setChecked(notificationSetting.prepareDaily);
-
-
-
-
         weatherNoti.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -57,6 +62,9 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+    public void back(View v){
+        finish();
     }
 
 }

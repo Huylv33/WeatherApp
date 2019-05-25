@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.llollox.androidtoggleswitch.widgets.ToggleSwitch;
@@ -18,6 +20,14 @@ public class UnitSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unit_setting);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         ToggleSwitch toggleSwitchTemp = (ToggleSwitch) findViewById(R.id.switch_temperature);
         ToggleSwitch toggleSwitchTime = (ToggleSwitch) findViewById(R.id.switch_time_format);
         ToggleSwitch toggleSwitchDistance = (ToggleSwitch) findViewById(R.id.switch_distance);

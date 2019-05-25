@@ -10,4 +10,5 @@ public class ChangeWallpaperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_change_wallpaper);
     }
+
 }

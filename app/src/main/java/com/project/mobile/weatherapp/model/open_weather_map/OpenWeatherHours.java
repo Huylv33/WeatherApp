@@ -9,13 +9,11 @@ public class OpenWeatherHours {
     public OpenWeatherHours(OpenWeather5Days3Hours openWeather5Days3Hours) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         java.util.List<List> listOfWeatherHourly = new ArrayList<List>();
-        for(int i = 0; i < 8; i ++) {
-            for(int j = 0; j < 3; j++) {
+        for(int i = 0; i < openWeather5Days3Hours.getList().size(); i ++) {
                 listOfWeatherHourly.add(openWeather5Days3Hours.getList().get(i));
-                String dt_txt = listOfWeatherHourly.get(i + j).getDt_txt();
-//                String
-            }
+                String dt_txt = listOfWeatherHourly.get(i).getDt_txt();
         }
         this.list = listOfWeatherHourly;
     }
 }
+

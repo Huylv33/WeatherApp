@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -18,6 +19,14 @@ public class PrepareDayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prepare_day);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         prepareDaySetting = new PrepareDaySetting(this);
         prepareDaySetting.loadPrepareDaySetting();
         umbbrela = (SwitchCompat) findViewById(R.id.enable_umbrella);
@@ -106,4 +115,8 @@ public class PrepareDayActivity extends AppCompatActivity {
                     break;
         }
     }
+    public void back(View v){
+        finish();
+    }
+
 }

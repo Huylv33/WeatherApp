@@ -52,7 +52,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class MainActivity extends AppCompatActivity  implements
         CompoundButton.OnCheckedChangeListener, DuoMenuView.OnMenuClickListener {
     private Context context;
@@ -188,7 +187,7 @@ public class MainActivity extends AppCompatActivity  implements
             case 0: {
                 Intent iLoc = new Intent(MainActivity.this, ManagerLocationActivity.class);
                 startActivity(iLoc);
-                overridePendingTransition(R.anim.anim_enter,R.anim.anim_out);
+                overridePendingTransition(R.anim.anim_enter,R.anim.anim_out);// thu cho cai animation xem the nao
                 break;
             }
             case 1: {
@@ -196,12 +195,12 @@ public class MainActivity extends AppCompatActivity  implements
                 startActivity(iNot);
                 break;
             }
-            case 3: {
+            case 2: {
                 Intent iPre = new Intent(MainActivity.this, PrepareDayActivity.class);
                 startActivity(iPre);
                 break;
             }
-            case 4: {
+            case 3: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
                 break;
@@ -239,11 +238,11 @@ public class MainActivity extends AppCompatActivity  implements
             case 1:
                 showMenuClick(1);
                 break;
+            case 2:
+                showMenuClick(2);
+                break;
             case 3:
                 showMenuClick(3);
-                break;
-            case 4:
-                showMenuClick(4);
                 break;
             //case 5:
                 //showMenuClick(5);
