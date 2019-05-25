@@ -3,6 +3,8 @@ package com.project.mobile.weatherapp;
 
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 
 
@@ -39,7 +41,9 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
+import com.project.mobile.weatherapp.Broadcast.Noti;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
+import com.project.mobile.weatherapp.Setting.NotificationSetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
@@ -49,6 +53,7 @@ import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity  implements
     public String city = "Hanoi";
     public String country = "Vietnam";
     public Boolean usingLocation;
+    public NotificationSetting notificationSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +175,29 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.country = this.country;
         Log.i("city", this.city);
         locationSetting.usingLocation = usingLocation;
-        locationSetting.saveLocationSetting();
+        notificationSetting = new NotificationSetting(this);
+        notificationSetting.loadNotificationSetting();
+        Log.i("demo", notificationSetting.notification + "");
+
+        if(notificationSetting.notification) {
+            Log.i("demo", "1") ;
+            PendingIntent pendingIntent;
+            Intent alarmIntent = new Intent(MainActivity.this, Noti.class);
+            pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            int interval = 1000 * 30 * 60;
+//
+            /* Set the alarm to start at 10:30 AM */
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 18);
+            calendar.set(Calendar.MINUTE, 48);
+            Log.d("noti","mess1");
+//
+            /* Repeating on every 20 minutes interval */
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    interval , pendingIntent);
+        }
 
     }
 
@@ -220,12 +248,12 @@ public class MainActivity extends AppCompatActivity  implements
                 startActivity(iNot);
                 break;
             }
-            case 3: {
+            case 2: {
                 Intent iPre = new Intent(MainActivity.this, PrepareDayActivity.class);
                 startActivity(iPre);
                 break;
             }
-            case 4: {
+            case 3: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
                 break;
@@ -263,11 +291,11 @@ public class MainActivity extends AppCompatActivity  implements
             case 1:
                 showMenuClick(1);
                 break;
+            case 2:
+                showMenuClick(2);
+                break;
             case 3:
                 showMenuClick(3);
-                break;
-            case 4:
-                showMenuClick(4);
                 break;
             //case 5:
                 //showMenuClick(5);

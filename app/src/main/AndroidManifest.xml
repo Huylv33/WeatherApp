@@ -44,6 +44,12 @@
         <activity android:name=".ManagerNotificationActivity" />
         <activity android:name=".UnitSettingActivity" />
         <activity android:name=".PrepareDayActivity" />
+
+        <receiver android:name=".Broadcast.Noti">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

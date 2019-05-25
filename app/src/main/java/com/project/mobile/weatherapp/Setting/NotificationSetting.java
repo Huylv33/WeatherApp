@@ -11,14 +11,14 @@ public class NotificationSetting {
     public boolean vibrate; // rung
     public boolean arlarm; // am thanh bao
 
-    public Activity activity;
+    public Context context;
 
-    public NotificationSetting(Activity activity) {
-        this.activity = activity;
+    public NotificationSetting(Context context) {
+        this.context = context;
     }
 
     public void loadNotificationSetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("NotificationSetting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("NotificationSetting", Context.MODE_PRIVATE);
         if(sharedPreferences != null) {
             this.notification = sharedPreferences.getBoolean("Notification", false);
             this.prepareDaily = sharedPreferences.getBoolean("PrepareDaily", false);
@@ -29,7 +29,7 @@ public class NotificationSetting {
     }
 
     public void saveNotificationSetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("NotificationSetting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("NotificationSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("Notification", this.notification);
         editor.putBoolean("PrepareDaily", this.prepareDaily);
