@@ -74,6 +74,7 @@ public class fragment_forecast extends Fragment {
                     @Override
                     public void doComplete(OpenWeatherPredict openWeatherPredict) {
                         Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
+                        NumberFormat format = new DecimalFormat("#0.0");
                         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
                                 ("MyPrefsFile", Context.MODE_PRIVATE);
                         String openWeatherPredictJson = new Gson().toJson(openWeatherPredict);
@@ -85,8 +86,8 @@ public class fragment_forecast extends Fragment {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
                             daily.setmTextDate(list.getDt_txt());
-                            daily.setmTempMin(list.getTemp_min() + "");
-                            daily.setmTempMax(list.getTemp_max() + "");
+                            daily.setmTempMin(format.format(list.getTemp_min() -273.15) + "°C");
+                            daily.setmTempMax(format.format(list.getTemp_max()-273.15) + "°C");
                             daily.setmIconId(list.getWeather().get(0).getIcon());
                             mList.add(daily);
                         }
@@ -103,6 +104,7 @@ public class fragment_forecast extends Fragment {
                 weather5DaysAsyncTask = new Weather5DaysAsyncTask(city, mAdapter, recyclerView, new doComplete5Days() {
                     @Override
                     public void doComplete(OpenWeatherPredict openWeatherPredict) {
+                        NumberFormat format = new DecimalFormat("#0.0");
                         Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
                         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
                                 ("MyPrefsFile", Context.MODE_PRIVATE);
@@ -115,8 +117,9 @@ public class fragment_forecast extends Fragment {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
                             daily.setmTextDate(list.getDt_txt());
-                            daily.setmTempMin(Math.round(list.getTemp_min() - 273) + "");
-                            daily.setmTempMax(Math.round(list.getTemp_max() - 273) + "");
+
+                            daily.setmTempMin(format.format(list.getTemp_min() -273.15) + "°C");
+                            daily.setmTempMax(format.format(list.getTemp_max() -273.15) + "°C");
                             daily.setmIconId(list.getWeather().get(0).getIcon());
                             mList.add(daily);
                         }
@@ -143,6 +146,7 @@ public class fragment_forecast extends Fragment {
         return mList;
     }
     private void useLocalData() {
+        NumberFormat format = new DecimalFormat("#0.0");
         String s = "{\"listOfWeather\":[{\"clouds\":{\"all\":19},\"dt_txt\":\"2019-05-23 00:00:00\",\"main\":{\"grnd_level\":1000.72,\"humidity\":79,\"pressure\":1010.08,\"sea_level\":1010.08,\"temp\":299.11,\"temp_kf\":-0.12,\"temp_max\":299.229,\"temp_min\":299.11},\"temp_max\":32.940999999999974,\"temp_min\":24.639999999999986,\"weather\":[{\"description\":\"mây thưa\",\"icon\":\"02d\",\"id\":801,\"main\":\"Clouds\"}],\"wind\":{\"deg\":342.208,\"speed\":1.07}},{\"clouds\":{\"all\":72},\"dt_txt\":\"2019-05-24 00:00:00\",\"main\":{\"grnd_level\":999.59,\"humidity\":89,\"pressure\":1009.11,\"sea_level\":1009.11,\"temp\":299.479,\"temp_kf\":0.0,\"temp_max\":299.479,\"temp_min\":299.479},\"temp_max\":33.911,\"temp_min\":25.069999999999993,\"weather\":[{\"description\":\"mây cụm\",\"icon\":\"04d\",\"id\":803,\"main\":\"Clouds\"}],\"wind\":{\"deg\":83.317,\"speed\":1.01}},{\"clouds\":{\"all\":98},\"dt_txt\":\"2019-05-25 00:00:00\",\"main\":{\"grnd_level\":996.19,\"humidity\":86,\"pressure\":1006.07,\"sea_level\":1006.07,\"temp\":300.788,\"temp_kf\":0.0,\"temp_max\":300.788,\"temp_min\":300.788},\"temp_max\":36.488,\"temp_min\":25.069999999999993,\"weather\":[{\"description\":\"mưa vừa\",\"icon\":\"10d\",\"id\":501,\"main\":\"Rain\"}],\"wind\":{\"deg\":216.349,\"speed\":1.1}},{\"clouds\":{\"all\":100},\"dt_txt\":\"2019-05-26 00:00:00\",\"main\":{\"grnd_level\":995.71,\"humidity\":89,\"pressure\":1005.52,\"sea_level\":1005.52,\"temp\":300.324,\"temp_kf\":0.0,\"temp_max\":300.324,\"temp_min\":300.324},\"temp_max\":33.69999999999999,\"temp_min\":25.069999999999993,\"weather\":[{\"description\":\"mưa nhẹ\",\"icon\":\"10d\",\"id\":500,\"main\":\"Rain\"}],\"wind\":{\"deg\":278.315,\"speed\":0.66}},{\"clouds\":{\"all\":100},\"dt_txt\":\"2019-05-27 00:00:00\",\"main\":{\"grnd_level\":997.38,\"humidity\":88,\"pressure\":1006.83,\"sea_level\":1006.83,\"temp\":300.2,\"temp_kf\":0.0,\"temp_max\":300.2,\"temp_min\":300.2},\"temp_max\":33.30000000000001,\"temp_min\":25.069999999999993,\"weather\":[{\"description\":\"mây đen u ám\",\"icon\":\"04d\",\"id\":804,\"main\":\"Clouds\"}],\"wind\":{\"deg\":31.112,\"speed\":1.73}}]}"
        ; SharedPreferences sharedPreferences =  context.getSharedPreferences
                 ("MyPrefsFile", Context.MODE_PRIVATE);
@@ -157,8 +161,8 @@ public class fragment_forecast extends Fragment {
                 Daily daily = new Daily();
                 daily.setmTextWeather(list.getWeather().get(0).getDescription());
                 daily.setmTextDate(list.getDt_txt());
-                daily.setmTempMin(list.getTemp_min() + "");
-                daily.setmTempMax(list.getTemp_max() + "");
+                daily.setmTempMin(format.format(list.getTemp_min() -273.15) + "°C");
+                daily.setmTempMax(format.format(list.getTemp_max() -273.15) + "°C");
                 daily.setmIconId(list.getWeather().get(0).getIcon());
                 mList.add(daily);
             }

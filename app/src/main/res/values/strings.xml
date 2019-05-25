@@ -8,7 +8,7 @@
     <string name="menu_settings">Cài đặt</string>
     <string name="menu_item_notification">Thông báo</string>
     <string name="edit_location">Chỉnh sửa vị trí</string>
-    <string name="add_location">Thêm vị trí</string>
+    <string name="add_location">Địa điểm</string>
     <string name="auto_detect_location">Tự động xác định vị trí</string>
     <string name="set_as_home">Đặt làm nhà</string>
     <string name="delete">Xóa</string>
@@ -122,11 +122,8 @@
     <array name="menuOptions">
         <item>Vị trí</item>
         <item>Thông báo</item>
-        <item>Nhiệt độ</item>
         <item>Chuẩn bị ngày của bạn</item>
         <item>Cài đặt đơn vị</item>
-        <item>Hình ảnh nền</item>
-        <item>Widget thời tiết</item>
     </array>
 
     <!-- TODO: Remove or change this placeholder text -->

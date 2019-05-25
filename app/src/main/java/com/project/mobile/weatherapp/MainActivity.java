@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity  implements
 //    private DrawerLayout drawerLayout;
     private GPSTracker gpsTracker;
     private SwitchCompat switchCompat;
-//    private WeatherAsyncTask weatherAsyncTask;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -87,24 +86,13 @@ public class MainActivity extends AppCompatActivity  implements
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*drawerLayout = (DuoDrawerLayout) findViewById(R.id.duo_navigation);
-        drawerToggle = new DuoDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-        */
-
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
-
         // Initialize the views
         mViewHolder = new ViewHolder();
-
         // Handle toolbar actions
         handleToolbar();
-
         // Handle menu actions
         handleMenu();
-
         // Handle drawer actions
         handleDrawer();
 
@@ -128,37 +116,28 @@ public class MainActivity extends AppCompatActivity  implements
         */
 // Loại bỏ tiểu đề mặc định
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
-
-
         //viewPager
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager= (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-//        loadWeatherInfor();
-//        if (!NetworkAndGPSChecking.isNetworkAvailable(this)) {
-//            showNetworkAlert();
-//        }
+
         locationSetting.loadLocationSetting();
         usingLocation = locationSetting.usingLocation;
         gpsTracker = new GPSTracker(this);
         this.city = locationSetting.city;
         this.country = locationSetting.country;
 
+        // Lay intent tu Search truyen lai
         Intent locationIntent = getIntent();
         Bundle locationBundle = locationIntent.getBundleExtra("Place");
         if(locationBundle != null){
             usingLocation = false;
             this.city = locationBundle.getString("City");
             this.country = locationBundle.getString("Country");
-            Log.i("check xem chay ntn", this.country);
         }
-
-
+        //Lay intent tu Vi tri mac dinh
         Intent currentIntent = getIntent();
         Bundle currentBundle = currentIntent.getBundleExtra("CurrentLocation");
         if(currentBundle != null) {
@@ -190,7 +169,7 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
     private void handleMenu() {
-        mMenuAdapter = new MenuAdapter(mTitles);
+        mMenuAdapter = new MenuAdapter(mTitles,this);
         mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
         mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
     }
@@ -228,11 +207,6 @@ public class MainActivity extends AppCompatActivity  implements
             case 4: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
-                break;
-            }
-            case 5: {
-                Intent iCha = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
-                startActivity(iCha);
                 break;
             }
         }
@@ -274,9 +248,9 @@ public class MainActivity extends AppCompatActivity  implements
             case 4:
                 showMenuClick(4);
                 break;
-            case 5:
-                showMenuClick(5);
-                break;
+            //case 5:
+                //showMenuClick(5);
+                //break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);
             //case 1:
@@ -458,9 +432,9 @@ public class MainActivity extends AppCompatActivity  implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationSetting.saveLocationSetting();
-        Log.i("Kiem tra luong ",this.usingLocation.toString());
-        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
+//        locationSetting.saveLocationSetting();
+//        Log.i("Kiem tra luong ",this.usingLocation.toString());
+//        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
 
     }
 

@@ -38,8 +38,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-
             text_location = (TextView) itemView.findViewById(R.id.text_location);
             itemView.setOnClickListener(this);
 

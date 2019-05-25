@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackgroundBorderless"
-    android:onClick="onItemClick"
+    android:onClick="onClick"
     android:clickable="true"
     android:gravity="center_vertical"
     android:padding="15dip">
@@ -30,7 +30,7 @@
         android:layout_weight="3.0"
         android:gravity="center_horizontal"
         android:textColor="@android:color/white"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:layout_width="14dip"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.0"
         android:textColor="@android:color/white"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:layout_width="14dip"
@@ -60,5 +60,5 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:textColor="@android:color/white"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 </LinearLayout>
