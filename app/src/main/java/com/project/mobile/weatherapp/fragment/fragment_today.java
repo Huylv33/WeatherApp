@@ -442,7 +442,7 @@ public class fragment_today extends Fragment {
             String temperature= format.format(openWeatherMap.getMain().getTemp()-273.15)+"°C";
             String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
             String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
-            txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+            txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
             txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
             String name = openWeatherMap.getName();
             txtCurrentAddressName.setText(name);

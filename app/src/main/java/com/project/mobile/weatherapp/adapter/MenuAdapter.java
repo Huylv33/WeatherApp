@@ -54,6 +54,7 @@ public class MenuAdapter extends BaseAdapter {
         }
     }
 
+
     /*public void setmOptionsIcon (DuoOptionView v, View view){
         for (int i=0; i < mOptionViews.size(); i++) {
             switch (i){
@@ -63,6 +64,8 @@ public class MenuAdapter extends BaseAdapter {
             }
         }
     }*/
+
+
 
     @Override
     public long getItemId(int position) {
