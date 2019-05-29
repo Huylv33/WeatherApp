@@ -3,8 +3,7 @@ package com.project.mobile.weatherapp;
 
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.app.WallpaperManager;
 import android.content.Context;
 
 
@@ -13,6 +12,9 @@ import android.content.Intent;
 
 import android.content.res.Configuration;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
@@ -41,9 +43,7 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
-import com.project.mobile.weatherapp.Broadcast.Noti;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
-import com.project.mobile.weatherapp.Setting.NotificationSetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
@@ -51,9 +51,9 @@ import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.utils.GPSTracker;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity  implements
     public String city = "Hanoi";
     public String country = "Vietnam";
     public Boolean usingLocation;
-    public NotificationSetting notificationSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,30 +153,18 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.country = this.country;
         Log.i("city", this.city);
         locationSetting.usingLocation = usingLocation;
-        notificationSetting = new NotificationSetting(this);
-        notificationSetting.loadNotificationSetting();
-        Log.i("demo", notificationSetting.notification + "");
+        locationSetting.saveLocationSetting();
 
-        if(notificationSetting.notification) {
-            Log.i("demo", "1") ;
-            PendingIntent pendingIntent;
-            Intent alarmIntent = new Intent(MainActivity.this, Noti.class);
-            pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
-            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            int interval = 1000 * 30 * 60;
-//
-            /* Set the alarm to start at 10:30 AM */
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 18);
-            calendar.set(Calendar.MINUTE, 48);
-            Log.d("noti","mess1");
-//
-            /* Repeating on every 20 minutes interval */
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    interval , pendingIntent);
+        // set wallpaper
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
+        Drawable myWallpaper = getResources().getDrawable(R.drawable.wallpaper6);
+        Bitmap wallpaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper6);
+        try {
+            wallpaperManager.setBitmap(wallpaperBitmap);
+            Log.i("dmm res", "asdsadasd");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     //handle Toolbar and Menu
@@ -237,6 +224,11 @@ public class MainActivity extends AppCompatActivity  implements
                 startActivity(iUni);
                 break;
             }
+            case 4: {
+                Intent iFiv = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
+                startActivity(iFiv);
+                break;
+            }
         }
 
     }
@@ -276,9 +268,9 @@ public class MainActivity extends AppCompatActivity  implements
             case 3:
                 showMenuClick(3);
                 break;
-            //case 5:
-                //showMenuClick(5);
-                //break;
+            case 4:
+                showMenuClick(4);
+                break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);
             //case 1:
