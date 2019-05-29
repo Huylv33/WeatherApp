@@ -29,8 +29,8 @@ public class ChangeWallpaperActivity extends AppCompatActivity {
         mId.add(R.drawable.wallpaper6);
         mId.add(R.drawable.wallpaper7);
         mId.add(R.drawable.wallpaper9);
-        mId.add(R.drawable.wallpaper10);
-        mId.add(R.drawable.wallpaper18);
+        mId.add(R.drawable.wallpaper11);
+        mId.add(R.drawable.wallpaper4);
         mId.add(R.drawable.wallpaper12);
         mId.add(R.drawable.wallpaper13);
 

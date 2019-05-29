@@ -75,10 +75,11 @@ public class MenuAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final String option = mOptions.get(position);
-        Drawable drawable1 = activity.getResources().getDrawable(R.drawable.ic_location_on_black_24dp);
-        Drawable drawable2 = activity.getResources().getDrawable(R.drawable.ic_notifications_black_24dp);
-        Drawable drawable3 = activity.getResources().getDrawable(R.drawable.ic_event_note_black_24dp);
-        Drawable drawable4 = activity.getResources().getDrawable(R.drawable.ic_swap_horiz_black_24dp);
+        Drawable drawable0 = activity.getResources().getDrawable(R.drawable.ic_location_on_black_24dp);
+        Drawable drawable1 = activity.getResources().getDrawable(R.drawable.ic_notifications_black_24dp);
+        Drawable drawable2 = activity.getResources().getDrawable(R.drawable.ic_event_note_black_24dp);
+        Drawable drawable3 = activity.getResources().getDrawable(R.drawable.ic_swap_horiz_black_24dp);
+        Drawable drawable4 = activity.getResources().getDrawable(R.drawable.ic_wallpaper_black_24dp);
 
         // Using the DuoOptionView to easily recreate the demo
         final DuoOptionView optionView;
@@ -94,15 +95,18 @@ public class MenuAdapter extends BaseAdapter {
         optionView.bind(option, null, null);
             switch (position){
                 case 0:
-                    optionView.bind(option,drawable1);
+                    optionView.bind(option,drawable0);
                     break;
                 case 1:
-                    optionView.bind(option,drawable2);
+                    optionView.bind(option,drawable1);
                     break;
                 case 2:
-                    optionView.bind(option,drawable3);
+                    optionView.bind(option,drawable2);
                     break;
                 case 3:
+                    optionView.bind(option,drawable3);
+                    break;
+                case 4:
                     optionView.bind(option,drawable4);
                     break;
 
