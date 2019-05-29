@@ -3,6 +3,7 @@ package com.project.mobile.weatherapp;
 
 
 
+import android.app.WallpaperManager;
 import android.content.Context;
 
 
@@ -11,6 +12,9 @@ import android.content.Intent;
 
 import android.content.res.Configuration;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
@@ -47,6 +51,7 @@ import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.utils.GPSTracker;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -150,6 +155,16 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.usingLocation = usingLocation;
         locationSetting.saveLocationSetting();
 
+        // set wallpaper
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
+        Drawable myWallpaper = getResources().getDrawable(R.drawable.wallpaper6);
+        Bitmap wallpaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper6);
+        try {
+            wallpaperManager.setBitmap(wallpaperBitmap);
+            Log.i("dmm res", "asdsadasd");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //handle Toolbar and Menu
@@ -209,6 +224,11 @@ public class MainActivity extends AppCompatActivity  implements
                 startActivity(iUni);
                 break;
             }
+            case 4: {
+                Intent iFiv = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
+                startActivity(iFiv);
+                break;
+            }
         }
 
     }
@@ -248,9 +268,9 @@ public class MainActivity extends AppCompatActivity  implements
             case 3:
                 showMenuClick(3);
                 break;
-            //case 5:
-                //showMenuClick(5);
-                //break;
+            case 4:
+                showMenuClick(4);
+                break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);
             //case 1:
