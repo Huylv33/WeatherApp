@@ -45,7 +45,7 @@
     <string name="select">Lựa chọn</string>
     <string name="cancel">Hủy</string>
     <string name="humidity">Độ ẩm</string>
-    <string name="cloud_cover">Mây che phủ</string>
+    <string name="cloud_cover">Trạng thái</string>
     <string name="wind">Gió</string>
     <string name="snow">Tuyết</string>
     <string name="sunset">Hoàng hôn</string>

@@ -13,14 +13,13 @@ public class LocationSetting {
     public String city;
     public String country;
     public Boolean usingLocation;
-    public Activity activity;
-
-    public LocationSetting(Activity activity) {
-        this.activity = activity;
+    public Context context;
+    public LocationSetting(Context context) {
+        this.context = context;
     }
 
     public void loadLocationSetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("LocationSetting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LocationSetting", Context.MODE_PRIVATE);
         if(sharedPreferences != null) {
             this.lat = sharedPreferences.getFloat("Lat", 0);
             this.lon = sharedPreferences.getFloat("Lon", 0);
@@ -34,7 +33,7 @@ public class LocationSetting {
     }
 
     public void saveLocationSetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("LocationSetting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LocationSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putFloat("Lon",  (float) this.lon);
         editor.putFloat("Lat", (float) this.lat);

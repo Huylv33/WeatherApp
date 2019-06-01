@@ -8,14 +8,14 @@ import android.util.Log;
 public class PrepareDaySetting {
     public Boolean umbbrela, coat, highTemp, coldTemp;
     public String NoticText;
-    public Activity activity;
+    public Context context;
 
-    public PrepareDaySetting(Activity activity) {
-        this.activity = activity;
+    public PrepareDaySetting(Context context) {
+        this.context = context;
     }
 
     public void loadPrepareDaySetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("PrepareDay", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PrepareDay", Context.MODE_PRIVATE);
         this.umbbrela = sharedPreferences.getBoolean("umbbrela", false);
         this.coat  = sharedPreferences.getBoolean("coat", false);
         this.highTemp = sharedPreferences.getBoolean("highTemp", false);
@@ -25,7 +25,7 @@ public class PrepareDaySetting {
     }
 
     public void savePrepareDaySetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("PrepareDay", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PrepareDay", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("noticText", this.NoticText);
         editor.putBoolean("umbbrela",this.umbbrela);
