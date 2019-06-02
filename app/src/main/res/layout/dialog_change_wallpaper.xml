@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/wallpaper5">
+    android:background="@drawable/wallpaper5"
+    android:id="@+id/dialog_change_wallpaper">
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_wallpaper"

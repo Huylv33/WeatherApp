@@ -18,6 +18,8 @@ import java.util.List;
 public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.ViewHolder>{
     private List<Integer> mId;
     private Context mContext;
+    public int sellectId;
+
 
     public BackgroundAdapter(List<Integer> id, Context context) {
         this.mId = id;
@@ -39,6 +41,19 @@ public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.V
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Integer id = this.mId.get(position);
         viewHolder.backgroundImg.setImageResource(id);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sellectId = position;
+                notifyDataSetChanged();
+            }
+        });
+        if(position == sellectId) {
+            viewHolder.icon.setVisibility(View.VISIBLE);
+        }
+        else{
+            viewHolder.icon.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -49,11 +64,24 @@ public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.V
     public class ViewHolder extends  RecyclerView.ViewHolder {
         private View itemView;
         public ImageView backgroundImg;
+        public ImageView icon;
+
 
         public ViewHolder (View itemView) {
             super(itemView);
-            itemView = itemView;
-            backgroundImg = itemView.findViewById(R.id.iv_wallpaper);
+            this.itemView = itemView;
+            backgroundImg = itemView.findViewById(R.id.item_wallpaper_image);
+            icon = itemView.findViewById(R.id.iv_check);
+            icon.setVisibility(View.INVISIBLE);
+//            backgroundImg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    icon.setVisibility(View.VISIBLE);
+//                }
+//            });
+
+            this.setIsRecyclable(false);
+
         }
 
     }

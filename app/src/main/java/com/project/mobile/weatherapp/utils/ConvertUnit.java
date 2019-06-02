@@ -38,47 +38,6 @@ public class ConvertUnit {
 
 
     }
-    public  void convertVelocity(OpenWeatherMap openWeatherMap) {
-        Wind wind = openWeatherMap.getWind();
-        if(this.velocity == 1) {
-            wind.setSpeed(wind.getSpeed() * 3.6);
-            openWeatherMap.setWind(wind);
-            Log.i("wind km/h", openWeatherMap.getWind().getSpeed() + "");
-        }
-        else {
-            Log.i("wind m/s", openWeatherMap.getWind().getSpeed() + "");
-        }
-
-    }
-
-    public void convertVelocity(OpenWeatherHours openWeatherHours) {
-        java.util.List<List> lists = openWeatherHours.list;
-        for (List list : lists) {
-            if(velocity == 0){
-                // do not need convert
-            }
-            else {
-                Wind wind = list.getWind();
-                wind.setSpeed(wind.getSpeed() * 3.6);
-                list.setWind(wind);
-            }
-        }
-    }
-
-    public  void convertVelocity(OpenWeatherPredict openWeatherPredict) {
-        java.util.List<ListOfWeather> list = openWeatherPredict.getListWeather();
-        for ( ListOfWeather list1 : list ) {
-            if(velocity == 0){
-                // do not need convert
-            }
-            else {
-                Wind wind = list1.getWind();
-                wind.setSpeed(wind.getSpeed() * 3.6);
-                list1.setWind(wind);
-            }
-
-        }
-    }
 
     public void convert(OpenWeatherPredict openWeatherPredict) {
         java.util.List<ListOfWeather> list = openWeatherPredict.getListWeather();
@@ -122,4 +81,47 @@ public class ConvertUnit {
             }
         }
     }
+
+    public void convertVelocity(OpenWeatherHours openWeatherHours) {
+        java.util.List<List> lists = openWeatherHours.list;
+        for (List list : lists) {
+            if(velocity == 0){
+                // do not need convert
+            }
+            else {
+                Wind wind = list.getWind();
+                wind.setSpeed(wind.getSpeed() * 3.6);
+                list.setWind(wind);
+            }
+        }
+    }
+
+    public  void convertVelocity(OpenWeatherPredict openWeatherPredict) {
+        java.util.List<ListOfWeather> list = openWeatherPredict.getListWeather();
+        for ( ListOfWeather list1 : list ) {
+            if(velocity == 0){
+                // do not need convert
+            }
+            else {
+                Wind wind = list1.getWind();
+                wind.setSpeed(wind.getSpeed() * 3.6);
+                list1.setWind(wind);
+            }
+
+        }
+    }
+
+    public  void convertVelocity(OpenWeatherMap openWeatherMap) {
+        Wind wind = openWeatherMap.getWind();
+        if(this.velocity == 1) {
+            wind.setSpeed(wind.getSpeed() * 3.6);
+            openWeatherMap.setWind(wind);
+            Log.i("wind km/h", openWeatherMap.getWind().getSpeed() + "");
+        }
+        else {
+            Log.i("wind m/s", openWeatherMap.getWind().getSpeed() + "");
+        }
+
+    }
+
 }

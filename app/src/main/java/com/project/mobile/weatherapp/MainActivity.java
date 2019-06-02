@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.LinearGradient;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.provider.Settings;
@@ -36,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
@@ -43,6 +45,7 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
+import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
@@ -85,12 +88,19 @@ public class MainActivity extends AppCompatActivity  implements
     public String city = "Hanoi";
     public String country = "Vietnam";
     public Boolean usingLocation;
+    public LinearLayout linearLayout;
+    public BackgroundSetting backgroundSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        backgroundSetting = new BackgroundSetting(this);
+        backgroundSetting.loadBackgroundSetting();
+        linearLayout = (LinearLayout) findViewById(R.id.linear_main_activity);
+        linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
         // Initialize the views
         mViewHolder = new ViewHolder();
@@ -189,6 +199,8 @@ public class MainActivity extends AppCompatActivity  implements
         mMenuAdapter = new MenuAdapter(mTitles,this);
         mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
         mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
+
+        mViewHolder.mDuoMenuView.setBackground(backgroundSetting.backgroundId);
     }
 
     //set up header, footer of duo navigation view

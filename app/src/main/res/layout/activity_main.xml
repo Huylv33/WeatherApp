@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/duo_navigation"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <nl.psdcompany.duonavigationdrawer.views.DuoMenuView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,6 +22,7 @@
         android:layout_height="match_parent"
         android:tag="@string/tag_content"
         android:background="@drawable/wallpaper5"
+        android:id="@+id/linear_main_activity"
         android:orientation="vertical">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

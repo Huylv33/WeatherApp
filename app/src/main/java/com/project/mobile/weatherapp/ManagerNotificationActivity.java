@@ -4,19 +4,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.NotificationSetting;
 
 public class ManagerNotificationActivity extends AppCompatActivity {
 
     public SwitchCompat weatherNoti, prepareDay;
     public NotificationSetting notificationSetting;
+    private BackgroundSetting backgroundSetting;
+    public LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_notification);
+
+        linearLayout = (LinearLayout) findViewById(R.id.activity_manager_notufication);
+        backgroundSetting = new BackgroundSetting(this);
+        backgroundSetting.loadBackgroundSetting();
+        linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
 
         this.weatherNoti = (SwitchCompat)findViewById(R.id.switch_notification);
         this.prepareDay = (SwitchCompat) findViewById(R.id.switch_warning);
