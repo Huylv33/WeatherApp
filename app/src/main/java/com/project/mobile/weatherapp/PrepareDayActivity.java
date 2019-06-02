@@ -6,18 +6,29 @@ import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
 
 public class PrepareDayActivity extends AppCompatActivity {
 
+    public BackgroundSetting backgroundSetting;
+
     public SwitchCompat umbbrela, coat, highTemp, coldTemp;
     public PrepareDaySetting prepareDaySetting;
+    public LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prepare_day);
+
+        linearLayout = (LinearLayout) findViewById(R.id.activity_prepare_day);
+        backgroundSetting = new BackgroundSetting(this);
+        backgroundSetting.loadBackgroundSetting();
+        linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
+
         prepareDaySetting = new PrepareDaySetting(this);
         prepareDaySetting.loadPrepareDaySetting();
         umbbrela = (SwitchCompat) findViewById(R.id.enable_umbrella);

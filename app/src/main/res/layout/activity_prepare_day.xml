@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/wallpaper5"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/activity_prepare_day">
 
     <android.support.v7.widget.Toolbar
         android:id="@id/toolbar"

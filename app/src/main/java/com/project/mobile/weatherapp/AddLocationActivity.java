@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.adapter.LocationAdapter;
 
 import java.util.LinkedList;
@@ -33,6 +36,8 @@ public class AddLocationActivity extends AppCompatActivity {
     private RecyclerView rvLocation;
     private SearchView svLocation;
     private List<AutocompletePrediction> locations = new LinkedList<>();
+    public RelativeLayout relativeLayout;
+    public BackgroundSetting backgroundSetting;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,11 @@ public class AddLocationActivity extends AppCompatActivity {
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
+        relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout_add_location);
+        backgroundSetting = new BackgroundSetting(this);
+        backgroundSetting.loadBackgroundSetting();
+        relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
+
 
         placesClient = Places.createClient(this);
         initSearchBar();
@@ -53,6 +63,7 @@ public class AddLocationActivity extends AppCompatActivity {
         locationAdapter = new LocationAdapter(locations, this);
         rvLocation.setAdapter(locationAdapter);
         rvLocation.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     private void searchPlaceAutoComplete(String query){
