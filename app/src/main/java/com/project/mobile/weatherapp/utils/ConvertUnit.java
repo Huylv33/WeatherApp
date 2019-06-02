@@ -56,16 +56,11 @@ public class ConvertUnit {
         for (List list : lists) {
             if(velocity == 0){
                 // do not need convert
-
             }
             else {
                 Wind wind = list.getWind();
-                Log.i("wind km/h hours", list.getWind().getSpeed() + "");
                 wind.setSpeed(wind.getSpeed() * 3.6);
                 list.setWind(wind);
-
-
-
             }
         }
     }
@@ -105,8 +100,9 @@ public class ConvertUnit {
                 temp_max = 32 + 1.8 * (list1.getTemp_max() - 273.15);
                 temp_min = 32 + 1.8 * (list1.getTemp_min() - 273.15);
             }
-
-
+            list1.setMain(main);
+            list1.setTemp_max(temp_max);
+            list1.setTemp_min(temp_min);
         }
     }
 
@@ -124,7 +120,6 @@ public class ConvertUnit {
                 main.setTemp_max(32 + 1.8 * (main.getTemp_max() - 273.15));
                 main.setTemp_min(32 + 1.8 * (main.getTemp_min() - 273.15));
             }
-
         }
     }
 }
