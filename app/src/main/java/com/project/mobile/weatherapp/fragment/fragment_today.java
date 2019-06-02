@@ -2,6 +2,7 @@ package com.project.mobile.weatherapp.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.graphics.Color;
@@ -20,13 +21,16 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
+import com.project.mobile.weatherapp.Broadcast.Broadcast;
 import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.R;
+import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
 import com.project.mobile.weatherapp.database.CurrentWeatherDB;
 import com.project.mobile.weatherapp.model.airvisual.AirVisual;
 import com.project.mobile.weatherapp.model.airvisual.Current;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.utils.AirVisualAsyncTask;
+import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.TimeAndDateConverter;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
@@ -58,9 +62,11 @@ public class fragment_today extends Fragment {
     public Boolean usingLocation;
     public String city;
     public String country;
-    private OpenWeatherMap openWeatherMapToday;
     private AirVisual airVisualToday;
     private boolean airHave = true;
+    public ConvertUnitSetting convertUnitSetting;
+    public ConvertUnit convertUnit;
+    private Broadcast mbroadcast;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
@@ -70,6 +76,10 @@ public class fragment_today extends Fragment {
         usingLocation = args.getBoolean("usingLocation");
         city = args.getString("city");
         country = args.getString("country");
+
+        convertUnitSetting = new ConvertUnitSetting(context);
+        convertUnitSetting.loadConvertUnit();
+        convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
 //        currentWeatherDB = new CurrentWeatherDB(context);
     }
 
@@ -82,13 +92,29 @@ public class fragment_today extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
+
+        Log.i("debug   1", convertUnitSetting.usingCelcius + "");
+        loadWeatherInfor();
+
+        mbroadcast = new Broadcast() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i("asdas111111d", "11");
+                convertUnitSetting.loadConvertUnit();
+                convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
+                loadWeatherInfor();
+            }
+        };
+
+        IntentFilter filter = new IntentFilter("setting.unit");
+        context.registerReceiver(mbroadcast, filter);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadWeatherInfor();
+
         ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
         if (imgWeather == null) {
             Log.d("fuck","null");
@@ -110,11 +136,27 @@ public class fragment_today extends Fragment {
         return  sharedPreferences.getBoolean("IS_FIRST_LAUNCHER",false);
     }
     private void getWeather() {
+
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
             if(usingLocation) {
                 weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
                     @Override
                     public  void doComplete(OpenWeatherMap openWeatherMap) {
+                        String tempName = "°C";
+                        if(convertUnitSetting.usingCelcius == 0) {
+                            convertUnit.convert(openWeatherMap);
+                        }
+                        else{
+                            convertUnit.convert(openWeatherMap);
+                            tempName = "°F";
+                        }
+                        String velocityDegree = " m/s";
+                        if(convertUnitSetting.velocity == 1) {
+                            convertUnit.convertVelocity(openWeatherMap);
+                            velocityDegree = " km/h";
+                        }
+//
+
                         NumberFormat format = new DecimalFormat("#0.0");
                         ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
                         TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
@@ -128,16 +170,17 @@ public class fragment_today extends Fragment {
                         TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
                         TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
                         imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
-                        String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
-                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
-                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+
+                        String temperature= (int) (openWeatherMap.getMain().getTemp())+ tempName;
+                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min())+tempName;
+                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max())+tempName;
                         txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
                         txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
                         txtCurrentAddressName.setText(openWeatherMap.getName());
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
                         txtMaxTemp.setText(maxTemp);
-                        String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+                        String wind= format.format(openWeatherMap.getWind().getSpeed())+ velocityDegree;
                         String mesg = openWeatherMap.getWeather().get(0).getDescription();
                         String cloudiness= mesg;
                         String pressure= openWeatherMap.getMain().getPressure()+" hpa";
@@ -257,6 +300,21 @@ public class fragment_today extends Fragment {
                 weatherAsyncTask = new WeatherAsyncTask(city, new doComplete() {
                     @Override
                     public  void doComplete(OpenWeatherMap openWeatherMap) {
+                        String tempName = "°C";
+                        if(convertUnitSetting.usingCelcius == 0) {
+                            convertUnit.convert(openWeatherMap);
+                        }
+                        else{
+                            convertUnit.convert(openWeatherMap);
+                            tempName = "°F";
+                        }
+
+                        String velocityDegree = " m/s";
+                        if(convertUnitSetting.velocity == 1) {
+                            convertUnit.convertVelocity(openWeatherMap);
+                            velocityDegree = " km/h";
+                        }
+
                         NumberFormat format = new DecimalFormat("#0.0");
                         ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
                         TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
@@ -270,16 +328,16 @@ public class fragment_today extends Fragment {
                         TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
                         TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
                         imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
-                        String temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
-                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
-                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
+                        String temperature= (int) (openWeatherMap.getMain().getTemp())+ tempName;
+                        String minTemp= format.format(openWeatherMap.getMain().getTemp_min())+ tempName;
+                        String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()) + tempName;
                         txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
                         txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
                         txtCurrentAddressName.setText(openWeatherMap.getName());
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
                         txtMaxTemp.setText(maxTemp);
-                        String wind= openWeatherMap.getWind().getSpeed()+" m/s";
+                        String wind = openWeatherMap.getWind().getSpeed()+velocityDegree;
                         String mesg = openWeatherMap.getWeather().get(0).getDescription();
                         String cloudiness= mesg;
                         String pressure= openWeatherMap.getMain().getPressure()+" hpa";
@@ -409,6 +467,7 @@ public class fragment_today extends Fragment {
         if (weatherAsyncTask != null) {
             weatherAsyncTask.cancel(true);
         }
+        context.unregisterReceiver(mbroadcast);
     }
 
     @Override

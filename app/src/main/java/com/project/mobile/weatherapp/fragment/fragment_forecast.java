@@ -1,6 +1,9 @@
 package com.project.mobile.weatherapp.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,12 +18,15 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.project.mobile.weatherapp.Broadcast.Broadcast;
+import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
 import com.project.mobile.weatherapp.adapter.DailyAdapter;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.Daily;
 import com.project.mobile.weatherapp.model.open_weather_map.ListOfWeather;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
+import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.Weather5DaysAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
@@ -51,6 +57,9 @@ public class fragment_forecast extends Fragment {
     private DataCommunication dataCommunication;
     private Context context;
     private Weather5DaysAsyncTask weather5DaysAsyncTask;
+    public ConvertUnitSetting convertUnitSetting;
+    public ConvertUnit convertUnit;
+    private Broadcast mbroadcast;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     @Override
@@ -63,17 +72,31 @@ public class fragment_forecast extends Fragment {
         usingLocation = args.getBoolean("usingLocation");
         city = args.getString("city");
         country = args.getString("country");
+        convertUnitSetting = new ConvertUnitSetting(context);
+        convertUnitSetting.loadConvertUnit();
+        convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius,convertUnitSetting.velocity);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_forecast, null);
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
+    public void onDestroyView() {
+        super.onDestroyView();
+        context.unregisterReceiver(mbroadcast);
+    }
+    public void updateView(){
+        mList.clear();
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
             if(usingLocation){
                 weather5DaysAsyncTask = new Weather5DaysAsyncTask(lat, lon, mAdapter, recyclerView, new doComplete5Days() {
                     @Override
                     public void doComplete(OpenWeatherPredict openWeatherPredict) {
+                        String tempName = "°C";
+                        if(convertUnitSetting.usingCelcius == 0) {
+                            convertUnit.convert(openWeatherPredict);
+                        }
+                        else{
+                            convertUnit.convert(openWeatherPredict);
+                            tempName = "°F";
+                        }
                         Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
                         NumberFormat format = new DecimalFormat("#0.0");
                         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
@@ -87,8 +110,9 @@ public class fragment_forecast extends Fragment {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
                             daily.setmTextDate(list.getDt_txt());
-                            daily.setmTempMin(format.format(list.getTemp_min() -273.15) + "°C");
-                            daily.setmTempMax(format.format(list.getTemp_max()-273.15) + "°C");
+
+                            daily.setmTempMin(format.format(list.getTemp_min() ) + tempName);
+                            daily.setmTempMax(format.format(list.getTemp_max()) + tempName);
                             daily.setmIconId(list.getWeather().get(0).getIcon());
                             mList.add(daily);
                         }
@@ -105,6 +129,14 @@ public class fragment_forecast extends Fragment {
                 weather5DaysAsyncTask = new Weather5DaysAsyncTask(city, mAdapter, recyclerView, new doComplete5Days() {
                     @Override
                     public void doComplete(OpenWeatherPredict openWeatherPredict) {
+                        String tempName = "°C";
+                        if(convertUnitSetting.usingCelcius == 0) {
+                            convertUnit.convert(openWeatherPredict);
+                        }
+                        else{
+                            convertUnit.convert(openWeatherPredict);
+                            tempName = "°F";
+                        }
                         NumberFormat format = new DecimalFormat("#0.0");
                         Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
                         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
@@ -118,8 +150,8 @@ public class fragment_forecast extends Fragment {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
                             daily.setmTextDate(list.getDt_txt());
-                            daily.setmTempMin(format.format(list.getTemp_min() -273.15) + "°C");
-                            daily.setmTempMax(format.format(list.getTemp_max() -273.15) + "°C");
+                            daily.setmTempMin(format.format(list.getTemp_min()) + tempName);
+                            daily.setmTempMax(format.format(list.getTemp_max()) + tempName);
                             daily.setmIconId(list.getWeather().get(0).getIcon());
                             mList.add(daily);
                         }
@@ -135,13 +167,39 @@ public class fragment_forecast extends Fragment {
 
         }
         else useLocalData();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_forecast, null);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
+        updateView();
+
+        mbroadcast = new Broadcast() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i("asdas111111d", "11");
+                convertUnitSetting.loadConvertUnit();
+                convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
+                updateView();
+            }
+        };
+
+        IntentFilter filter = new IntentFilter("setting.unit");
+        context.registerReceiver(mbroadcast, filter);
+
         return view;
+    }
+    @Override
+    public  void onResume(){
+        super.onResume();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
     public List<Daily> getmList() {
         return mList;
     }
@@ -151,6 +209,8 @@ public class fragment_forecast extends Fragment {
        ; SharedPreferences sharedPreferences =  context.getSharedPreferences
                 ("MyPrefsFile", Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
+
+
             String openWeatherPredictJson = sharedPreferences.getString("forecast_weather","");
             openWeatherPredictJson = openWeatherPredictJson.substring(17,openWeatherPredictJson.length() - 1);
 
@@ -172,6 +232,5 @@ public class fragment_forecast extends Fragment {
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(mAdapter);
         }
-
     }
 }

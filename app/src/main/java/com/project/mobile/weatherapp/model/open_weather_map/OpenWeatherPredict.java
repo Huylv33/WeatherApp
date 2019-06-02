@@ -32,8 +32,8 @@ public class OpenWeatherPredict {
                 }
             }
 
-            Log.i("Check temp max", temp_max + " ");
-            Log.i("Check temp min", temp_min + " ");
+//            Log.i("Check temp max", temp_max + " ");
+//            Log.i("Check temp min", temp_min + " ");
             ListOfWeather listOfWeather = new ListOfWeather();
            listOfWeather.setTemp_max(temp_max);
            listOfWeather.setTemp_min(temp_min);
