@@ -6,11 +6,15 @@ public class Hourly {
     private String mTextWind;
     private String mTextHumidity;
     private String WeatherIcon;
-    public  Hourly (String mTextTime, String mTextTemp, String mTextWind, String mTextHumidity) {
+    private String mTextWeather;
+    private String mTextPressure;
+    public  Hourly (String mTextTime, String mTextTemp, String mTextWind, String mTextHumidity, String mTextWeather, String mTextPressure) {
         this.mTextTime = mTextTime;
         this.mTextTemp = mTextTemp;
         this.mTextWind = mTextWind;
         this.mTextHumidity = mTextHumidity;
+        this.mTextWeather = mTextWeather;
+        this.mTextPressure = mTextPressure;
     }
     public Hourly() {
 
@@ -56,6 +60,22 @@ public class Hourly {
 
     public  void setmTextHumidity(String mTextHumidity) {
         this.mTextHumidity = mTextHumidity;
+    }
+
+    public  String getmTextWeather() {
+        return mTextWeather;
+    }
+
+    public  void setmTextWeather(String mTextWeather) {
+        this.mTextWeather = mTextWeather;
+    }
+
+    public  String getmTextPressure() {
+        return mTextPressure;
+    }
+
+    public  void setmTextPressure(String mTextPressure) {
+        this.mTextPressure = mTextPressure;
     }
 }
 

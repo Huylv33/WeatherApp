@@ -10,7 +10,9 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/_260sdp"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_night" />
+        android:src="@drawable/wallpaper5" />
+
+
 
     <RelativeLayout
         android:id="@+id/layout_header"
@@ -22,20 +24,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@id/icon_weather"
+            android:id="@+id/iconWeatherHour"
             android:layout_width="@dimen/_44sdp"
             android:layout_height="@dimen/_44sdp"
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginLeft="@dimen/_16sdp" />
 
         <TextView
-            android:id="@+id/text_date_time"
+            android:id="@+id/textTimeHour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_8sdp"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_14ssp" />
+            android:textSize="@dimen/_13ssp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -44,22 +46,17 @@
             android:layout_alignParentRight="true"
             android:gravity="end"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/_16sdp"
-            android:paddingRight="@dimen/_16sdp">
+            android:padding="@dimen/_8sdp"
+            >
 
             <TextView
-                android:id="@id/text_temp"
+                android:id="@+id/textTempHour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_22ssp" />
+                android:textSize="@dimen/_20ssp" />
 
-            <TextView
-                android:id="@id/text_weather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/_11ssp" />
+
         </LinearLayout>
     </RelativeLayout>
 
@@ -105,7 +102,7 @@
                     android:text="@string/wind" />
 
                 <TextView
-                    android:id="@+id/text_wind"
+                    android:id="@id/text_wind"
                     style="@style/DetailItem.TextValue" />
             </LinearLayout>
 
@@ -122,7 +119,7 @@
                     android:text="@string/cloud_cover" />
 
                 <TextView
-                    android:id="@+id/text_cloud_cover"
+                    android:id="@+id/text_weatherHour"
                     style="@style/DetailItem.TextValue" />
             </LinearLayout>
 
