@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.github.lzyzsd.circleprogress.ArcProgress;
@@ -38,6 +39,7 @@ import com.project.mobile.weatherapp.utils.WeatherIcon;
 import com.project.mobile.weatherapp.utils.doComplete;
 import com.project.mobile.weatherapp.utils.doCompleteAirVisual;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -174,8 +176,19 @@ public class fragment_today extends Fragment {
                         String temperature= (int) (openWeatherMap.getMain().getTemp())+ tempName;
                         String minTemp= format.format(openWeatherMap.getMain().getTemp_min())+tempName;
                         String maxTemp= format.format(openWeatherMap.getMain().getTemp_max())+tempName;
-                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), "GMT-7"));
-                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), "GMT-7"));
+                        long timezone = openWeatherMap.getTimezone() / 3600;
+
+                        String TimeZone;
+                        if(timezone > 0)
+                            TimeZone = "GMT+" + timezone;
+                        else if(timezone < 0)
+                            TimeZone = "GMT" + timezone;
+                        else
+                            TimeZone = "GMT";
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), TimeZone, convertUnitSetting.using12h));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), TimeZone, convertUnitSetting.using12h));
+                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone() + "", Toast.LENGTH_SHORT).show();
+
                         txtCurrentAddressName.setText(openWeatherMap.getName());
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
@@ -329,11 +342,21 @@ public class fragment_today extends Fragment {
                         TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
                         imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
                         String temperature= (int) (openWeatherMap.getMain().getTemp())+ tempName;
+                        long timezone = openWeatherMap.getTimezone() / 3600;
+                        String TimeZone;
+                        if(timezone > 0)
+                            TimeZone = "GMT+" + timezone;
+                        else if(timezone < 0)
+                            TimeZone = "GMT" + timezone;
+                        else
+                            TimeZone = "GMT";
                         String minTemp= format.format(openWeatherMap.getMain().getTemp_min())+ tempName;
                         String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()) + tempName;
-                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), "GMT-7"));
-                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), "GMT-7"));
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), TimeZone, convertUnitSetting.using12h));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), TimeZone, convertUnitSetting.using12h));
                         txtCurrentAddressName.setText(openWeatherMap.getName());
+                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone()+ "", Toast.LENGTH_SHORT).show();
+
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
                         txtMaxTemp.setText(maxTemp);
@@ -487,6 +510,14 @@ public class fragment_today extends Fragment {
             if (imgWeather == null) {
                 Log.d("hhhh","ddd");
             }
+            long timezone = openWeatherMap.getTimezone() / 3600;
+            String TimeZone;
+            if(timezone > 0)
+                TimeZone = "GMT+" + timezone;
+            else if(timezone < 0)
+                TimeZone = "GMT" + timezone;
+            else
+                TimeZone = "GMT";
             TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
             TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
             TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
@@ -497,12 +528,13 @@ public class fragment_today extends Fragment {
             TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
             TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
             TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
+
             imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
             String temperature= format.format(openWeatherMap.getMain().getTemp()-273.15)+"°C";
             String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
             String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
-            txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), "GMT-7"));
-            txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), "GMT-7"));
+            txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), TimeZone, convertUnitSetting.using12h));
+            txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), TimeZone, convertUnitSetting.using12h));
             String name = openWeatherMap.getName();
             txtCurrentAddressName.setText(name);
             txtTemperature.setText(temperature);

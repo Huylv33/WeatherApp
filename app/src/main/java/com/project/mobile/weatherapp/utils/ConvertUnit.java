@@ -16,10 +16,15 @@ public class ConvertUnit {
     public int usingCelcius;
     public float rainRatio;
     public int velocity;
+    public int using12h;
 
     public ConvertUnit(int usingCelcius, int velocity) {
         this.velocity = velocity;
         this.usingCelcius = usingCelcius;
+    }
+
+    public ConvertUnit() {
+
     }
 
     public void convert(OpenWeatherMap openWeatherMap) {
