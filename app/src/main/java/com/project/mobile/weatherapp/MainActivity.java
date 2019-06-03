@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity  implements
         // Handle drawer actions
         handleDrawer();
 
+
+
 // Phần comment này tạm thời không xóa đi nhé
 
         // Show main fragment in container

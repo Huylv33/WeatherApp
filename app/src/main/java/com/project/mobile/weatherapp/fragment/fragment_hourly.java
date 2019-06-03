@@ -117,6 +117,8 @@ public class fragment_hourly extends Fragment {
                             hourly.setmTextTime(list.getDt_txt());
                             hourly.setmTextWind(format.format(list.getWind().getSpeed()) + velocityDegree);
                             hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
+                            //hourly.setmTextWeather(list.getWeather().get(0).getDescription());
+                            //hourly.setmTextPressure(list.getMain().getPressure() + " hpa");
                             mList.add(hourly);
                         }
                         String openWeatherHoursJson = new Gson().toJson(openWeatherHours);
@@ -162,6 +164,8 @@ public class fragment_hourly extends Fragment {
                             hourly.setmTextTime(list.getDt_txt());
                             hourly.setmTextWind(format.format(list.getWind().getSpeed()) + velocityDegree);
                             hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
+                            //hourly.setmTextWeather(list.getWeather().get(0).getDescription());
+                            //hourly.setmTextPressure(list.getMain().getPressure() + " hpa");
                             mList.add(hourly);
                         }
                         String openWeatherHoursJson = new Gson().toJson(openWeatherHours);
@@ -211,7 +215,7 @@ public class fragment_hourly extends Fragment {
 
     // chi de cho test thu thoi
     private void initView () {
-        Hourly hourly = new Hourly("18:00", "35°", " 22 mm", " 87%");
+        Hourly hourly = new Hourly("18:00", "35°", " 22 mm", " 87%", "mây", "1010 hpa");
         mList.add(hourly);
     }
     private void useLocalData() {
@@ -231,6 +235,8 @@ public class fragment_hourly extends Fragment {
                 hourly.setmTextTime(list.getDt_txt());
                 hourly.setmTextWind(list.getWind().getSpeed() + " m/s");
                 hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
+                //hourly.setmTextWeather(list.getWeather().get(0).getDescription());
+                //hourly.setmTextPressure(list.getMain().getPressure() + " hpa");
                 mList.add(hourly);
             }
             mAdapter = new HourlyAdapter(mList,getContext());

@@ -51,7 +51,7 @@
         <activity android:name=".ManagerNotificationActivity" />
         <activity android:name=".UnitSettingActivity" />
         <activity android:name=".PrepareDayActivity" />
-        <activity android:name=".ChangeWallpaperActivity"/>
+        <activity android:name=".ChangeWallpaperActivity" />
 
         <receiver android:name=".Broadcast.Noti">
             <intent-filter>
