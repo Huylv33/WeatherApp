@@ -1,6 +1,9 @@
 package com.project.mobile.weatherapp.model;
 
+import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherHours;
+
 public class Hourly {
+    public com.project.mobile.weatherapp.model.open_weather_map.List list;
     private String mTextTime;
     private String mTextTemp;
     private String mTextWind;

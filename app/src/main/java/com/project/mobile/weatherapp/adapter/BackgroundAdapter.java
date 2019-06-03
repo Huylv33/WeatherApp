@@ -70,15 +70,9 @@ public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.V
         public ViewHolder (View itemView) {
             super(itemView);
             this.itemView = itemView;
-            backgroundImg = itemView.findViewById(R.id.item_wallpaper_image);
+            backgroundImg = itemView.findViewById(R.id.item_wallpaper_image11);
             icon = itemView.findViewById(R.id.iv_check);
             icon.setVisibility(View.INVISIBLE);
-//            backgroundImg.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    icon.setVisibility(View.VISIBLE);
-//                }
-//            });
 
             this.setIsRecyclable(false);
 

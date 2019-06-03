@@ -112,6 +112,7 @@ public class fragment_hourly extends Fragment {
 
                         for (com.project.mobile.weatherapp.model.open_weather_map.List list : openWeatherHours.list) {
                             Hourly hourly = new Hourly();
+                            hourly.list = list;
                             hourly.setmTextHumidity(list.getMain().getHumidity() + "%");
                             hourly.setmTextTemp(format.format(list.getMain().getTemp())+ tempName);
                             hourly.setmTextTime(list.getDt_txt());
@@ -159,6 +160,7 @@ public class fragment_hourly extends Fragment {
 
                         for (com.project.mobile.weatherapp.model.open_weather_map.List list : openWeatherHours.list) {
                             Hourly hourly = new Hourly();
+                            hourly.list = list;
                             hourly.setmTextHumidity(list.getMain().getHumidity() + "%");
                             hourly.setmTextTemp(format.format(list.getMain().getTemp())+ tempName);
                             hourly.setmTextTime(list.getDt_txt());

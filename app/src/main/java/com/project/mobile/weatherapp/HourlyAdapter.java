@@ -64,9 +64,11 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
                 Bundle args = new Bundle();
                 args.putString("textTime", hourly.getmTextTime());
                 args.putString("textTemp", hourly.getmTextTemp());
+                args.putInt("humidity", hourly.list.getMain().getHumidity());
+                args.putString("status", hourly.list.getWeather().get(0).getDescription());
+                args.putString("wind", hourly.getmTextWind());
                 args.putInt("icon", WeatherIcon.getIconId(itemweather.getWeatherIcon()));
-
-
+                args.putFloat("pressure", (float) hourly.list.getMain().getPressure());
 
                 FragmentManager fm = ((AppCompatActivity) mContext).getSupportFragmentManager();
 
