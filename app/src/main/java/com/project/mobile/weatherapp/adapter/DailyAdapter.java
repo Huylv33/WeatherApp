@@ -45,7 +45,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         holder.tempmax.setText(itemweather.getmTempMax());
         holder.tempmin.setText(itemweather.getmTempMin());
         holder.icon.setImageResource(WeatherIcon.getIconId(itemweather.getmIconId()));
-        
+
     }
 
     @Override

@@ -160,7 +160,7 @@ public class fragment_hourly extends Fragment {
                             hourly.setmTextHumidity(list.getMain().getHumidity() + "%");
                             hourly.setmTextTemp(format.format(list.getMain().getTemp())+ tempName);
                             hourly.setmTextTime(list.getDt_txt());
-                            hourly.setmTextWind(list.getWind().getSpeed() + velocityDegree);
+                            hourly.setmTextWind(format.format(list.getWind().getSpeed()) + velocityDegree);
                             hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
                             mList.add(hourly);
                         }
