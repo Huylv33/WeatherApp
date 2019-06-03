@@ -174,8 +174,8 @@ public class fragment_today extends Fragment {
                         String temperature= (int) (openWeatherMap.getMain().getTemp())+ tempName;
                         String minTemp= format.format(openWeatherMap.getMain().getTemp_min())+tempName;
                         String maxTemp= format.format(openWeatherMap.getMain().getTemp_max())+tempName;
-                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
-                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), "GMT-7"));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), "GMT-7"));
                         txtCurrentAddressName.setText(openWeatherMap.getName());
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
@@ -331,13 +331,13 @@ public class fragment_today extends Fragment {
                         String temperature= (int) (openWeatherMap.getMain().getTemp())+ tempName;
                         String minTemp= format.format(openWeatherMap.getMain().getTemp_min())+ tempName;
                         String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()) + tempName;
-                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
-                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+                        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), "GMT-7"));
+                        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), "GMT-7"));
                         txtCurrentAddressName.setText(openWeatherMap.getName());
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
                         txtMaxTemp.setText(maxTemp);
-                        String wind = openWeatherMap.getWind().getSpeed()+velocityDegree;
+                        String wind = format.format(openWeatherMap.getWind().getSpeed())+velocityDegree;
                         String mesg = openWeatherMap.getWeather().get(0).getDescription();
                         String cloudiness= mesg;
                         String pressure= openWeatherMap.getMain().getPressure()+" hpa";
@@ -501,8 +501,8 @@ public class fragment_today extends Fragment {
             String temperature= format.format(openWeatherMap.getMain().getTemp()-273.15)+"°C";
             String minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
             String maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
-            txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
-            txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
+            txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), "GMT-7"));
+            txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), "GMT-7"));
             String name = openWeatherMap.getName();
             txtCurrentAddressName.setText(name);
             txtTemperature.setText(temperature);

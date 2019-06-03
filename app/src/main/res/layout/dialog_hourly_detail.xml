@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     >
     <RelativeLayout
+        android:id="@+id/dialog_wallpaper_hourly"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_260sdp"
         android:background="@drawable/wallpaper5">
@@ -84,7 +85,7 @@
                         android:text="@string/humidity" />
 
                     <TextView
-                        android:id="@id/text_humidity"
+                        android:id="@+id/text_humidity_dialog"
                         style="@style/DetailItem.TextValue" />
                 </LinearLayout>
 
@@ -100,7 +101,7 @@
                         android:text="@string/wind" />
 
                     <TextView
-                        android:id="@id/text_wind"
+                        android:id="@+id/text_wind_dialog"
                         style="@style/DetailItem.TextValue" />
                 </LinearLayout>
 
@@ -132,7 +133,7 @@
                         android:text="@string/pressure" />
 
                     <TextView
-                        android:id="@+id/text_pressure"
+                        android:id="@+id/text_pressure_dialog"
                         style="@style/DetailItem.TextValue" />
                 </LinearLayout>
             </LinearLayout>

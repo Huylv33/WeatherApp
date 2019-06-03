@@ -124,4 +124,13 @@ public class ConvertUnit {
 
     }
 
+    public float convertVelocity(float velocity) {
+        if(this.velocity == 1) {
+            return (float) (velocity * 3.6);
+        }
+        else
+            return velocity;
+
+    }
+
 }
