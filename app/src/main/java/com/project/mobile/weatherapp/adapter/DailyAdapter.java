@@ -39,7 +39,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Daily itemweather = mDaily.get(position);
-
         holder.textdate.setText(itemweather.getmTextDate());
         holder.textweather.setText(itemweather.getmTextWeather());
         holder.tempmax.setText(itemweather.getmTempMax());
@@ -71,8 +70,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
             tempmax = itemView.findViewById(R.id.text_temp_max);
             tempmin = itemView.findViewById(R.id.text_temp_min);
             icon = itemView.findViewById(R.id.icon_weather);
-
         }
-
     }
 }

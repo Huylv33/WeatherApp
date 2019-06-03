@@ -30,7 +30,6 @@ public class Noti extends BroadcastReceiver {
 
     private static final int NOTIFICATION_ID = 3;
     public LocationSetting locationSetting;
-
     public NotificationSetting notificationSetting;
     public OpenWeatherMap openWeatherMap1;
     public PrepareDaySetting prepareDaySetting;
