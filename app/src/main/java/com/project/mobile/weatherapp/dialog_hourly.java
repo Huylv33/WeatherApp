@@ -32,6 +32,7 @@ public class dialog_hourly extends DialogFragment {
     public TextView txt_humidity;
     public TextView description;
     private TextView pressure;
+    private ImageView background;
 
 
     public dialog_hourly() {
@@ -48,10 +49,13 @@ public class dialog_hourly extends DialogFragment {
         BackgroundSetting backgroundSetting = new BackgroundSetting(context);
         backgroundSetting.loadBackgroundSetting();
         RelativeLayout relativeLayout = v.findViewById(R.id.dialog_wallpaper_hourly);
-        relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
+//        relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
+        background = (ImageView) v.findViewById(R.id.background_dialog);
+        background.setImageResource(backgroundSetting.backgroundId);
         ConvertUnitSetting convertUnitSetting = new ConvertUnitSetting(context);
         convertUnitSetting.loadConvertUnit();
         ConvertUnit convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
+
 
 
         context = getActivity().getApplicationContext();

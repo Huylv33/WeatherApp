@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://sche'mas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     >
@@ -8,9 +8,15 @@
         android:id="@+id/dialog_wallpaper_hourly"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_260sdp"
-        android:background="@drawable/wallpaper5">
 
+        android:scaleType="centerCrop">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_260sdp"
+            android:id="@+id/background_dialog"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallpaper5"/>
 
 
         <RelativeLayout
@@ -21,6 +27,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
+
 
             <ImageView
                 android:id="@+id/iconWeatherHour"

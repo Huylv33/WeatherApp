@@ -3,6 +3,8 @@ package com.project.mobile.weatherapp;
 
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.WallpaperManager;
 import android.content.Context;
 
@@ -17,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.LinearGradient;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -45,6 +48,7 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
+import com.project.mobile.weatherapp.Broadcast.Noti;
 import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
@@ -177,6 +181,17 @@ public class MainActivity extends AppCompatActivity  implements
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        final int FIVE_MINUTES_IN_MILLI = 300000;
+        final int THIRTY_SECOND_IN_MILLI = 30000;
+        long launchTime = System.currentTimeMillis() + FIVE_MINUTES_IN_MILLI;
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, Noti.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, launchTime, pi);
+        else am.setExact(AlarmManager.RTC_WAKEUP, launchTime, pi);
+
     }
 
     //handle Toolbar and Menu
