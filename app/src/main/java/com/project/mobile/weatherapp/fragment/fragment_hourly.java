@@ -28,6 +28,7 @@ import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherHours;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
+import com.project.mobile.weatherapp.utils.TimeAndDateConverter;
 import com.project.mobile.weatherapp.utils.Weather5DaysAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherHoursAsyncTask;
 import com.project.mobile.weatherapp.utils.doComplete5Days;
@@ -115,7 +116,7 @@ public class fragment_hourly extends Fragment {
                             hourly.list = list;
                             hourly.setmTextHumidity(list.getMain().getHumidity() + "%");
                             hourly.setmTextTemp(format.format(list.getMain().getTemp())+ tempName);
-                            hourly.setmTextTime(list.getDt_txt());
+                            hourly.setmTextTime(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
                             hourly.setmTextWind(format.format(list.getWind().getSpeed()) + velocityDegree);
                             hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
                             //hourly.setmTextWeather(list.getWeather().get(0).getDescription());
@@ -163,7 +164,7 @@ public class fragment_hourly extends Fragment {
                             hourly.list = list;
                             hourly.setmTextHumidity(list.getMain().getHumidity() + "%");
                             hourly.setmTextTemp(format.format(list.getMain().getTemp())+ tempName);
-                            hourly.setmTextTime(list.getDt_txt());
+                            hourly.setmTextTime(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
                             hourly.setmTextWind(format.format(list.getWind().getSpeed()) + velocityDegree);
                             hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
                             //hourly.setmTextWeather(list.getWeather().get(0).getDescription());
@@ -234,7 +235,7 @@ public class fragment_hourly extends Fragment {
                 Hourly hourly = new Hourly();
                 hourly.setmTextHumidity(list.getMain().getHumidity() + "%");
                 hourly.setmTextTemp(format.format(list.getMain().getTemp() - 273.15)+ "°C");
-                hourly.setmTextTime(list.getDt_txt());
+                hourly.setmTextTime(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
                 hourly.setmTextWind(list.getWind().getSpeed() + " m/s");
                 hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
                 //hourly.setmTextWeather(list.getWeather().get(0).getDescription());

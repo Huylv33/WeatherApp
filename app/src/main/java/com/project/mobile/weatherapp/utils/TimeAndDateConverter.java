@@ -2,6 +2,7 @@ package com.project.mobile.weatherapp.utils;
 
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +32,37 @@ public class TimeAndDateConverter {
         Log.e("getTime : ", timeString);
 
         return timeString;
+    }
+
+    public static String  Convert12h(String time, int using12h) {
+        String timeformat = null;
+        Date date = null;
+
+        if(using12h == 1) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat outputformat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            try{
+                date = dateFormat.parse(time);
+            }
+            catch (Exception e){
+
+            }
+            timeformat = outputformat.format(date);
+        }
+        else{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat outputformat = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
+            try{
+                date = dateFormat.parse(time);
+            }
+            catch (Exception e){
+
+            }
+            timeformat = outputformat.format(date);
+//            timeformat = dateFormat.format(date);
+
+        }
+        return timeformat;
     }
 
     public static String getDay(long timeInSeconds){

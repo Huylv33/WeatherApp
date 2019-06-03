@@ -28,6 +28,7 @@ import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
+import com.project.mobile.weatherapp.utils.TimeAndDateConverter;
 import com.project.mobile.weatherapp.utils.Weather5DaysAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.doComplete;
@@ -109,7 +110,7 @@ public class fragment_forecast extends Fragment {
                         for (ListOfWeather list : openWeatherPredict.getListWeather()) {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                            daily.setmTextDate(list.getDt_txt());
+                            daily.setmTextDate(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
 
                             daily.setmTempMin(format.format(list.getTemp_min() ) + tempName);
                             daily.setmTempMax(format.format(list.getTemp_max()) + tempName);
@@ -149,7 +150,7 @@ public class fragment_forecast extends Fragment {
                         for (ListOfWeather list : openWeatherPredict.getListWeather()) {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                            daily.setmTextDate(list.getDt_txt());
+                            daily.setmTextDate(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
                             daily.setmTempMin(format.format(list.getTemp_min()) + tempName);
                             daily.setmTempMax(format.format(list.getTemp_max()) + tempName);
                             daily.setmIconId(list.getWeather().get(0).getIcon());
@@ -221,7 +222,7 @@ public class fragment_forecast extends Fragment {
             for (ListOfWeather list : listOfWeatherList) {
                 Daily daily = new Daily();
                 daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                daily.setmTextDate(list.getDt_txt());
+                daily.setmTextDate(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
                 daily.setmTempMin(format.format(list.getTemp_min() -273.15) + "°C");
                 daily.setmTempMax(format.format(list.getTemp_max() -273.15) + "°C");
                 daily.setmIconId(list.getWeather().get(0).getIcon());
