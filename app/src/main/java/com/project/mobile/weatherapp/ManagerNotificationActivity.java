@@ -37,6 +37,8 @@ public class ManagerNotificationActivity extends AppCompatActivity {
 
 
 
+
+
         weatherNoti.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override

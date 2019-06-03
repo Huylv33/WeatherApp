@@ -171,16 +171,7 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.usingLocation = usingLocation;
         locationSetting.saveLocationSetting();
 
-        // set wallpaper
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-        Drawable myWallpaper = getResources().getDrawable(R.drawable.wallpaper6);
-        Bitmap wallpaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper6);
-        try {
-            wallpaperManager.setBitmap(wallpaperBitmap);
-            Log.i("dmm res", "asdsadasd");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         final int FIVE_MINUTES_IN_MILLI = 300000;
         final int THIRTY_SECOND_IN_MILLI = 30000;

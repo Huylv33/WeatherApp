@@ -17,10 +17,16 @@ public class TimeAndDateConverter {
         return dateString;
     }
 
-    public static String getTime(long timeInSeconds, String timezone){
+    public static String getTime(long timeInSeconds, String timezone, int using12h){
         Date time = new Date(timeInSeconds * 1000);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-        dateFormat.setTimeZone(java.util.TimeZone.getTimeZone("GMT+7"));
+        SimpleDateFormat dateFormat;
+        if(using12h == 1) {
+            dateFormat = new SimpleDateFormat("HH:mm ");
+        }
+        else {
+            dateFormat = new SimpleDateFormat("hh:mm a");
+        }
+        dateFormat.setTimeZone(java.util.TimeZone.getTimeZone(timezone));
         String timeString = dateFormat.format(time);
         Log.e("getTime : ", timeString);
 

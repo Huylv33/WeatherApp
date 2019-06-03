@@ -51,7 +51,9 @@ public class UnitSettingActivity extends AppCompatActivity {
             public void onToggleSwitchChanged(int position) {
                 convertUnitSetting.using12h = position;
                 convertUnitSetting.saveConvertUnit();
-
+                Intent intent = new Intent();
+                intent.setAction("setting.unit");
+                sendBroadcast(intent);
             }
         });
 
