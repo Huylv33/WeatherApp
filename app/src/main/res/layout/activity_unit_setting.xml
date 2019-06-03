@@ -53,27 +53,7 @@
                 app:checkedTextColor="@android:color/white"
                 app:uncheckedBackgroundColor="@android:color/white"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dip"
-                android:layout_marginTop="12dip"
-                android:layout_marginRight="12dip"
-                android:layout_marginBottom="4dip"
-                android:text="@string/time_format"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
 
-            <com.llollox.androidtoggleswitch.widgets.ToggleSwitch
-                android:id="@+id/switch_time_format"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="11sp"
-                custom:textToggleLeft="12:00"
-                custom:textToggleRight="24:00"
-                app:checkedBackgroundColor="@color/orange"
-                app:checkedTextColor="@android:color/white"
-                app:uncheckedBackgroundColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,8 +71,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
-                custom:textToggleLeft="km"
-                custom:textToggleRight="mi"
+                custom:textToggleLeft="m/s"
+                custom:textToggleRight="km/h"
                 app:checkedBackgroundColor="@color/orange"
                 app:checkedTextColor="@android:color/white"
                 app:uncheckedBackgroundColor="@android:color/white"/>
@@ -115,6 +95,28 @@
                 android:textSize="11sp"
                 custom:textToggleLeft="mm"
                 custom:textToggleRight="in"
+                app:checkedBackgroundColor="@color/orange"
+                app:checkedTextColor="@android:color/white"
+                app:uncheckedBackgroundColor="@android:color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dip"
+                android:layout_marginTop="12dip"
+                android:layout_marginRight="12dip"
+                android:layout_marginBottom="4dip"
+                android:text="@string/time_format"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <com.llollox.androidtoggleswitch.widgets.ToggleSwitch
+                android:id="@+id/switch_time_format"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                custom:textToggleLeft="12:00"
+                custom:textToggleRight="24:00"
                 app:checkedBackgroundColor="@color/orange"
                 app:checkedTextColor="@android:color/white"
                 app:uncheckedBackgroundColor="@android:color/white"/>
