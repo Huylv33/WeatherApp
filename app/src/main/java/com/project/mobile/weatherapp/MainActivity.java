@@ -55,6 +55,7 @@ import com.project.mobile.weatherapp.Broadcast.Noti;
 import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
 import com.project.mobile.weatherapp.Setting.NotificationSetting;
+import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity  implements
     public NotificationSetting notificationSetting;
     public AlarmUtils alarmUtils;
     public BroadcastNoti broadcastNoti;
+    public PrepareDaySetting prepareDaySetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +127,10 @@ public class MainActivity extends AppCompatActivity  implements
         handleMenu();
         // Handle drawer actions
         handleDrawer();
+
+
+
+
 
 
 
@@ -198,21 +204,21 @@ public class MainActivity extends AppCompatActivity  implements
         notificationSetting = new NotificationSetting(this);
         notificationSetting.loadNotificationSetting();
         alarmUtils = new AlarmUtils(this);
-        if(notificationSetting.prepareDaily == true) {
-            SharedPreferences sharedPreferences = getSharedPreferences("time", Context.MODE_PRIVATE);
-            String time = sharedPreferences.getString("timeSet", "08:00");
-
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
-            cal.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
-            SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("HH:mm", Locale.getDefault());
-
-            Toast.makeText(context, simpleDateFormat.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-
-            alarmUtils.cal = cal;
-            alarmUtils.start();
-        }
+//        if(notificationSetting.prepareDaily == true) {
+//            SharedPreferences sharedPreferences = getSharedPreferences("time", Context.MODE_PRIVATE);
+//            String time = sharedPreferences.getString("timeSet", "08:00");
+//
+//
+//            Calendar cal = Calendar.getInstance();
+//            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
+//            cal.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
+//            SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("HH:mm", Locale.getDefault());
+//
+//            Toast.makeText(context, simpleDateFormat.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//
+//            alarmUtils.cal = cal;
+//            alarmUtils.start();
+//        }
         if(notificationSetting.notification){
             Log.i("notification ", ":1");
             alarmUtils.startRepeat();
@@ -223,39 +229,34 @@ public class MainActivity extends AppCompatActivity  implements
             public void onReceive(Context context, Intent intent) {
                 Log.i("check neeee1", "123");
                 notificationSetting.loadNotificationSetting();
-                if(notificationSetting.prepareDaily) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("time", Context.MODE_PRIVATE);
-                    String time = sharedPreferences.getString("timeSet", "08:00");
-
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
-                    cal.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
-                    SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("HH:mm", Locale.getDefault());
-
-                    Toast.makeText(context, simpleDateFormat.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                    alarmUtils.cal = cal;
-                    alarmUtils.start();
-                }
-                else {
-                    alarmUtils.stop();
-                }
+//                if(notificationSetting.prepareDaily) {
+//                    SharedPreferences sharedPreferences = getSharedPreferences("time", Context.MODE_PRIVATE);
+//                    String time = sharedPreferences.getString("timeSet", "08:00");
+//                    Calendar cal = Calendar.getInstance();
+//                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
+//                    cal.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
+//                    SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("HH:mm", Locale.getDefault());
+//
+//                    Toast.makeText(context, simpleDateFormat.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    alarmUtils.cal = cal;
+//                    alarmUtils.start();
+//                }
+//                else {
+//                    alarmUtils.stop();
+//                }
                 if(notificationSetting.notification){
                     Log.i("noti ", notificationSetting.notification + "");
                     alarmUtils.startRepeat();
                 }
                 else{
-                    alarmUtils.stop();
+                    alarmUtils.stopRe();
                 }
 
             }
 
         };
-
         IntentFilter filter = new IntentFilter("notiSetting");
         context.registerReceiver(broadcastNoti, filter);
-
-
-
 
     }
 
@@ -556,6 +557,8 @@ public class MainActivity extends AppCompatActivity  implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        alarmUtils.stop();
+        alarmUtils.stopRe();
 //        locationSetting.saveLocationSetting();
 //        Log.i("Kiem tra luong ",this.usingLocation.toString());
 //        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());

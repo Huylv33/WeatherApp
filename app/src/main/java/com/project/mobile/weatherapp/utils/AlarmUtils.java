@@ -5,19 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.SystemClock;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import com.project.mobile.weatherapp.Broadcast.Noti;
 import com.project.mobile.weatherapp.Service.NotiService;
-import com.project.mobile.weatherapp.model.airvisual.Location;
-import com.project.mobile.weatherapp.utils.Constants;
-import com.project.mobile.weatherapp.Service.SchedulingService;
+import com.project.mobile.weatherapp.Service.SchedulingServ;
 
 /**
  * Created by framgia on 23/05/2017.
@@ -38,7 +33,7 @@ public class AlarmUtils {
     public  AlarmUtils(Context context) {
 
         this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, SchedulingService.class);
+        Intent intent = new Intent(context, SchedulingServ.class);
         Intent intent1 = new Intent(context, NotiService.class);
         intent1.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -75,6 +70,11 @@ public class AlarmUtils {
     public void stop(){
         if (this.alarmManager != null)
             this.alarmManager.cancel(pendingIntent);
+    }
+    public  void stopRe(){
+        if(this.alarmManager != null) {
+            this.alarmManager.cancel(pendingIntent1);
+        }
     }
 
     public void startRepeat() {

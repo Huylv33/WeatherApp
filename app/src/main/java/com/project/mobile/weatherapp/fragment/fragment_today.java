@@ -26,6 +26,7 @@ import com.project.mobile.weatherapp.Broadcast.Broadcast;
 import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
+import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
 import com.project.mobile.weatherapp.database.CurrentWeatherDB;
 import com.project.mobile.weatherapp.model.airvisual.AirVisual;
 import com.project.mobile.weatherapp.model.airvisual.Current;
@@ -69,6 +70,8 @@ public class fragment_today extends Fragment {
     public ConvertUnitSetting convertUnitSetting;
     public ConvertUnit convertUnit;
     private Broadcast mbroadcast;
+    public PrepareDaySetting prepareDaySetting;
+    public TextView detailView;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
@@ -82,6 +85,8 @@ public class fragment_today extends Fragment {
         convertUnitSetting = new ConvertUnitSetting(context);
         convertUnitSetting.loadConvertUnit();
         convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
+        prepareDaySetting = new PrepareDaySetting(context);
+        prepareDaySetting.loadPrepareDaySetting();
 //        currentWeatherDB = new CurrentWeatherDB(context);
     }
 
@@ -157,6 +162,29 @@ public class fragment_today extends Fragment {
                             convertUnit.convertVelocity(openWeatherMap);
                             velocityDegree = " km/h";
                         }
+                        String detail = "";
+                        if(prepareDaySetting.umbbrela){
+                            if(openWeatherMap.getMain().getHumidity() > prepareDaySetting.umbbrela_seek)
+                                detail = detail + "Nhớ mang ô nhé :* ! ";
+                        }
+                        if(prepareDaySetting.highTemp){
+                            if(openWeatherMap.getMain().getTemp_max() > prepareDaySetting.highTemp_seek){
+                                if(detail != null)
+                                    detail += "Trời cũng nóng lắm, nhớ uống đủ nước nhé ! ";
+                                else
+                                    detail += "Trời nóng lắm, nhớ mặc áo dài tay khi ra ngoài nhé !";
+                            }
+                        }
+                        if(prepareDaySetting.coat){
+                            if(openWeatherMap.getMain().getTemp() < prepareDaySetting.coat_seek){
+                                detail += "Trời lạnh rồi, nhớ mặc ấm kẻo ốm nhé ! ";
+                            }
+                        }
+                        detailView = (TextView) getActivity().findViewById(R.id.ngaycuaban);
+                        detailView.setText(detail);
+                        detailView.setTextColor(Color.WHITE);
+
+
 //
 
                         NumberFormat format = new DecimalFormat("#0.0");
@@ -327,6 +355,29 @@ public class fragment_today extends Fragment {
                             convertUnit.convertVelocity(openWeatherMap);
                             velocityDegree = " km/h";
                         }
+
+                        String detail = "";
+                        if(prepareDaySetting.umbbrela){
+                            if(openWeatherMap.getMain().getHumidity() > prepareDaySetting.umbbrela_seek)
+                                detail = detail + "Nhớ mang ô nhé :* ! ";
+                        }
+                        if(prepareDaySetting.highTemp){
+                            if(openWeatherMap.getMain().getTemp_max() > prepareDaySetting.highTemp_seek){
+                                if(detail != null)
+                                    detail += "Trời cũng nóng lắm, nhớ uống đủ nước nhé ! ";
+                                else
+                                    detail += "Trời nóng lắm, nhớ mặc áo dài tay khi ra ngoài nhé !";
+                            }
+                        }
+                        if(prepareDaySetting.coat){
+                            if(openWeatherMap.getMain().getTemp() < prepareDaySetting.coat_seek){
+                                detail += "Trời lạnh rồi, nhớ mặc ấm kẻo ốm nhé ! ";
+                            }
+                        }
+                        detailView = (TextView) getActivity().findViewById(R.id.ngaycuaban);
+                        detailView.setText(detail);
+                        detailView.setTextColor(Color.WHITE);
+
 
                         NumberFormat format = new DecimalFormat("#0.0");
                         ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);

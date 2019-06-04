@@ -11,15 +11,12 @@ import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.project.mobile.weatherapp.MainActivity;
-import com.project.mobile.weatherapp.ManagerNotificationActivity;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
-import com.project.mobile.weatherapp.model.open_weather_map.Weather;
 import com.project.mobile.weatherapp.utils.Constants;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.GPSTracker;
@@ -41,7 +38,7 @@ public class NotiService extends IntentService {
     public ConvertUnit convertUnit;
 
     public NotiService() {
-        super(SchedulingService.class.getSimpleName());
+        super(SchedulingServ.class.getSimpleName());
     }
 
     @Override
@@ -110,7 +107,7 @@ public class NotiService extends IntentService {
                     notiLayout.setImageViewResource(R.id.icon_weather, iconId);
                     notiLayout.setTextViewText(R.id.text_time, time);
                     notiLayout.setTextViewText(R.id.text_location, location);
-                    Log.i("thong tin ne :" ,time + " " + temp + " " + des );
+//                    Log.i("thong tin ne :" ,time + " " + temp + " " + des );
 
                     
                     NotificationCompat.Builder builder =
@@ -181,7 +178,7 @@ public class NotiService extends IntentService {
                     notiLayout.setImageViewResource(R.id.icon_weather, iconId);
                     notiLayout.setTextViewText(R.id.text_time, time);
                     notiLayout.setTextViewText(R.id.text_location, location);
-                    Log.i("thong tin ne :" ,time + " " + temp + " " + des );
+//                    Log.i("thong tin ne :" ,time + " " + temp + " " + des );
 
 
                     NotificationCompat.Builder builder =

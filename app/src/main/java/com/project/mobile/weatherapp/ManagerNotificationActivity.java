@@ -8,6 +8,7 @@ import android.os.ParcelUuid;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -45,6 +46,15 @@ public class ManagerNotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manager_notification);
         context = this;
         alarmUtils = new AlarmUtils(this);
+
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         linearLayout = (LinearLayout) findViewById(R.id.activity_manager_notufication);
         backgroundSetting = new BackgroundSetting(this);
@@ -92,8 +102,11 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         notificationSetting.prepareDaily = prepareDay.isChecked();
                         notificationSetting.saveNotificationSetting();
+//                        Intent intent = new Intent();
+//                        intent.setAction("notiSetting");
+//                        sendBroadcast(intent);
                         Intent intent = new Intent();
-                        intent.setAction("notiSetting");
+                        intent.setAction("setting.unit");
                         sendBroadcast(intent);
                     }
                 }

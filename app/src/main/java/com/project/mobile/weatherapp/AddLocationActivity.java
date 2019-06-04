@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -43,6 +44,8 @@ public class AddLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
         String apiKey = "AIzaSyBi0njf8h1fbSAs34PG5Jc1_POHRdws7H4";
+
+
 
         if (apiKey.equals("")) {
             Toast.makeText(this, getString(R.string.error_api_key), Toast.LENGTH_LONG).show();

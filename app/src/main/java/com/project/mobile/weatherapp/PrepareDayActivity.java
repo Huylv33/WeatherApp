@@ -1,9 +1,11 @@
 package com.project.mobile.weatherapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -29,6 +31,15 @@ public class PrepareDayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prepare_day);
+
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         linearLayout = (LinearLayout) findViewById(R.id.activity_prepare_day);
         backgroundSetting = new BackgroundSetting(this);
@@ -57,6 +68,9 @@ public class PrepareDayActivity extends AppCompatActivity {
                                                  boolean b) {
                         prepareDaySetting.umbbrela = umbbrela.isChecked();
                         prepareDaySetting.savePrepareDaySetting();
+                        Intent intent = new Intent();
+                        intent.setAction("setting.unit");
+                        sendBroadcast(intent);
                     }
                 });
 
@@ -67,6 +81,9 @@ public class PrepareDayActivity extends AppCompatActivity {
                                                  boolean b) {
                         prepareDaySetting.coat = coat.isChecked();
                         prepareDaySetting.savePrepareDaySetting();
+                        Intent intent = new Intent();
+                        intent.setAction("setting.unit");
+                        sendBroadcast(intent);
                     }
                 });
         highTemp.setOnCheckedChangeListener(
@@ -76,6 +93,9 @@ public class PrepareDayActivity extends AppCompatActivity {
                                                  boolean b) {
                         prepareDaySetting.highTemp = highTemp.isChecked();
                         prepareDaySetting.savePrepareDaySetting();
+                        Intent intent = new Intent();
+                        intent.setAction("setting.unit");
+                        sendBroadcast(intent);
                     }
                 });
         coldTemp.setOnCheckedChangeListener(
@@ -85,6 +105,9 @@ public class PrepareDayActivity extends AppCompatActivity {
                                                  boolean b) {
                         prepareDaySetting.coldTemp = coldTemp.isChecked();
                         prepareDaySetting.savePrepareDaySetting();
+                        Intent intent = new Intent();
+                        intent.setAction("setting.unit");
+                        sendBroadcast(intent);
                     }
                 });
 
@@ -129,6 +152,7 @@ public class PrepareDayActivity extends AppCompatActivity {
                 txtUmbre.setText(progressValue + "%" );
                 prepareDaySetting.umbbrela_seek = progressValue;
                 prepareDaySetting.savePrepareDaySetting();
+
                 Log.i("umbre", "Changing seekbar's progress");
                 Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
@@ -146,6 +170,9 @@ public class PrepareDayActivity extends AppCompatActivity {
                 txtUmbre.setText(progress + "%");
                 Log.i("umb", "Stopped tracking seekbar");
                 Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction("setting.unit");
+                sendBroadcast(intent);
 
             }
         });
@@ -177,6 +204,9 @@ public class PrepareDayActivity extends AppCompatActivity {
                 txtCoat.setText(progress + "");
                 Log.i("umb", "Stopped tracking seekbar");
                 Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction("setting.unit");
+                sendBroadcast(intent);
 
             }
         });
@@ -208,6 +238,9 @@ public class PrepareDayActivity extends AppCompatActivity {
                 txtHigh.setText(progress + "");
                 Log.i("umb", "Stopped tracking seekbar");
                 Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction("setting.unit");
+                sendBroadcast(intent);
 
             }
         });
