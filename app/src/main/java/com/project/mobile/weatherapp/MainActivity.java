@@ -172,17 +172,6 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.saveLocationSetting();
 
 
-
-        final int FIVE_MINUTES_IN_MILLI = 300000;
-        final int THIRTY_SECOND_IN_MILLI = 30000;
-        long launchTime = System.currentTimeMillis() + FIVE_MINUTES_IN_MILLI;
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, Noti.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, launchTime, pi);
-        else am.setExact(AlarmManager.RTC_WAKEUP, launchTime, pi);
-
     }
 
     //handle Toolbar and Menu

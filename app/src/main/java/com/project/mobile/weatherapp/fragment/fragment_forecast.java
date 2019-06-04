@@ -110,7 +110,7 @@ public class fragment_forecast extends Fragment {
                         for (ListOfWeather list : openWeatherPredict.getListWeather()) {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                            daily.setmTextDate(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
+                            daily.setmTextDate(list.getDt_txt().split(" ")[0]);
 
                             daily.setmTempMin(format.format(list.getTemp_min() ) + tempName);
                             daily.setmTempMax(format.format(list.getTemp_max()) + tempName);
@@ -150,7 +150,7 @@ public class fragment_forecast extends Fragment {
                         for (ListOfWeather list : openWeatherPredict.getListWeather()) {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
-                            daily.setmTextDate(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
+                            daily.setmTextDate(list.getDt_txt().split(" ")[0]);
                             daily.setmTempMin(format.format(list.getTemp_min()) + tempName);
                             daily.setmTempMax(format.format(list.getTemp_max()) + tempName);
                             daily.setmIconId(list.getWeather().get(0).getIcon());

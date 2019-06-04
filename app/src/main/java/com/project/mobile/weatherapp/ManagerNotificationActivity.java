@@ -30,6 +30,7 @@ public class ManagerNotificationActivity extends AppCompatActivity {
     Calendar cal;
     Date hourFinish;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,9 @@ public class ManagerNotificationActivity extends AppCompatActivity {
         notificationSetting.loadNotificationSetting();
         weatherNoti.setChecked(notificationSetting.notification);
         prepareDay.setChecked(notificationSetting.prepareDaily);
+        if(notificationSetting.prepareDaily == true) {
+
+        }
 
         getDefault();
 

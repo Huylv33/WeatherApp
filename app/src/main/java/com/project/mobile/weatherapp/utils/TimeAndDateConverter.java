@@ -65,6 +65,8 @@ public class TimeAndDateConverter {
         return timeformat;
     }
 
+
+
     public static String getDay(long timeInSeconds){
         // current date
         Date currentDate = Calendar.getInstance().getTime();
