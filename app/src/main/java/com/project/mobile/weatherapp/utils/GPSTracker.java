@@ -21,8 +21,8 @@ import java.util.Locale;
 
 public class GPSTracker implements LocationListener {
     private static String TAG = GPSTracker.class.getName();
-    private final Activity activity;
-    private final Context mContext;
+
+    public final Context mContext;
     // flag for GPS Status
     private boolean isGPSEnabled = false;
     // flag for network status
@@ -50,9 +50,8 @@ public class GPSTracker implements LocationListener {
     // Store LocationManager.GPS_PROVIDER or LocationManager.NETWORK_PROVIDER information
     private String provider_info = "";
 
-    public GPSTracker(Activity activity) {
-        this.activity = activity;
-        this.mContext = activity.getApplicationContext();
+    public GPSTracker(Context context) {
+        this.mContext = context;
         getLocation();
     }
 
@@ -183,7 +182,7 @@ public class GPSTracker implements LocationListener {
      * Function to show settings alert dialog
      */
     public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         //Setting Dialog Title
         alertDialog.setTitle("Thông báo");

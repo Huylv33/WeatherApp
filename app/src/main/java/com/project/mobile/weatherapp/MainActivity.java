@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
 import android.graphics.Bitmap;
@@ -48,21 +50,27 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
+import com.project.mobile.weatherapp.Broadcast.BroadcastNoti;
 import com.project.mobile.weatherapp.Broadcast.Noti;
 import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
+import com.project.mobile.weatherapp.Setting.NotificationSetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
 import com.project.mobile.weatherapp.fragment.fragment_forecast;
+import com.project.mobile.weatherapp.utils.AlarmUtils;
+import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.GPSTracker;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
-
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity  implements
@@ -94,6 +102,9 @@ public class MainActivity extends AppCompatActivity  implements
     public Boolean usingLocation;
     public LinearLayout linearLayout;
     public BackgroundSetting backgroundSetting;
+    public NotificationSetting notificationSetting;
+    public AlarmUtils alarmUtils;
+    public BroadcastNoti broadcastNoti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +183,80 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.saveLocationSetting();
 
 
+
+    /*    final int FIVE_MINUTES_IN_MILLI = 300000;
+        final int THIRTY_SECOND_IN_MILLI = 30000;
+        long launchTime = System.currentTimeMillis() + FIVE_MINUTES_IN_MILLI;
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, Noti.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, launchTime, pi);
+        else am.setExact(AlarmManager.RTC_WAKEUP, launchTime, pi);
+        */
+
+        notificationSetting = new NotificationSetting(this);
+        notificationSetting.loadNotificationSetting();
+        alarmUtils = new AlarmUtils(this);
+        if(notificationSetting.prepareDaily == true) {
+            SharedPreferences sharedPreferences = getSharedPreferences("time", Context.MODE_PRIVATE);
+            String time = sharedPreferences.getString("timeSet", "08:00");
+
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
+            cal.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
+            SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+            Toast.makeText(context, simpleDateFormat.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+
+            alarmUtils.cal = cal;
+            alarmUtils.start();
+        }
+        if(notificationSetting.notification){
+            Log.i("notification ", ":1");
+            alarmUtils.startRepeat();
+        }
+
+        broadcastNoti = new BroadcastNoti() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i("check neeee1", "123");
+                notificationSetting.loadNotificationSetting();
+                if(notificationSetting.prepareDaily) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("time", Context.MODE_PRIVATE);
+                    String time = sharedPreferences.getString("timeSet", "08:00");
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
+                    cal.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
+                    SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+                    Toast.makeText(context, simpleDateFormat.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+                    alarmUtils.cal = cal;
+                    alarmUtils.start();
+                }
+                else {
+                    alarmUtils.stop();
+                }
+                if(notificationSetting.notification){
+                    Log.i("noti ", notificationSetting.notification + "");
+                    alarmUtils.startRepeat();
+                }
+                else{
+                    alarmUtils.stop();
+                }
+
+            }
+
+        };
+
+        IntentFilter filter = new IntentFilter("notiSetting");
+        context.registerReceiver(broadcastNoti, filter);
+
+
+
+
     }
 
     //handle Toolbar and Menu
@@ -201,12 +286,12 @@ public class MainActivity extends AppCompatActivity  implements
     //set up header, footer of duo navigation view
     @Override
     public void onFooterClicked() {
-        Toast.makeText(this, "onFooterClicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onFooterClicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onHeaderClicked() {
-        Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
     }
 
     //Mở màn hình quản lý vị trí, click vao cai nao thi chuyen den activity do

@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name="android.hardware.location.network" />
@@ -47,17 +50,27 @@
                 <action android:name="setting.unit"/>
             </intent-filter>
         </receiver>
+        <receiver android:name=".Broadcast.BroadcastNoti">
+            <intent-filter>
+                <action android:name="notiSetting"/>
+            </intent-filter>
+        </receiver>
+
+
         <activity android:name=".ManagerLocationActivity" />
         <activity android:name=".ManagerNotificationActivity" />
         <activity android:name=".UnitSettingActivity" />
         <activity android:name=".PrepareDayActivity" />
         <activity android:name=".ChangeWallpaperActivity" />
 
-        <receiver android:name=".Broadcast.Noti">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
+        <receiver android:name=".Broadcast.Noti"
+            android:enabled="true"
+            android:exported="true">
+
         </receiver>
+
+        <service android:name=".Service.SchedulingService"/>
+        <service android:name=".Service.NotiService"/>
 
     </application>
 
