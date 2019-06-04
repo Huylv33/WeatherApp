@@ -8,6 +8,7 @@ public class Constants {
     public static final String AIR_VISUAL_URL = "https://api.airvisual.com/v2/";
     public static final int LOCATION_REQUEST = 1000;
     public static final String ACCUWEATHER_API_KEY = "lbjilagzgOmeHP63lZd8uK0ERxCRonoA";
+    public static final String KEY_TYPE = "type";
     public static final class WeatherDatabaseTable {
 
         public static final String DB_NAME = "weather";

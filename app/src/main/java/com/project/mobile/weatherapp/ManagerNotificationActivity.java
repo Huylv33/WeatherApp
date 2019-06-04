@@ -1,6 +1,10 @@
 package com.project.mobile.weatherapp;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.ParcelUuid;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 
 import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.NotificationSetting;
+import com.project.mobile.weatherapp.utils.AlarmUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,11 +34,16 @@ public class ManagerNotificationActivity extends AppCompatActivity {
     TextView txtTime;
     Calendar cal;
     Date hourFinish;
+    public Context context;
+    public AlarmUtils alarmUtils;
+    public String timeSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_notification);
+        context = this;
+        alarmUtils = new AlarmUtils(this);
 
         linearLayout = (LinearLayout) findViewById(R.id.activity_manager_notufication);
         backgroundSetting = new BackgroundSetting(this);
@@ -49,6 +59,10 @@ public class ManagerNotificationActivity extends AppCompatActivity {
         notificationSetting.loadNotificationSetting();
         weatherNoti.setChecked(notificationSetting.notification);
         prepareDay.setChecked(notificationSetting.prepareDaily);
+//
+//        if(notificationSetting.prepareDaily == true) {
+//            alarmUtils.create(this);
+//        }
 
         getDefault();
 
@@ -62,6 +76,9 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                                                  boolean b) {
                         notificationSetting.notification = weatherNoti.isChecked();
                         notificationSetting.saveNotificationSetting();
+                        Intent intent = new Intent();
+                        intent.setAction("notiSetting");
+                        sendBroadcast(intent);
                     }
                 });
         prepareDay.setOnCheckedChangeListener(
@@ -70,6 +87,9 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         notificationSetting.prepareDaily = prepareDay.isChecked();
                         notificationSetting.saveNotificationSetting();
+                        Intent intent = new Intent();
+                        intent.setAction("notiSetting");
+                        sendBroadcast(intent);
                     }
                 }
         );
@@ -103,7 +123,21 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                 txtTime.setTag(s);
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 cal.set(Calendar.MINUTE, minute);
+                SimpleDateFormat dft = null;
+                dft = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                timeSet = dft.format(cal.getTime());
                 hourFinish=cal.getTime();
+                SharedPreferences sharedPreferences = context.getSharedPreferences("time", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("timeSet", timeSet);
+                editor.apply();
+                Intent intent = new Intent();
+                intent.setAction("notiSetting");
+                sendBroadcast(intent);
+//                        String time = sharedPreferences.getString("timeSet", "08:00");
+
+
+                Toast.makeText(context, timeSet, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -114,6 +148,7 @@ public class ManagerNotificationActivity extends AppCompatActivity {
         int minutes = Integer.parseInt(strArray[1]);
         TimePickerDialog timeDialog = new TimePickerDialog(ManagerNotificationActivity.this,callback,hour,minutes,true);
         timeDialog.setTitle(charSequence);
+
         timeDialog.show();
     }
 
@@ -122,8 +157,10 @@ public class ManagerNotificationActivity extends AppCompatActivity {
         SimpleDateFormat dft = null;
         dft = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         String strTime = dft.format(cal.getTime());
+
         txtTime.setText(strTime);
         dft = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
         txtTime.setTag(dft.format(cal.getTime()));
         hourFinish = cal.getTime();
     }

@@ -187,7 +187,7 @@ public class fragment_today extends Fragment {
                             TimeZone = "GMT";
                         txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), TimeZone, convertUnitSetting.using12h));
                         txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), TimeZone, convertUnitSetting.using12h));
-                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone() + "", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone() + "", Toast.LENGTH_SHORT).show();
 
                         txtCurrentAddressName.setText(openWeatherMap.getName());
                         txtTemperature.setText(temperature);
@@ -355,8 +355,7 @@ public class fragment_today extends Fragment {
                         txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), TimeZone, convertUnitSetting.using12h));
                         txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), TimeZone, convertUnitSetting.using12h));
                         txtCurrentAddressName.setText(openWeatherMap.getName());
-                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone()+ "", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone()+ "", Toast.LENGTH_SHORT).show();
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
                         txtMaxTemp.setText(maxTemp);
