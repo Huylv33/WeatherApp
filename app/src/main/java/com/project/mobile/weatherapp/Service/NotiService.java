@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.project.mobile.weatherapp.ManagerNotificationActivity;
 import com.project.mobile.weatherapp.R;
@@ -61,6 +62,9 @@ public class NotiService extends IntentService {
                     int requestID = (int) System.currentTimeMillis();
                     PendingIntent contentIntent = PendingIntent
                             .getActivity(gpsTracker.mContext, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    RemoteViews notiLayout = new RemoteViews(getPackageName(), R.layout.weather_notification);
+                    
                     NotificationCompat.Builder builder =
                             new NotificationCompat.Builder(gpsTracker.mContext)
                                     .setSmallIcon(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()))
@@ -73,7 +77,8 @@ public class NotiService extends IntentService {
                                     .setVibrate(new long[]{TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE,
                                             TIME_VIBRATE})
                                     .setContentIntent(contentIntent)
-                                    .setChannelId(channelId);
+                                    .setChannelId(channelId)
+                                    .setCustomContentView(notiLayout);
 
                     notificationManager.notify(index, builder.build());
                 }
@@ -109,6 +114,7 @@ public class NotiService extends IntentService {
                                             TIME_VIBRATE})
                                     .setContentIntent(contentIntent)
                                     .setChannelId(channelId);
+
 
                     notificationManager.notify(index, builder.build());
                 }
