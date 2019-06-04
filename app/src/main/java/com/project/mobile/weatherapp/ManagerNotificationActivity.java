@@ -6,14 +6,18 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.NotificationSetting;
 
 public class ManagerNotificationActivity extends AppCompatActivity {
 
     public SwitchCompat weatherNoti, prepareDay;
     public NotificationSetting notificationSetting;
+    private BackgroundSetting backgroundSetting;
+    public LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +31,22 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        linearLayout = (LinearLayout) findViewById(R.id.activity_manager_notufication);
+        backgroundSetting = new BackgroundSetting(this);
+        backgroundSetting.loadBackgroundSetting();
+        linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
+
         this.weatherNoti = (SwitchCompat)findViewById(R.id.switch_notification);
         this.prepareDay = (SwitchCompat) findViewById(R.id.switch_warning);
         notificationSetting = new NotificationSetting(this);
         notificationSetting.loadNotificationSetting();
         weatherNoti.setChecked(notificationSetting.notification);
         prepareDay.setChecked(notificationSetting.prepareDaily);
+
+
+
+
         weatherNoti.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override

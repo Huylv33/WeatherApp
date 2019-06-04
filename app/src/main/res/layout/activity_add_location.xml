@@ -6,13 +6,9 @@
     android:background="@drawable/wallpaper5"
     android:clickable="true"
     android:focusable="true"
+    android:id="@+id/relative_layout_add_location"
     >
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/wallpaper5" />
 
     <android.support.v7.widget.Toolbar
         android:id="@id/toolbar"

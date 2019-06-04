@@ -10,8 +10,7 @@ public class OpenWeatherHours {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         java.util.List<List> listOfWeatherHourly = new ArrayList<List>();
         for(int i = 0; i < openWeather5Days3Hours.getList().size(); i ++) {
-                listOfWeatherHourly.add(openWeather5Days3Hours.getList().get(i));
-                String dt_txt = listOfWeatherHourly.get(i).getDt_txt();
+            listOfWeatherHourly.add(openWeather5Days3Hours.getList().get(i));
         }
         this.list = listOfWeatherHourly;
     }

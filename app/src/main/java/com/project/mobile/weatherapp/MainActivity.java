@@ -3,6 +3,9 @@ package com.project.mobile.weatherapp;
 
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.WallpaperManager;
 import android.content.Context;
 
 
@@ -11,7 +14,12 @@ import android.content.Intent;
 
 import android.content.res.Configuration;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.LinearGradient;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -32,6 +40,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
@@ -39,6 +48,8 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
+import com.project.mobile.weatherapp.Broadcast.Noti;
+import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
@@ -47,6 +58,7 @@ import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.utils.GPSTracker;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,12 +88,19 @@ public class MainActivity extends AppCompatActivity  implements
     public String city = "Hanoi";
     public String country = "Vietnam";
     public Boolean usingLocation;
+    public LinearLayout linearLayout;
+    public BackgroundSetting backgroundSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        backgroundSetting = new BackgroundSetting(this);
+        backgroundSetting.loadBackgroundSetting();
+        linearLayout = (LinearLayout) findViewById(R.id.linear_main_activity);
+        linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
         // Initialize the views
         mViewHolder = new ViewHolder();
@@ -91,6 +110,8 @@ public class MainActivity extends AppCompatActivity  implements
         handleMenu();
         // Handle drawer actions
         handleDrawer();
+
+
 
 // Phần comment này tạm thời không xóa đi nhé
 
@@ -145,6 +166,18 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.usingLocation = usingLocation;
         locationSetting.saveLocationSetting();
 
+
+
+        final int FIVE_MINUTES_IN_MILLI = 300000;
+        final int THIRTY_SECOND_IN_MILLI = 30000;
+        long launchTime = System.currentTimeMillis() + FIVE_MINUTES_IN_MILLI;
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, Noti.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, launchTime, pi);
+        else am.setExact(AlarmManager.RTC_WAKEUP, launchTime, pi);
+
     }
 
     //handle Toolbar and Menu
@@ -167,6 +200,8 @@ public class MainActivity extends AppCompatActivity  implements
         mMenuAdapter = new MenuAdapter(mTitles,this);
         mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
         mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
+
+        mViewHolder.mDuoMenuView.setBackground(backgroundSetting.backgroundId);
     }
 
     //set up header, footer of duo navigation view
@@ -203,6 +238,11 @@ public class MainActivity extends AppCompatActivity  implements
             case 3: {
                 Intent iUni = new Intent(MainActivity.this, UnitSettingActivity.class);
                 startActivity(iUni);
+                break;
+            }
+            case 4: {
+                Intent iFiv = new Intent(MainActivity.this, ChangeWallpaperActivity.class);
+                startActivity(iFiv);
                 break;
             }
         }
@@ -244,9 +284,9 @@ public class MainActivity extends AppCompatActivity  implements
             case 3:
                 showMenuClick(3);
                 break;
-            //case 5:
-                //showMenuClick(5);
-                //break;
+            case 4:
+                showMenuClick(4);
+                break;
             //case 0:
                 //goToFragment(new fragment_hourly(), false);
             //case 1:
