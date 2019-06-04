@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import com.project.mobile.weatherapp.MainActivity;
 import com.project.mobile.weatherapp.ManagerNotificationActivity;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
@@ -95,7 +96,7 @@ public class NotiService extends IntentService {
                     int importance = NotificationManager.IMPORTANCE_LOW;
                     NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
                     notificationManager.createNotificationChannel(notificationChannel);
-                    Intent notificationIntent = new Intent(gpsTracker.mContext, ManagerNotificationActivity.class);
+                    Intent notificationIntent = new Intent(gpsTracker.mContext, MainActivity.class);
                     notificationIntent
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     int requestID = (int) System.currentTimeMillis();
@@ -165,7 +166,7 @@ public class NotiService extends IntentService {
                     int importance = NotificationManager.IMPORTANCE_LOW;
                     NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
                     notificationManager.createNotificationChannel(notificationChannel);
-                    Intent notificationIntent = new Intent(gpsTracker.mContext, ManagerNotificationActivity.class);
+                    Intent notificationIntent = new Intent(gpsTracker.mContext, MainActivity.class);
                     notificationIntent
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     int requestID = (int) System.currentTimeMillis();
