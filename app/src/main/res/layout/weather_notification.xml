@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://sche'mas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/wallpaper5"
+
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="12.0dip"
     android:paddingTop="10.0dip"
     android:paddingRight="12.0dip"
     android:paddingBottom="10.0dip">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wallpaper5"/>
 
     <ImageView
         android:id="@id/icon_weather"
