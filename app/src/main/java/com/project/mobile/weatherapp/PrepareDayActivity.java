@@ -107,6 +107,12 @@ public class PrepareDayActivity extends AppCompatActivity {
         seekHigh.setMin(30);
         seekCold.setMax(20);
         seekCold.setMin(-20);
+        seekCoat.setProgress(prepareDaySetting.coat_seek);
+        seekUmbre.setProgress(prepareDaySetting.umbbrela_seek);
+        seekCold.setProgress(prepareDaySetting.coldTemp_seek);
+        seekHigh.setProgress(prepareDaySetting.highTemp_seek);
+
+
         txtUmbre.setText(seekUmbre.getProgress() + "%");
         txtCoat.setText(seekCoat.getProgress() + "");
         txtHigh.setText(seekHigh.getProgress() + "");
@@ -121,6 +127,8 @@ public class PrepareDayActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
                 txtUmbre.setText(progressValue + "%" );
+                prepareDaySetting.umbbrela_seek = progressValue;
+                prepareDaySetting.savePrepareDaySetting();
                 Log.i("umbre", "Changing seekbar's progress");
                 Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
@@ -150,6 +158,8 @@ public class PrepareDayActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
                 txtCoat.setText(progressValue + "" );
+                prepareDaySetting.coat_seek = progressValue;
+                prepareDaySetting.savePrepareDaySetting();
                 Log.i("umbre", "Changing seekbar's progress");
                 Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
@@ -179,6 +189,8 @@ public class PrepareDayActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
                 txtHigh.setText(progressValue + "" );
+                prepareDaySetting.highTemp_seek = progressValue;
+                prepareDaySetting.savePrepareDaySetting();
                 Log.i("umbre", "Changing seekbar's progress");
                 Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
@@ -208,6 +220,7 @@ public class PrepareDayActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
                 txtCold.setText(progressValue + "" );
+
                 Log.i("umbre", "Changing seekbar's progress");
                 Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
