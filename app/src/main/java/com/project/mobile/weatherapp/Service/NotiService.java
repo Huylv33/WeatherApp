@@ -64,7 +64,7 @@ public class NotiService extends IntentService {
                             .getActivity(gpsTracker.mContext, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     RemoteViews notiLayout = new RemoteViews(getPackageName(), R.layout.weather_notification);
-                    
+
                     NotificationCompat.Builder builder =
                             new NotificationCompat.Builder(gpsTracker.mContext)
                                     .setSmallIcon(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()))
