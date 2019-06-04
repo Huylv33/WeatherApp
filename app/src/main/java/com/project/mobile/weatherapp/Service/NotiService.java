@@ -63,6 +63,7 @@ public class NotiService extends IntentService {
 
 
         if (locationSetting.usingLocation) {
+            Log.i("check chay nhe", "a");
             weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(), gpsTracker.getLongitude(), new doComplete() {
                 @Override
                 public void doComplete(OpenWeatherMap openWeatherMap) {
@@ -132,11 +133,11 @@ public class NotiService extends IntentService {
             });
             weatherAsyncTask.execute();
         } else {
+            Log.i("check chay nhe", "a");
+
             weatherAsyncTask = new WeatherAsyncTask(locationSetting.city, new doComplete() {
                 @Override
                 public void doComplete(OpenWeatherMap openWeatherMap) {
-
-
                     int iconId = WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon());
                     String des = openWeatherMap.getWeather().get(0).getDescription();
                     String TimeZone;
@@ -156,7 +157,8 @@ public class NotiService extends IntentService {
                         convertUnit.convert(openWeatherMap);
                         tempName = "°F";
                     }
-                    String temp = openWeatherMap.getMain().getTemp() + tempName;
+                    String temp = format.format(openWeatherMap.getMain().getTemp()) + tempName;
+                    String location = openWeatherMap.getName();
 
 
                     NotificationManager notificationManager =
@@ -178,6 +180,10 @@ public class NotiService extends IntentService {
                     notiLayout.setTextViewText(R.id.text_weather, des);
                     notiLayout.setImageViewResource(R.id.icon_weather, iconId);
                     notiLayout.setTextViewText(R.id.text_time, time);
+                    notiLayout.setTextViewText(R.id.text_location, location);
+                    Log.i("thong tin ne :" ,time + " " + temp + " " + des );
+
+
                     NotificationCompat.Builder builder =
                             new NotificationCompat.Builder(gpsTracker.mContext)
                                     .setSmallIcon(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()))
@@ -190,13 +196,14 @@ public class NotiService extends IntentService {
                                     .setVibrate(new long[]{TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE,
                                             TIME_VIBRATE})
                                     .setContentIntent(contentIntent)
-                                    .setChannelId(channelId);
-
+                                    .setChannelId(channelId)
+                                    .setCustomContentView(notiLayout);
 
                     notificationManager.notify(index, builder.build());
                 }
             });
             weatherAsyncTask.execute();
+
         }
     }
 }
