@@ -65,7 +65,7 @@
             android:text="2345678"
             android:layout_alignParentBottom="true"
             android:paddingBottom="@dimen/_8sdp"
-            android:textColor="#ff757575"
+            android:textColor="#ffffff"
             android:textSize="13.0sp" />
 
 
