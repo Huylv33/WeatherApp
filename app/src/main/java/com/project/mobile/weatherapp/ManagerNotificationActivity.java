@@ -27,6 +27,7 @@ import java.util.Locale;
 public class ManagerNotificationActivity extends AppCompatActivity {
 
     public SwitchCompat weatherNoti, prepareDay;
+    public SwitchCompat soundNoti, vibration;
     public NotificationSetting notificationSetting;
     private BackgroundSetting backgroundSetting;
     public LinearLayout linearLayout;
@@ -55,10 +56,14 @@ public class ManagerNotificationActivity extends AppCompatActivity {
 
         this.weatherNoti = (SwitchCompat)findViewById(R.id.switch_notification);
         this.prepareDay = (SwitchCompat) findViewById(R.id.switch_warning);
+        this.vibration = (SwitchCompat) findViewById(R.id.switch_vibrate);
+        this.soundNoti = (SwitchCompat) findViewById(R.id.switch_sound);
         notificationSetting = new NotificationSetting(this);
         notificationSetting.loadNotificationSetting();
         weatherNoti.setChecked(notificationSetting.notification);
         prepareDay.setChecked(notificationSetting.prepareDaily);
+        soundNoti.setChecked(notificationSetting.arlarm);
+        vibration.setChecked(notificationSetting.vibrate);
 //
 //        if(notificationSetting.prepareDaily == true) {
 //            alarmUtils.create(this);
@@ -93,6 +98,21 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                     }
                 }
         );
+        vibration.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    notificationSetting.vibrate = vibration.isChecked();
+                    notificationSetting.saveNotificationSetting();
+                }
+        });
+
+        soundNoti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                notificationSetting.arlarm = soundNoti.isChecked();
+                notificationSetting.saveNotificationSetting();
+            }
+        });
 
         linearNoti.setOnClickListener(new View.OnClickListener() {
             @Override
