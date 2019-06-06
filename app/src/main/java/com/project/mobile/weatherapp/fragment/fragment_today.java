@@ -113,6 +113,8 @@ public class fragment_today extends Fragment {
             }
         };
 
+
+
         IntentFilter filter = new IntentFilter("setting.unit");
         context.registerReceiver(mbroadcast, filter);
         return view;
