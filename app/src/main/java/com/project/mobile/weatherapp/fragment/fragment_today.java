@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Path;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,9 +25,11 @@ import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.project.mobile.weatherapp.Broadcast.Broadcast;
 import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.R;
-
 import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
+import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
+import com.project.mobile.weatherapp.database.CurrentWeatherDB;
 import com.project.mobile.weatherapp.model.airvisual.AirVisual;
+import com.project.mobile.weatherapp.model.airvisual.Current;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.utils.AirVisualAsyncTask;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
@@ -43,11 +46,8 @@ import java.text.NumberFormat;
 
 
 /**
-
  * Activities that contain this fragment must implement the
-
  * to handle interaction events.
-
  * create an instance of this fragment.
  */
 public class fragment_today extends Fragment {
@@ -56,18 +56,19 @@ public class fragment_today extends Fragment {
     private  Context context;
     private WeatherAsyncTask weatherAsyncTask;
     private AirVisualAsyncTask airVisualAsyncTask;
+    private CurrentWeatherDB currentWeatherDB;
     private double lat;
     private double lon;
     public Boolean usingLocation;
     public String city;
-    private String unitTemp;
     public String country;
-
     private AirVisual airVisualToday;
     private boolean airHave = true;
     public ConvertUnitSetting convertUnitSetting;
     public ConvertUnit convertUnit;
     private Broadcast mbroadcast;
+    public PrepareDaySetting prepareDaySetting;
+    public TextView detailView;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
@@ -77,133 +78,15 @@ public class fragment_today extends Fragment {
         usingLocation = args.getBoolean("usingLocation");
         city = args.getString("city");
         country = args.getString("country");
-        SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
-                ("ConvertUnit", Context.MODE_PRIVATE);
-        unitTemp = sharedPreferences.getString("unit_temp","C");
-    }
-    private void displayCurrentWeatherView(OpenWeatherMap openWeatherMap){
-        NumberFormat format = new DecimalFormat("#0.0");
-        ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
-        TextView txtTemperature=(TextView) getActivity().findViewById(R.id.txtTemperature);
-        TextView txtCurrentAddressName=(TextView) getActivity().findViewById(R.id.txtCurrentAddressName);
-        TextView txtMaxTemp=(TextView) getActivity().findViewById(R.id.txtMaxTemp);
-        TextView txtMinTemp=(TextView) getActivity().findViewById(R.id.txtMinTemp);
-        TextView txtWind=(TextView) getActivity().findViewById(R.id.txtWind);
-        TextView txtCloudliness= (TextView) getActivity().findViewById(R.id.txtCloudliness);
-        TextView txtPressure= (TextView) getActivity().findViewById(R.id.txtPressure);
-        TextView txtHumidty= (TextView) getActivity().findViewById(R.id.txtHumidty);
-        TextView txtSunrise= (TextView) getActivity().findViewById(R.id.txtSunrise);
-        TextView txtSunset= (TextView) getActivity().findViewById(R.id.txtSunset);
-        imgWeather.setImageResource(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
-        String temperature = "";
-        String minTemp = "";
-        String maxTemp = "";
-        if (unitTemp.equals("C")) {
-            temperature= (int) (openWeatherMap.getMain().getTemp()-273.15)+"°C";
-            minTemp= format.format(openWeatherMap.getMain().getTemp_min()-273.15)+"°C";
-            maxTemp= format.format(openWeatherMap.getMain().getTemp_max()-273.15)+"°C";
-        }
-        else {
-            temperature= (int) (openWeatherMap.getMain().getTemp())+"F";
-            minTemp= format.format(openWeatherMap.getMain().getTemp_min())+"F";
-            maxTemp= format.format(openWeatherMap.getMain().getTemp_max())+"F";
-        }
-        txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise()));
-        txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset()));
-        txtCurrentAddressName.setText(openWeatherMap.getName());
-        txtTemperature.setText(temperature);
-        txtMinTemp.setText(minTemp);
-        txtMaxTemp.setText(maxTemp);
-        String wind= openWeatherMap.getWind().getSpeed()+" m/s";
-        String mesg = openWeatherMap.getWeather().get(0).getDescription();
-        String cloudiness= mesg;
-        String pressure= openWeatherMap.getMain().getPressure()+" hpa";
-        String humidity=openWeatherMap.getMain().getHumidity()+" %";
-        txtWind.setText(wind);
-        txtCloudliness.setText(cloudiness);
-        txtPressure.setText(pressure);
-        txtHumidty.setText(humidity);
-    }
-    private void saveLocalWeatherLocalData(OpenWeatherMap openWeatherMap) {
-        String openWeatherMapJson = new Gson().toJson(openWeatherMap);
-        SharedPreferences sharedPref = getActivity().getSharedPreferences
-                ("current_weather_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("current_weather",openWeatherMapJson);
-        editor.apply();
-    }
-    private void displayAirView(int aqius) {
-        if (aqius >= 0) {
-            ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
-            arcProgress.setProgress(aqius);
-            arcProgress.setMax(300);
-            arcProgress.setStrokeWidth(20);
-            TextView status = (TextView) getActivity().findViewById(R.id.status);
-            if(arcProgress.getProgress() < 50){
-                status.setText("GOOD");
-                status.setTextColor(Color.argb(255,139,195,74));
-                arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
-                arcProgress.setTextColor(Color.argb(255,139,195,74));
-                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-            }
-            if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
-                status.setText("MODERATE");
-                status.setTextColor(Color.argb(255,255,235,59));
-                arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
-                arcProgress.setTextColor(Color.argb(255,255,235,59));
-                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-            }
-            if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
-                status.setText("UNHEALTHY");
-                status.setTextColor(Color.argb(255,255,152,0));
-                arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
-                arcProgress.setTextColor(Color.argb(255,255,152,0));
-                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-            }
-            if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
-                status.setText("UNHEALTHY");
-                status.setTextColor(Color.argb(255,244,67,54));
-                arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
-                arcProgress.setTextColor(Color.argb(255,244,67,54));
-                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-            }
-            if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
-                status.setText("VERY UNHEALTHY");
-                status.setTextColor(Color.parseColor("#27AE60"));
-                arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
-                arcProgress.setTextColor(Color.argb(255,156,39,176));
-                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-            }
-            if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
-                status.setText("HAZARDOUS");
-                status.setTextColor(Color.parseColor("#27AE60"));
-                arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
-                arcProgress.setTextColor(Color.argb(255,103,58,183));
-                arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
-            }
-        }
-        else {
-            //neu aqius < 0 coi la khong hien thi du lieu gi
-            ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
-            arcProgress.setVisibility(View.INVISIBLE);
-            TextView status = (TextView) getActivity().findViewById(R.id.status);
-            status.setText("Sorry, We don't hava data for this city");
-            status.setTextSize(20);
-            status.setTextColor(Color.parseColor("#FDFEFE"));
-        }
-    }
-    private void saveLocalAirData(int aqius) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences
-                ("current_weather_data",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("aqius",aqius);
-        editor.apply();
 
         convertUnitSetting = new ConvertUnitSetting(context);
         convertUnitSetting.loadConvertUnit();
         convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
+        prepareDaySetting = new PrepareDaySetting(context);
+        prepareDaySetting.loadPrepareDaySetting();
 //        currentWeatherDB = new CurrentWeatherDB(context);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -227,6 +110,8 @@ public class fragment_today extends Fragment {
             }
         };
 
+
+
         IntentFilter filter = new IntentFilter("setting.unit");
         context.registerReceiver(mbroadcast, filter);
         return view;
@@ -240,6 +125,8 @@ public class fragment_today extends Fragment {
         if (imgWeather == null) {
             Log.d("fuck","null");
         }
+//        dataCommunication = new DtaCommunication(gpsTracker.getLatitude(),gpsTracker.getLongitude());
+//        sendingData.sendData(dataCommunication);
     }
 
     private void loadWeatherInfor() {
@@ -261,8 +148,6 @@ public class fragment_today extends Fragment {
                 weatherAsyncTask = new WeatherAsyncTask(lat,lon, new doComplete() {
                     @Override
                     public  void doComplete(OpenWeatherMap openWeatherMap) {
-//                        displayCurrentWeatherView(openWeatherMap);
-//                        saveLocalWeatherLocalData(openWeatherMap);
                         String tempName = "°C";
                         if(convertUnitSetting.usingCelcius == 0) {
                             convertUnit.convert(openWeatherMap);
@@ -276,6 +161,29 @@ public class fragment_today extends Fragment {
                             convertUnit.convertVelocity(openWeatherMap);
                             velocityDegree = " km/h";
                         }
+                        String detail = "";
+                        if(prepareDaySetting.umbbrela){
+                            if(openWeatherMap.getMain().getHumidity() > prepareDaySetting.umbbrela_seek)
+                                detail = detail + "Nhớ mang ô nhé :* ! ";
+                        }
+                        if(prepareDaySetting.highTemp){
+                            if(openWeatherMap.getMain().getTemp_max() > prepareDaySetting.highTemp_seek){
+                                if(detail != null)
+                                    detail += "Trời cũng nóng lắm, nhớ uống đủ nước nhé ! ";
+                                else
+                                    detail += "Trời nóng lắm, nhớ mặc áo dài tay khi ra ngoài nhé !";
+                            }
+                        }
+                        if(prepareDaySetting.coat){
+                            if(openWeatherMap.getMain().getTemp() < prepareDaySetting.coat_seek){
+                                detail += "Trời lạnh rồi, nhớ mặc ấm kẻo ốm nhé ! ";
+                            }
+                        }
+                        detailView = (TextView) getActivity().findViewById(R.id.ngaycuaban);
+                        detailView.setText(detail);
+                        detailView.setTextColor(Color.WHITE);
+
+
 //
 
                         NumberFormat format = new DecimalFormat("#0.0");
@@ -306,7 +214,7 @@ public class fragment_today extends Fragment {
                             TimeZone = "GMT";
                         txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), TimeZone, convertUnitSetting.using12h));
                         txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), TimeZone, convertUnitSetting.using12h));
-                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone() + "", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone() + "", Toast.LENGTH_SHORT).show();
 
                         txtCurrentAddressName.setText(openWeatherMap.getName());
                         txtTemperature.setText(temperature);
@@ -334,22 +242,95 @@ public class fragment_today extends Fragment {
                 airVisualAsyncTask = new AirVisualAsyncTask(lat, lon, new doCompleteAirVisual() {
                     @Override
                     public void doComplete(AirVisual airVisual) {
+//                        Log.d("air location",airVisual.getStatus());
                         if (airVisual != null) {
                             if (airVisual.getStatus().equals("success")) {
                                 int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
                                 Log.d("aqius1",aqius + "");
-                                displayAirView(aqius);
-                                saveLocalAirData(aqius);
+                                SharedPreferences sharedPreferences = context.getSharedPreferences
+                                        ("current_weather_data",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("aqius",aqius);
+                                editor.putBoolean("airhave",true);
+                                editor.apply();
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setProgress(aqius);
+                                arcProgress.setMax(300);
+                                arcProgress.setStrokeWidth(20);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                if(arcProgress.getProgress() < 50){
+                                    status.setText("GOOD");
+                                    status.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+                                    arcProgress.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                                    status.setText("MODERATE");
+                                    status.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+                                    arcProgress.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+                                    arcProgress.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+                                    arcProgress.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                                    status.setText("VERY UNHEALTHY");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+                                    arcProgress.setTextColor(Color.argb(255,156,39,176));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+                                    status.setText("HAZARDOUS");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+                                    arcProgress.setTextColor(Color.argb(255,103,58,183));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                    //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+                                }
                             }
                             else {
                                 //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
-                                displayAirView(-1);
-                                saveLocalAirData(-1);
+
+                                SharedPreferences sharedPreferences = context.getSharedPreferences
+                                        ("current_weather_data",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("airhave",false);
+                                editor.apply();
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setVisibility(View.INVISIBLE);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                status.setText("Sorry, We don't hava data for this city");
+                                status.setTextSize(20);
+                                status.setTextColor(Color.parseColor("#FDFEFE"));
                             }
+
                         }
                         else {
-                            displayAirView(-1);
-                            saveLocalAirData(-1);
+                            SharedPreferences sharedPreferences = context.getSharedPreferences
+                                    ("current_weather_data",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("airhave",false);
+                            editor.apply();
+                            ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                            arcProgress.setVisibility(View.INVISIBLE);
+                            TextView status = (TextView) getActivity().findViewById(R.id.status);
+                            status.setText("Sorry, We don't hava data for this city");
+                            status.setTextSize(20);
+                            status.setTextColor(Color.parseColor("#FDFEFE"));
                         }
                     }
                 });
@@ -359,8 +340,6 @@ public class fragment_today extends Fragment {
                 weatherAsyncTask = new WeatherAsyncTask(city, new doComplete() {
                     @Override
                     public  void doComplete(OpenWeatherMap openWeatherMap) {
-//                        displayCurrentWeatherView(openWeatherMap);
-//                        saveLocalWeatherLocalData(openWeatherMap);
                         String tempName = "°C";
                         if(convertUnitSetting.usingCelcius == 0) {
                             convertUnit.convert(openWeatherMap);
@@ -375,6 +354,29 @@ public class fragment_today extends Fragment {
                             convertUnit.convertVelocity(openWeatherMap);
                             velocityDegree = " km/h";
                         }
+
+                        String detail = "";
+                        if(prepareDaySetting.umbbrela){
+                            if(openWeatherMap.getMain().getHumidity() > prepareDaySetting.umbbrela_seek)
+                                detail = detail + "Nhớ mang ô nhé :* ! ";
+                        }
+                        if(prepareDaySetting.highTemp){
+                            if(openWeatherMap.getMain().getTemp_max() > prepareDaySetting.highTemp_seek){
+                                if(detail != null)
+                                    detail += "Trời cũng nóng lắm, nhớ uống đủ nước nhé ! ";
+                                else
+                                    detail += "Trời nóng lắm, nhớ mặc áo dài tay khi ra ngoài nhé !";
+                            }
+                        }
+                        if(prepareDaySetting.coat){
+                            if(openWeatherMap.getMain().getTemp() < prepareDaySetting.coat_seek){
+                                detail += "Trời lạnh rồi, nhớ mặc ấm kẻo ốm nhé ! ";
+                            }
+                        }
+                        detailView = (TextView) getActivity().findViewById(R.id.ngaycuaban);
+                        detailView.setText(detail);
+                        detailView.setTextColor(Color.WHITE);
+
 
                         NumberFormat format = new DecimalFormat("#0.0");
                         ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
@@ -403,8 +405,7 @@ public class fragment_today extends Fragment {
                         txtSunrise.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunrise(), TimeZone, convertUnitSetting.using12h));
                         txtSunset.setText(TimeAndDateConverter.getTime(openWeatherMap.getSys().getSunset(), TimeZone, convertUnitSetting.using12h));
                         txtCurrentAddressName.setText(openWeatherMap.getName());
-                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone()+ "", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText( getActivity().getApplicationContext(),openWeatherMap.getTimezone()+ "", Toast.LENGTH_SHORT).show();
                         txtTemperature.setText(temperature);
                         txtMinTemp.setText(minTemp);
                         txtMaxTemp.setText(maxTemp);
@@ -435,19 +436,90 @@ public class fragment_today extends Fragment {
                         if (airVisual != null) {
                             if (airVisual.getStatus().equals("success")) {
                                 int aqius = airVisual.getData().getCurrent().getPollution().getAqius();
-                                displayAirView(aqius);
-                                saveLocalAirData(aqius);
+                                Log.d("aqius2",aqius + "");
+                                SharedPreferences sharedPreferences = context.getSharedPreferences
+                                        ("current_weather_data",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("aqius",aqius);
+                                editor.apply();
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setProgress(aqius);
+                                arcProgress.setMax(300);
+                                arcProgress.setStrokeWidth(20);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                if(arcProgress.getProgress() < 50){
+                                    status.setText("GOOD");
+                                    status.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,139,195,74));
+                                    arcProgress.setTextColor(Color.argb(255,139,195,74));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 50 && arcProgress.getProgress() < 100){
+                                    status.setText("MODERATE");
+                                    status.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,235,59));
+                                    arcProgress.setTextColor(Color.argb(255,255,235,59));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 100 && arcProgress.getProgress() < 150){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,255,152,0));
+                                    arcProgress.setTextColor(Color.argb(255,255,152,0));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 150 && arcProgress.getProgress() < 200){
+                                    status.setText("UNHEALTHY");
+                                    status.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,244,67,54));
+                                    arcProgress.setTextColor(Color.argb(255,244,67,54));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 200 && arcProgress.getProgress() < 250){
+                                    status.setText("VERY UNHEALTHY");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,156,39,176));
+                                    arcProgress.setTextColor(Color.argb(255,156,39,176));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                }
+                                if(arcProgress.getProgress() >= 250 && arcProgress.getProgress() < 300){
+                                    status.setText("HAZARDOUS");
+                                    status.setTextColor(Color.parseColor("#27AE60"));
+                                    arcProgress.setFinishedStrokeColor(Color.argb(255,103,58,183));
+                                    arcProgress.setTextColor(Color.argb(255,103,58,183));
+                                    arcProgress.setUnfinishedStrokeColor(Color.argb(120,200,200,218));
+                                    //arcProgress.setUnfinishedStrokeColor(Color.WHITE);
+                                }
                             }
                             else {
                                 //KHONG NHAN DUOC DU LIEU CHO NOI NAY -;-
-                                displayAirView(-1);
-                                saveLocalAirData(-1);
+
+                                SharedPreferences sharedPreferences = context.getSharedPreferences
+                                        ("current_weather_data",Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("airhave",false);
+                                editor.apply();
+                                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                                arcProgress.setVisibility(View.INVISIBLE);
+                                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                                status.setText("Sorry, We don't hava data for this city");
+                                status.setTextSize(20);
+                                status.setTextColor(Color.parseColor("#FDFEFE"));
                             }
                         }
                         else {
                             //airvisual nó lại bằng null, lai ra mac dinh
-                            displayAirView(-1);
-                            saveLocalAirData(-1);
+                            SharedPreferences sharedPreferences = context.getSharedPreferences
+                                    ("current_weather_data",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("airhave",false);
+                            editor.apply();
+                            ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                            arcProgress.setVisibility(View.INVISIBLE);
+                            TextView status = (TextView) getActivity().findViewById(R.id.status);
+                            status.setText("Sorry, We don't hava data for this city");
+                            status.setTextSize(20);
+                            status.setTextColor(Color.parseColor("#FDFEFE"));
                         }
                     }
                 });
@@ -479,13 +551,8 @@ public class fragment_today extends Fragment {
         SharedPreferences sharedPref = context.getSharedPreferences("current_weather_data", Context.MODE_PRIVATE);
         if (sharedPref != null) {
             String openWeatherMapJson = sharedPref.getString("current_weather","");
+            Log.d("json2",openWeatherMapJson);
             OpenWeatherMap openWeatherMap = new Gson().fromJson(openWeatherMapJson, OpenWeatherMap.class);
-<<<<<<< HEAD
-            displayCurrentWeatherView(openWeatherMap);
-            int aqius = sharedPref.getInt("aqius",-1);
-            if (aqius > 0){
-               displayAirView(aqius);
-=======
             Log.d("json3",openWeatherMap.getSys().getSunrise() + "");
             NumberFormat format = new DecimalFormat("#0.0");
             ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
@@ -583,8 +650,14 @@ public class fragment_today extends Fragment {
                 }
             }
             else {
-                displayAirView(-1);
+                ArcProgress arcProgress= (ArcProgress) getActivity().findViewById(R.id.arc_progress);
+                arcProgress.setVisibility(View.INVISIBLE);
+                TextView status = (TextView) getActivity().findViewById(R.id.status);
+                status.setText("Sorry, We don't hava data for this city");
+                status.setTextSize(20);
+                status.setTextColor(Color.parseColor("#FDFEFE"));
             }
+
         }
     }
 

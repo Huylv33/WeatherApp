@@ -37,15 +37,10 @@ public class Noti extends BroadcastReceiver {
     public Noti() {
 
     }
-
     @Override
     public void onReceive(Context context, Intent intent) {
-
         NumberFormat format = new DecimalFormat("#0.0");
         Log.i("demo", "30");
-
-
-
 
 //        locationSetting = new LocationSetting(context);
 //        notificationSetting = new NotificationSetting(context);
