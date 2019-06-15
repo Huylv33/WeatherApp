@@ -45,7 +45,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         public void onClick(View v) {
             int position = getLayoutPosition();
             AutocompletePrediction prediction = placeList.get(position);
-
             String place = prediction.getFullText(null).toString();
             String city = place.split(",")[0].trim();
             String country = place.split(",")[place.split(",").length - 1].trim();

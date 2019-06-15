@@ -14,11 +14,9 @@ public class BackgroundSetting {
         this.activity = activity;
     }
 
-
-
     public void loadBackgroundSetting() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("BackgroundSetting", Context.MODE_PRIVATE);
-        if(sharedPreferences != null) {
+        if(sharedPreferences !=  null) {
             this.backgroundId = sharedPreferences.getInt("Background", R.drawable.wallpaper5);
         }
     }
@@ -29,6 +27,4 @@ public class BackgroundSetting {
         editor.putInt("Background", this.backgroundId);
         editor.apply();
     }
-
-
 }

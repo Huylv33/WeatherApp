@@ -6,12 +6,15 @@ package com.project.mobile.weatherapp;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.WallpaperManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 
 
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
 import android.graphics.Bitmap;
@@ -48,26 +51,32 @@ import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
+import com.project.mobile.weatherapp.Broadcast.BroadcastNoti;
 import com.project.mobile.weatherapp.Broadcast.Noti;
 import com.project.mobile.weatherapp.Setting.BackgroundSetting;
 import com.project.mobile.weatherapp.Setting.LocationSetting;
+import com.project.mobile.weatherapp.Setting.NotificationSetting;
+import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
 import com.project.mobile.weatherapp.fragment.fragment_forecast;
+import com.project.mobile.weatherapp.utils.AlarmUtils;
+import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.GPSTracker;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
-
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity  implements
         CompoundButton.OnCheckedChangeListener, DuoMenuView.OnMenuClickListener {
     private Context context;
-//    private DrawerLayout drawerLayout;
     private GPSTracker gpsTracker;
     private SwitchCompat switchCompat;
     private TabLayout tabLayout;
@@ -90,13 +99,17 @@ public class MainActivity extends AppCompatActivity  implements
     public Boolean usingLocation;
     public LinearLayout linearLayout;
     public BackgroundSetting backgroundSetting;
+    public NotificationSetting notificationSetting;
+    public AlarmUtils alarmUtils;
+    public BroadcastReceiver broadcastNoti;
+    public PrepareDaySetting prepareDaySetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.i("OnCreate MainActivity","called");
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
         linearLayout = (LinearLayout) findViewById(R.id.linear_main_activity);
@@ -112,25 +125,6 @@ public class MainActivity extends AppCompatActivity  implements
         handleDrawer();
 
 
-
-// Phần comment này tạm thời không xóa đi nhé
-
-        // Show main fragment in container
-        //goToFragment(new fragment_today(), false);
-        //mMenuAdapter.setViewSelected(0, true);
-        //setTitle(mTitles.get(0));
-
-
-
-        //switchCompat = findViewById(R.id.switch_1);
-        //switchCompat = findViewById(R.id.switch_2);
-
-        //switchCompat.setOnCheckedChangeListener(this);
-
-        /*toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        */
 // Loại bỏ tiểu đề mặc định
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //viewPager
@@ -166,20 +160,33 @@ public class MainActivity extends AppCompatActivity  implements
         locationSetting.usingLocation = usingLocation;
         locationSetting.saveLocationSetting();
 
+        notificationSetting = new NotificationSetting(this);
+        notificationSetting.loadNotificationSetting();
+        alarmUtils = new AlarmUtils(this);
 
+        if(notificationSetting.notification){
+            Log.i("notification ", ":1");
+            alarmUtils.startRepeat();
+        }
 
-        final int FIVE_MINUTES_IN_MILLI = 300000;
-        final int THIRTY_SECOND_IN_MILLI = 30000;
-        long launchTime = System.currentTimeMillis() + FIVE_MINUTES_IN_MILLI;
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, Noti.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, launchTime, pi);
-        else am.setExact(AlarmManager.RTC_WAKEUP, launchTime, pi);
+        broadcastNoti = new BroadcastNoti() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i("check neeee1", "123");
+                notificationSetting.loadNotificationSetting();
 
+                if(notificationSetting.notification){
+                    Log.i("noti ", notificationSetting.notification + "");
+                    alarmUtils.startRepeat();
+                }
+                else{
+                    alarmUtils.stopRe();
+                }
+            }
+        };
+        IntentFilter filter = new IntentFilter("notiSetting");
+        context.registerReceiver(broadcastNoti, filter);
     }
-
     //handle Toolbar and Menu
     private void handleToolbar() {
         setSupportActionBar(mViewHolder.mToolbar);
@@ -207,12 +214,12 @@ public class MainActivity extends AppCompatActivity  implements
     //set up header, footer of duo navigation view
     @Override
     public void onFooterClicked() {
-        Toast.makeText(this, "onFooterClicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onFooterClicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onHeaderClicked() {
-        Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
     }
 
     //Mở màn hình quản lý vị trí, click vao cai nao thi chuyen den activity do
@@ -287,12 +294,6 @@ public class MainActivity extends AppCompatActivity  implements
             case 4:
                 showMenuClick(4);
                 break;
-            //case 0:
-                //goToFragment(new fragment_hourly(), false);
-            //case 1:
-                //goToFragment(new fragment_forecast(), false);
-            //default:
-                //goToFragment(new fragment_today(), false);
 
         }
 
@@ -387,16 +388,6 @@ public class MainActivity extends AppCompatActivity  implements
         switchCompat.isChecked();
     }
 
-    /*@Override
->>>>>>> erik
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
-    }
-    */
-
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -465,12 +456,15 @@ public class MainActivity extends AppCompatActivity  implements
         AlertDialog alert = alertDialog.create();
         alert.show();
     }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        locationSetting.saveLocationSetting();
-//        Log.i("Kiem tra luong ",this.usingLocation.toString());
-//        Log.i("Kiem tra luong ", this.locationSetting.usingLocation.toString());
+        alarmUtils.stop();
+        alarmUtils.stopRe();
+        unregisterReceiver(broadcastNoti);
+
 
     }
 

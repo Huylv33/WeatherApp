@@ -40,8 +40,6 @@ public class ConvertUnit {
             main.setTemp_min(32 + 1.8 * (main.getTemp_min() - 273.15));
         }
         openWeatherMap.setMain(main);
-
-
     }
 
     public void convert(OpenWeatherPredict openWeatherPredict) {

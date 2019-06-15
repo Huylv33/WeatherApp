@@ -1,10 +1,7 @@
-package com.project.mobile.weatherapp;
+package com.project.mobile.weatherapp.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.mobile.weatherapp.R;
-import com.project.mobile.weatherapp.model.Daily;
+import com.project.mobile.weatherapp.dialog_hourly;
 import com.project.mobile.weatherapp.model.Hourly;
-import com.project.mobile.weatherapp.model.open_weather_map.Weather;
 import com.project.mobile.weatherapp.utils.WeatherIcon;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

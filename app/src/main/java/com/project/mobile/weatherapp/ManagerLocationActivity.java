@@ -28,6 +28,8 @@ public class ManagerLocationActivity extends AppCompatActivity {
             }
         });
 
+
+
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_manager_location);
@@ -40,7 +42,7 @@ public class ManagerLocationActivity extends AppCompatActivity {
             case R.id.text_add_location: {
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
                 Intent iAddLocation = new Intent(this, AddLocationActivity.class);
-                startActivity(iAddLocation);
+                startActivity(iAddLocation); 
                 break;
             }
             case R.id.text_cur_location: {

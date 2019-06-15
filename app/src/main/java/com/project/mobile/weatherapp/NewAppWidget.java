@@ -36,6 +36,7 @@ public class NewAppWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+        String temp_name = "°C";
         String timeString = DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date());
         //Tạo remote view
         //NumberFormat format = new DecimalFormat("#0.0");
@@ -58,7 +59,7 @@ public class NewAppWidget extends AppWidgetProvider {
             //ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
             Main main = openWeatherMap.getMain();
             String mesg = openWeatherMap.getWeather().get(0).getDescription();
-            String temp = (int) (main.getTemp() - 273.15) + "°C";
+            String temp = (int) (main.getTemp()) + "°";
             String name = openWeatherMap.getName();
             views.setTextViewText(R.id.text_location_widget, name);
             views.setTextViewText(R.id.text_weather_widget, mesg);
