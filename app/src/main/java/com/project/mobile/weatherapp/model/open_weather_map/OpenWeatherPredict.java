@@ -3,17 +3,15 @@ package com.project.mobile.weatherapp.model.open_weather_map;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OpenWeatherPredict {
     private java.util.List<ListOfWeather> listOfWeather;
-
 
     public java.util.List<ListOfWeather> getListWeather() {
         return listOfWeather;
     }
 
-    public void setListWeather(java.util.List<ListOfWeather> listOfWeather) {
+    private void setListWeather(java.util.List<ListOfWeather> listOfWeather) {
         this.listOfWeather = listOfWeather;
     }
 
@@ -39,8 +37,6 @@ public class OpenWeatherPredict {
             String dt_txt = openWeather5Days3Hours.getList().get(i + 2).getDt_txt();
             String time = dt_txt.split(" ")[0];
             dt_txt = time + " 06:00:00";
-            Log.i("time", dt_txt);
-            Log.i("time_1", openWeather5Days3Hours.getList().get(i + 2).getDt_txt());
             listOfWeather.setDt_txt(dt_txt);
             listOfWeather.setWeather(openWeather5Days3Hours.getList().get(i + 2).getWeather());
             listOfWeather.setWind(openWeather5Days3Hours.getList().get(i + 2).getWind());

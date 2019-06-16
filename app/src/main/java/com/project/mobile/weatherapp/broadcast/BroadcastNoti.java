@@ -1,4 +1,4 @@
-package com.project.mobile.weatherapp.Broadcast;
+package com.project.mobile.weatherapp.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

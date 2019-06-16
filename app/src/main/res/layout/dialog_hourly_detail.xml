@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://sche'mas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
 
@@ -24,7 +24,7 @@
 
         <RelativeLayout
             android:id="@+id/layout_header"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
             android:gravity="center_vertical"
@@ -70,13 +70,13 @@
         </RelativeLayout>
 
         <ScrollView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/_190sdp"
             android:layout_below="@id/layout_header"
             android:layout_marginTop="@dimen/_12sdp">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/_16sdp"
@@ -85,7 +85,7 @@
 
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:orientation="horizontal">
@@ -101,7 +101,7 @@
 
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:orientation="horizontal">
@@ -118,7 +118,7 @@
 
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:orientation="horizontal">
@@ -133,7 +133,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:orientation="horizontal">

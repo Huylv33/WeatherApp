@@ -1,4 +1,4 @@
-package com.project.mobile.weatherapp.Service;
+package com.project.mobile.weatherapp.service;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -14,8 +14,8 @@ import android.widget.RemoteViews;
 
 import com.project.mobile.weatherapp.MainActivity;
 import com.project.mobile.weatherapp.R;
-import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
-import com.project.mobile.weatherapp.Setting.LocationSetting;
+import com.project.mobile.weatherapp.setting.ConvertUnitSetting;
+import com.project.mobile.weatherapp.setting.LocationSetting;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.utils.Constants;
 import com.project.mobile.weatherapp.utils.ConvertUnit;

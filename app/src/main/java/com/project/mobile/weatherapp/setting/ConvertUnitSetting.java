@@ -1,6 +1,5 @@
-package com.project.mobile.weatherapp.Setting;
+package com.project.mobile.weatherapp.setting;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -9,7 +8,6 @@ public class ConvertUnitSetting {
     public int usingmm;
     public int using12h;
     public int velocity;
-
     public  Context context;
 
     public ConvertUnitSetting(Context activity) {
@@ -34,8 +32,5 @@ public class ConvertUnitSetting {
         editor.putInt("using12h", this.using12h);
         editor.putInt("velocity", this.velocity);
         editor.apply();
-
     }
-
-
 }

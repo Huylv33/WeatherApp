@@ -1,17 +1,13 @@
 package com.project.mobile.weatherapp;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -23,7 +19,7 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.project.mobile.weatherapp.Setting.BackgroundSetting;
+import com.project.mobile.weatherapp.setting.BackgroundSetting;
 import com.project.mobile.weatherapp.adapter.LocationAdapter;
 
 import java.util.LinkedList;

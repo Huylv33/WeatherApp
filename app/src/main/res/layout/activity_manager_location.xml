@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/wallpaper5"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/activity_manager_location"
     >
-
-
     <android.support.v7.widget.Toolbar
         android:id="@id/toolbar"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:title="@string/edit_location"
         app:titleTextColor="@android:color/white"/>
 
     <LinearLayout
         android:id="@+id/ll_add_location"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:gravity="center_vertical"
@@ -49,7 +47,7 @@
 
     <LinearLayout
         android:id="@+id/ll_current_location"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_add_location"
         android:background="?selectableItemBackgroundBorderless"
@@ -90,10 +88,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_location"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/ll_current_location" />
-
-
 
 </RelativeLayout>

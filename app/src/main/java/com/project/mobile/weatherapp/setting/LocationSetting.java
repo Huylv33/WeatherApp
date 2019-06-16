@@ -1,10 +1,8 @@
-package com.project.mobile.weatherapp.Setting;
+package com.project.mobile.weatherapp.setting;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.util.Log;
 
 public class LocationSetting {

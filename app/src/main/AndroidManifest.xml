@@ -49,7 +49,7 @@
             </intent-filter>
 
         </activity>
-        <receiver android:name=".Broadcast.Broadcast">
+        <receiver android:name=".broadcast.Broadcast">
             <intent-filter>
                 <action android:name="setting.unit"/>
             </intent-filter>
@@ -61,14 +61,14 @@
         <activity android:name=".PrepareDayActivity" />
         <activity android:name=".ChangeWallpaperActivity" />
 
-        <receiver android:name=".Broadcast.Noti"
+        <receiver android:name=".broadcast.Noti"
             android:enabled="true"
             android:exported="true">
 
         </receiver>
 
-        <service android:name=".Service.SchedulingServ"/>
-        <service android:name=".Service.NotiService"/>
+        <service android:name=".service.SchedulingServ"/>
+        <service android:name=".service.NotiService"/>
 
     </application>
 

@@ -36,8 +36,7 @@ public class PermissionAboveMarshmellow extends AppCompatActivity {
 
     }
 
-    private boolean checkWriteExternalPermission()
-    {
+    private boolean checkWriteExternalPermission() {
 
         String permission = "android.permission.WRITE_EXTERNAL_STORAGE";
         int res = this.checkCallingOrSelfPermission(permission);
@@ -50,7 +49,6 @@ public class PermissionAboveMarshmellow extends AppCompatActivity {
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
 
-        Log.i("RequestPermissions:", "RequestPermissions");
         if (requestCode == LOCATION_PERMISSIONS_REQUEST) {
 
             if (grantResults.length == 1 &&

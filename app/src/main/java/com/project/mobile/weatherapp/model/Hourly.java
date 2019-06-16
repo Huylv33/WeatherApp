@@ -23,8 +23,6 @@ public class Hourly {
 
     }
 
-
-
     public  String getmTextTime() {
         return mTextTime;
     }

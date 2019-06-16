@@ -1,6 +1,5 @@
 package com.project.mobile.weatherapp.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -18,20 +17,17 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.project.mobile.weatherapp.Broadcast.Broadcast;
-import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
+import com.project.mobile.weatherapp.broadcast.Broadcast;
+import com.project.mobile.weatherapp.setting.ConvertUnitSetting;
 import com.project.mobile.weatherapp.adapter.DailyAdapter;
 import com.project.mobile.weatherapp.R;
 import com.project.mobile.weatherapp.model.Daily;
 import com.project.mobile.weatherapp.model.open_weather_map.ListOfWeather;
-import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.TimeAndDateConverter;
 import com.project.mobile.weatherapp.utils.Weather5DaysAsyncTask;
-import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
-import com.project.mobile.weatherapp.utils.doComplete;
 import com.project.mobile.weatherapp.utils.doComplete5Days;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
@@ -95,7 +91,6 @@ public class fragment_forecast extends Fragment {
                             convertUnit.convert(openWeatherPredict);
                             tempName = "°F";
                         }
-                        Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
                         NumberFormat format = new DecimalFormat("#0.0");
                         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
                                 ("MyPrefsFile", Context.MODE_PRIVATE);
@@ -108,7 +103,6 @@ public class fragment_forecast extends Fragment {
                             Daily daily = new Daily();
                             daily.setmTextWeather(list.getWeather().get(0).getDescription());
                             daily.setmTextDate(list.getDt_txt().split(" ")[0]);
-
                             daily.setmTempMin(format.format(list.getTemp_min() ) + tempName);
                             daily.setmTempMax(format.format(list.getTemp_max()) + tempName);
                             daily.setmIconId(list.getWeather().get(0).getIcon());
@@ -118,7 +112,6 @@ public class fragment_forecast extends Fragment {
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                         recyclerView.setLayoutManager(mLayoutManager);
                         recyclerView.setAdapter(mAdapter);
-                        Log.i("mList size in here ", mList.size() + "");
                     }
                 });
                 weather5DaysAsyncTask.execute();
@@ -207,7 +200,6 @@ public class fragment_forecast extends Fragment {
        ; SharedPreferences sharedPreferences =  context.getSharedPreferences
                 ("MyPrefsFile", Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
-
 
             String openWeatherPredictJson = sharedPreferences.getString("forecast_weather","");
             openWeatherPredictJson = openWeatherPredictJson.substring(17,openWeatherPredictJson.length() - 1);

@@ -1,12 +1,8 @@
-package com.project.mobile.weatherapp.Broadcast;
+package com.project.mobile.weatherapp.broadcast;
 
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-
-import com.project.mobile.weatherapp.utils.Constants;
 
 public class Broadcast extends BroadcastReceiver {
     @Override

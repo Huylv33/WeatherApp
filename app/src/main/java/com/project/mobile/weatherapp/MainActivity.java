@@ -3,9 +3,6 @@ package com.project.mobile.weatherapp;
 
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 
@@ -14,15 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.LinearGradient;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -49,30 +39,21 @@ import android.widget.Toast;
 import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
 import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
-
-
-import com.project.mobile.weatherapp.Broadcast.BroadcastNoti;
-import com.project.mobile.weatherapp.Broadcast.Noti;
-import com.project.mobile.weatherapp.Setting.BackgroundSetting;
-import com.project.mobile.weatherapp.Setting.LocationSetting;
-import com.project.mobile.weatherapp.Setting.NotificationSetting;
-import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
+import com.project.mobile.weatherapp.broadcast.BroadcastNoti;
+import com.project.mobile.weatherapp.setting.BackgroundSetting;
+import com.project.mobile.weatherapp.setting.LocationSetting;
+import com.project.mobile.weatherapp.setting.NotificationSetting;
+import com.project.mobile.weatherapp.setting.PrepareDaySetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
 import com.project.mobile.weatherapp.fragment.fragment_hourly;
 import com.project.mobile.weatherapp.fragment.fragment_today;
 import com.project.mobile.weatherapp.fragment.fragment_forecast;
 import com.project.mobile.weatherapp.utils.AlarmUtils;
-import com.project.mobile.weatherapp.utils.ConvertUnit;
 import com.project.mobile.weatherapp.utils.GPSTracker;
-import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity  implements
         CompoundButton.OnCheckedChangeListener, DuoMenuView.OnMenuClickListener {
@@ -93,7 +74,6 @@ public class MainActivity extends AppCompatActivity  implements
             R.drawable.ic_hourly_black_24dp,
             R.drawable.ic_forecast_black_24dp
     };
-
     public String city = "Hanoi";
     public String country = "Vietnam";
     public Boolean usingLocation;
@@ -123,9 +103,7 @@ public class MainActivity extends AppCompatActivity  implements
         handleMenu();
         // Handle drawer actions
         handleDrawer();
-
-
-// Loại bỏ tiểu đề mặc định
+        // Loại bỏ tiểu đề mặc định
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //viewPager
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -133,13 +111,11 @@ public class MainActivity extends AppCompatActivity  implements
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-
         locationSetting.loadLocationSetting();
         usingLocation = locationSetting.usingLocation;
         gpsTracker = new GPSTracker(this);
         this.city = locationSetting.city;
         this.country = locationSetting.country;
-
         // Lay intent tu Search truyen lai
         Intent locationIntent = getIntent();
         Bundle locationBundle = locationIntent.getBundleExtra("Place");
@@ -172,9 +148,7 @@ public class MainActivity extends AppCompatActivity  implements
         broadcastNoti = new BroadcastNoti() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.i("check neeee1", "123");
                 notificationSetting.loadNotificationSetting();
-
                 if(notificationSetting.notification){
                     Log.i("noti ", notificationSetting.notification + "");
                     alarmUtils.startRepeat();
@@ -443,10 +417,8 @@ public class MainActivity extends AppCompatActivity  implements
                 mContext.startActivity(intent);
             }
         });
-
         //On pressing cancel button
         alertDialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
@@ -464,11 +436,12 @@ public class MainActivity extends AppCompatActivity  implements
         alarmUtils.stop();
         alarmUtils.stopRe();
         unregisterReceiver(broadcastNoti);
-
-
     }
 
-
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("onRestart Activity", "called");
+    }
 }
 

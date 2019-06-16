@@ -1,6 +1,5 @@
-package com.project.mobile.weatherapp.Setting;
+package com.project.mobile.weatherapp.setting;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 

@@ -55,10 +55,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             intent.putExtra("Place", locationBundle);
             activity.startActivity(intent);
             Toast.makeText(v.getContext(), place, Toast.LENGTH_LONG).show();
-
-//            Toast.makeText(v.getContext(), prediction.getSecondaryText(null).toString(), Toast.LENGTH_LONG).show();
-//            Toast.makeText(v.getContext(), prediction.getSecondaryText(null).toString(), Toast.LENGTH_LONG).show();
-
             Log.d("HUENT", "onClick: clicked" + prediction.getPrimaryText(null).toString());
             ((Activity) v.getContext()).finish();
 

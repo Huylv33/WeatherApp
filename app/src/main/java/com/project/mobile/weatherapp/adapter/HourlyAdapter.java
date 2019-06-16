@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.mobile.weatherapp.R;
-import com.project.mobile.weatherapp.dialog_hourly;
+import com.project.mobile.weatherapp.DialogHourly;
 import com.project.mobile.weatherapp.model.Hourly;
 import com.project.mobile.weatherapp.utils.WeatherIcon;
 
@@ -48,9 +48,6 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
         holder.textwind.setText(itemweather.getmTextWind());
         holder.texthumidity.setText(itemweather.getmTextHumidity());
         holder.weatherIcon.setImageResource(WeatherIcon.getIconId(itemweather.getWeatherIcon()));
-
-        //holder.textweather.setText(itemweather.getmTextWeather());
-        //holder.textpressure.setText(itemweather.getmTextPressure());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +63,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
 
                 FragmentManager fm = ((AppCompatActivity) mContext).getSupportFragmentManager();
 
-                dialog_hourly dialog = new dialog_hourly();
+                DialogHourly dialog = new DialogHourly();
                 dialog.setArguments(args);
                 dialog.show(fm, "dialog detail");
             }

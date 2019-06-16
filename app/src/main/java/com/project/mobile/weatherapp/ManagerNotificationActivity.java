@@ -4,7 +4,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.ParcelUuid;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.project.mobile.weatherapp.Setting.BackgroundSetting;
-import com.project.mobile.weatherapp.Setting.NotificationSetting;
+import com.project.mobile.weatherapp.setting.BackgroundSetting;
+import com.project.mobile.weatherapp.setting.NotificationSetting;
 import com.project.mobile.weatherapp.utils.AlarmUtils;
 
 import java.text.SimpleDateFormat;
@@ -156,9 +155,6 @@ public class ManagerNotificationActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setAction("notiSetting");
                 sendBroadcast(intent);
-//                        String time = sharedPreferences.getString("timeSet", "08:00");
-
-
                 Toast.makeText(context, timeSet, Toast.LENGTH_SHORT).show();
             }
         };

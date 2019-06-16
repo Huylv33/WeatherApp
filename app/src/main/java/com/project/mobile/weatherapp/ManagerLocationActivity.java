@@ -5,11 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.project.mobile.weatherapp.Setting.BackgroundSetting;
+import com.project.mobile.weatherapp.setting.BackgroundSetting;
 
 public class ManagerLocationActivity extends AppCompatActivity {
 
@@ -27,8 +26,6 @@ public class ManagerLocationActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
@@ -57,5 +54,4 @@ public class ManagerLocationActivity extends AppCompatActivity {
     public void back(View v){
         finish();
     }
-
 }

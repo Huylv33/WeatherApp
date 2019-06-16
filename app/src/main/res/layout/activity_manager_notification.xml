@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/wallpaper5"
     android:orientation="vertical"
     android:id="@+id/activity_manager_notufication">
 
     <android.support.v7.widget.Toolbar
         android:id="@id/toolbar"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         app:title="@string/notification"
         app:titleTextColor="@android:color/white"/>
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0.0dip"
         android:layout_weight="1.0">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="10dip"
             android:paddingRight="10dip">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -53,12 +53,12 @@
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1.0px"
                 android:background="#76ffffff" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -82,13 +82,13 @@
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1.0px"
                 android:background="#76ffffff" />
 
             <LinearLayout
                 android:id="@+id/select_time_notification"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:orientation="horizontal"
@@ -108,14 +108,14 @@
                     >
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/select_a_daily_notification_time"
                         android:textColor="@android:color/white"
                         android:textSize="13sp" />
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/help_you_prepare_more_actively"
                         android:textColor="@color/white70"
@@ -134,13 +134,13 @@
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1.0px"
                 android:background="#76ffffff" />
 
             <LinearLayout
                 android:id="@+id/select_time_repeat"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:orientation="vertical"
@@ -150,7 +150,7 @@
                 android:clickable="true">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/time_to_notify_again"
                     android:textColor="@android:color/white"
@@ -158,7 +158,7 @@
 
                 <TextView
                     android:id="@+id/time_repeat"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cứ sau 1 ngày"
                     android:textColor="@color/white70"
@@ -166,12 +166,12 @@
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1.0px"
                 android:background="#76ffffff" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -195,12 +195,12 @@
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1.0px"
                 android:background="#76ffffff" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -224,7 +224,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1.0px"
                 android:background="#76ffffff" />
         </LinearLayout>
@@ -232,7 +232,7 @@
 
     <FrameLayout
         android:id="@+id/fl_ad_banner"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent" />
 </LinearLayout>

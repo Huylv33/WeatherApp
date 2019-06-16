@@ -43,12 +43,6 @@ public class NewAppWidget extends AppWidgetProvider {
 
         views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
 
-        // Khai báo tạm string để test layout
-        //String temperature= "25°C";
-        //String weather= "Bầu trời quang đãng";
-        //views.setTextViewText(R.id.text_temperature,temperature);
-        //views.setImageViewResource(R.id.icon_weather, R.drawable.img_fewclouds_day);
-        //views.setTextViewText(R.id.text_weather,weather);
         SharedPreferences prefs = context.getSharedPreferences("current_weather_data",Context.MODE_PRIVATE);
         if (prefs != null) {
             String openWeatherMapJson = prefs.getString("current_weather", "");
@@ -56,7 +50,6 @@ public class NewAppWidget extends AppWidgetProvider {
             OpenWeatherMap openWeatherMap = new Gson().fromJson(openWeatherMapJson, OpenWeatherMap.class);
             Log.d("json3", openWeatherMap.getSys().getSunrise() + "");
             NumberFormat format = new DecimalFormat("#0.0");
-            //ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeather);
             Main main = openWeatherMap.getMain();
             String mesg = openWeatherMap.getWeather().get(0).getDescription();
             String temp = (int) (main.getTemp()) + "°";
@@ -66,8 +59,6 @@ public class NewAppWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.text_temperature_widget, temp);
             views.setImageViewResource(R.id.icon_weather_widget, WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()));
         }
-
-
 
         // Ấn vào widget khởi chạy màn hình chính
         Intent launchMain = new Intent(context, MainActivity.class);

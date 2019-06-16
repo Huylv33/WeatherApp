@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Path;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,18 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
-import com.project.mobile.weatherapp.Broadcast.Broadcast;
+import com.project.mobile.weatherapp.broadcast.Broadcast;
 import com.project.mobile.weatherapp.PermissionAboveMarshmellow;
 import com.project.mobile.weatherapp.R;
-import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
-import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
+import com.project.mobile.weatherapp.setting.ConvertUnitSetting;
+import com.project.mobile.weatherapp.setting.PrepareDaySetting;
 import com.project.mobile.weatherapp.model.airvisual.AirVisual;
-import com.project.mobile.weatherapp.model.airvisual.Current;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.utils.AirVisualAsyncTask;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
@@ -39,7 +36,6 @@ import com.project.mobile.weatherapp.utils.WeatherIcon;
 import com.project.mobile.weatherapp.utils.doComplete;
 import com.project.mobile.weatherapp.utils.doCompleteAirVisual;
 
-import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -113,8 +109,8 @@ public class fragment_today extends Fragment {
             velocityDegree = " km/h";
         }
         String detail = "";
-        if(prepareDaySetting.umbbrela){
-            if(openWeatherMap.getMain().getHumidity() > prepareDaySetting.umbbrela_seek)
+        if(prepareDaySetting.umbrella){
+            if(openWeatherMap.getMain().getHumidity() > prepareDaySetting.umbrella_seek)
                 detail = detail + "Nhớ mang ô nhé :* ! ";
         }
         if(prepareDaySetting.highTemp){
@@ -252,14 +248,12 @@ public class fragment_today extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
-
         Log.i("debug   1", convertUnitSetting.usingCelcius + "");
         loadWeatherInfor();
 
         mbroadcast = new Broadcast() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.i("asdas111111d", "11");
                 convertUnitSetting.loadConvertUnit();
                 convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
                 loadWeatherInfor();
@@ -279,8 +273,7 @@ public class fragment_today extends Fragment {
         if (imgWeather == null) {
             Log.d("fuck","null");
         }
-//        dataCommunication = new DtaCommunication(gpsTracker.getLatitude(),gpsTracker.getLongitude());
-//        sendingData.sendData(dataCommunication);
+
     }
 
     private void loadWeatherInfor() {

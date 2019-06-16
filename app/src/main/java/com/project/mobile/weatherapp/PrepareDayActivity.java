@@ -3,24 +3,22 @@ package com.project.mobile.weatherapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.project.mobile.weatherapp.Setting.BackgroundSetting;
-import com.project.mobile.weatherapp.Setting.PrepareDaySetting;
+import com.project.mobile.weatherapp.setting.BackgroundSetting;
+import com.project.mobile.weatherapp.setting.PrepareDaySetting;
 
 public class PrepareDayActivity extends AppCompatActivity {
     public BackgroundSetting backgroundSetting;
-    public SwitchCompat umbbrela, coat, highTemp, coldTemp;
+    public SwitchCompat umbrella, coat, highTemp, coldTemp;
     public SeekBar seekUmbre, seekCoat, seekHigh, seekCold;
     public PrepareDaySetting prepareDaySetting;
     public LinearLayout linearLayout;
@@ -46,23 +44,23 @@ public class PrepareDayActivity extends AppCompatActivity {
 
         prepareDaySetting = new PrepareDaySetting(this);
         prepareDaySetting.loadPrepareDaySetting();
-        umbbrela = (SwitchCompat) findViewById(R.id.enable_umbrella);
+        umbrella = (SwitchCompat) findViewById(R.id.enable_umbrella);
         coat = (SwitchCompat) findViewById(R.id.enable_coat);
         highTemp = (SwitchCompat) findViewById(R.id.enable_high_temp);
         coldTemp = (SwitchCompat) findViewById(R.id.enable_low_temp);
 
-        umbbrela.setChecked(prepareDaySetting.umbbrela);
+        umbrella.setChecked(prepareDaySetting.umbrella);
         coat.setChecked(prepareDaySetting.coat);
         highTemp.setChecked(prepareDaySetting.highTemp);
         coldTemp.setChecked(prepareDaySetting.coldTemp);
 
 
-        umbbrela.setOnCheckedChangeListener(
+        umbrella.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton,
                                                  boolean b) {
-                        prepareDaySetting.umbbrela = umbbrela.isChecked();
+                        prepareDaySetting.umbrella = umbrella.isChecked();
                         prepareDaySetting.savePrepareDaySetting();
                         Intent intent = new Intent();
                         intent.setAction("setting.unit");
@@ -126,7 +124,7 @@ public class PrepareDayActivity extends AppCompatActivity {
         seekCold.setMax(20);
         seekCold.setMin(-20);
         seekCoat.setProgress(prepareDaySetting.coat_seek);
-        seekUmbre.setProgress(prepareDaySetting.umbbrela_seek);
+        seekUmbre.setProgress(prepareDaySetting.umbrella_seek);
         seekCold.setProgress(prepareDaySetting.coldTemp_seek);
         seekHigh.setProgress(prepareDaySetting.highTemp_seek);
         txtUmbre.setText(seekUmbre.getProgress() + "%");
@@ -143,7 +141,7 @@ public class PrepareDayActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
                 txtUmbre.setText(progressValue + "%" );
-                prepareDaySetting.umbbrela_seek = progressValue;
+                prepareDaySetting.umbrella_seek = progressValue;
                 prepareDaySetting.savePrepareDaySetting();
 
                 Log.i("umbre", "Changing seekbar's progress");
@@ -268,49 +266,4 @@ public class PrepareDayActivity extends AppCompatActivity {
         });
     }
 
-
-
- /*   public void onRadioButtonClick(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.enable_umbrella:
-                if (checked) {
-//                    prepareDaySetting.coldTemp = coldTemp.isChecked();
-//                    prepareDaySetting.savePrepareDaySetting();
-                }
-
-                    break;
-            case R.id.enable_coat:
-                if (checked) {
-//                    prepareDaySetting.coat = coat.isChecked();
-//                    prepareDaySetting.savePrepareDaySetting();
-                }
-                    // Ninjas rule
-                    break;
-            case R.id.enable_high_temp:
-                if (checked) {
-//                    prepareDaySetting.highTemp = highTemp.isChecked();
-//                    prepareDaySetting.savePrepareDaySetting();
-                }
-                    // Ninjas rule
-                    break;
-            case R.id.enable_low_temp:
-                if (checked) {
-//                    prepareDaySetting.coldTemp = coldTemp.isChecked();
-//                    prepareDaySetting.savePrepareDaySetting();
-                }
-                    // Ninjas rule
-                    break;
-        }
-<<<<<<< HEAD
-    }
-    public void back(View v){
-        finish();
-    }
-
-=======
-    } */
 }

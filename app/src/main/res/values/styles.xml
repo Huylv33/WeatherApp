@@ -60,7 +60,7 @@
 
     <style name="CurConditionItem.Divider" parent="@style/CurConditionItem">
         <item name="android:background">@color/white40</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1.0dip</item>
     </style>
 
@@ -74,7 +74,7 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingTop">@dimen/_12sdp</item>
         <item name="android:paddingBottom">@dimen/_12sdp</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 

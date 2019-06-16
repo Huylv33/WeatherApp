@@ -1,4 +1,4 @@
-package com.project.mobile.weatherapp.Service;
+package com.project.mobile.weatherapp.service;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.project.mobile.weatherapp.ManagerNotificationActivity;
-import com.project.mobile.weatherapp.Setting.LocationSetting;
+import com.project.mobile.weatherapp.setting.LocationSetting;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.utils.Constants;
 
@@ -21,8 +21,6 @@ import com.project.mobile.weatherapp.utils.GPSTracker;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherIcon;
 import com.project.mobile.weatherapp.utils.doComplete;
-
-
 
 public class SchedulingServ extends IntentService {
     private static final int TIME_VIBRATE = 1000;

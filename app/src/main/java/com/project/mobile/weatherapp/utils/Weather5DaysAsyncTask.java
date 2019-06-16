@@ -13,8 +13,7 @@ import java.text.NumberFormat;
 
 public class Weather5DaysAsyncTask extends AsyncTask<Void,Void, OpenWeatherPredict> {
     private NumberFormat format = new DecimalFormat("#0.0");
-    public DailyAdapter mAdapter;
-    public RecyclerView recyclerView;
+    private DailyAdapter mAdapter;
 
     private  String q;
     private double lat, lon;

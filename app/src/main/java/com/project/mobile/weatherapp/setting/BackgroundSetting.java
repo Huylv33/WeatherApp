@@ -1,6 +1,5 @@
-package com.project.mobile.weatherapp.Setting;
+package com.project.mobile.weatherapp.setting;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -15,14 +14,16 @@ public class BackgroundSetting {
     }
 
     public void loadBackgroundSetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("BackgroundSetting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = activity.getSharedPreferences
+                ("BackgroundSetting", Context.MODE_PRIVATE);
         if(sharedPreferences !=  null) {
             this.backgroundId = sharedPreferences.getInt("Background", R.drawable.wallpaper5);
         }
     }
 
     public void saveBackgroundSetting() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("BackgroundSetting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = activity.getSharedPreferences
+                ("BackgroundSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("Background", this.backgroundId);
         editor.apply();

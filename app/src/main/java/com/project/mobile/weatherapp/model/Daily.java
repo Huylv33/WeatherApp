@@ -9,7 +9,7 @@ public class Daily {
     public Daily() {
 
     }
-    public  Daily (String mTextDate, String mTextWeather, String mTempMax, String mTempMin, String mIconId) {
+    public Daily(String mTextDate, String mTextWeather, String mTempMax, String mTempMin, String mIconId) {
         this.mTextDate = mTextDate;
         this.mTextWeather = mTextWeather;
         this.mTempMax = mTempMax;

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class OpenWeatherHours {
     public java.util.List<List> list;
-
     public OpenWeatherHours(OpenWeather5Days3Hours openWeather5Days3Hours) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         java.util.List<List> listOfWeatherHourly = new ArrayList<List>();

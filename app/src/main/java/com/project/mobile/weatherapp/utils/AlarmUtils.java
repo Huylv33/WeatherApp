@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import com.project.mobile.weatherapp.Service.NotiService;
-import com.project.mobile.weatherapp.Service.SchedulingServ;
+import com.project.mobile.weatherapp.service.NotiService;
+import com.project.mobile.weatherapp.service.SchedulingServ;
 
 public class AlarmUtils {
     private static int INDEX = 1;

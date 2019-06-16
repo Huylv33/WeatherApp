@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.project.mobile.weatherapp.Broadcast.Broadcast;
+import com.project.mobile.weatherapp.broadcast.Broadcast;
 import com.project.mobile.weatherapp.adapter.HourlyAdapter;
 import com.project.mobile.weatherapp.R;
-import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
+import com.project.mobile.weatherapp.setting.ConvertUnitSetting;
 import com.project.mobile.weatherapp.model.Hourly;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherHours;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
@@ -64,7 +64,6 @@ public class fragment_hourly extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         context = getActivity().getApplicationContext();
         Bundle args = getArguments();
         lat = args.getDouble("lat");
@@ -93,17 +92,12 @@ public class fragment_hourly extends Fragment {
                         else{
                             convertUnit.convert(openWeatherHours);
                             tempName = "°F";
-                            Log.i("check chay vao hya ko", "");
-
-
                         }
                         String velocityDegree = " m/s";
                         if(convertUnitSetting.velocity == 1) {
                             convertUnit.convertVelocity(openWeatherHours);
                             velocityDegree = " km/h";
-                            Log.i("check chay vao hya ko", "");
                         }
-
                         for (com.project.mobile.weatherapp.model.open_weather_map.List list : openWeatherHours.list) {
                             Hourly hourly = new Hourly();
                             hourly.list = list;
@@ -112,8 +106,6 @@ public class fragment_hourly extends Fragment {
                             hourly.setmTextTime(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
                             hourly.setmTextWind(format.format(list.getWind().getSpeed()) + velocityDegree);
                             hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
-                            //hourly.setmTextWeather(list.getWeather().get(0).getDescription());
-                            //hourly.setmTextPressure(list.getMain().getPressure() + " hpa");
                             mList.add(hourly);
                         }
                         String openWeatherHoursJson = new Gson().toJson(openWeatherHours);
@@ -194,7 +186,6 @@ public class fragment_hourly extends Fragment {
         mbroadcast = new Broadcast() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.i("asdas111111d", "11");
                 convertUnitSetting.loadConvertUnit();
                 convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
                 Log.i("check neffff ","" + convertUnit.velocity);
@@ -204,8 +195,6 @@ public class fragment_hourly extends Fragment {
 
         IntentFilter filter = new IntentFilter("setting.unit");
         context.registerReceiver(mbroadcast, filter);
-
-
         return  view;
     }
 

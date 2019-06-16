@@ -2,9 +2,7 @@ package com.project.mobile.weatherapp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.ParcelUuid;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +10,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.mobile.weatherapp.Setting.BackgroundSetting;
-import com.project.mobile.weatherapp.Setting.ConvertUnitSetting;
-import com.project.mobile.weatherapp.model.Hourly;
+import com.project.mobile.weatherapp.setting.BackgroundSetting;
+import com.project.mobile.weatherapp.setting.ConvertUnitSetting;
 import com.project.mobile.weatherapp.utils.ConvertUnit;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class dialog_hourly extends DialogFragment {
+public class DialogHourly extends DialogFragment {
     public TextView mTextTemp;
     public TextView mTextPressure;
     public TextView texttime;
@@ -35,7 +30,7 @@ public class dialog_hourly extends DialogFragment {
     private ImageView background;
 
 
-    public dialog_hourly() {
+    public DialogHourly() {
 
     }
 
