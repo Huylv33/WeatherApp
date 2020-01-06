@@ -59,8 +59,6 @@ public class List {
         this.sys = sys;
     }
 
-
-
     public void setWind(Wind wind) {
         this.wind = wind;
     }

@@ -40,14 +40,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             super(itemView);
             text_location = (TextView) itemView.findViewById(R.id.text_location);
             itemView.setOnClickListener(this);
-
         }
-
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition();
             AutocompletePrediction prediction = placeList.get(position);
-
             String place = prediction.getFullText(null).toString();
             String city = place.split(",")[0].trim();
             String country = place.split(",")[place.split(",").length - 1].trim();
@@ -58,10 +55,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             intent.putExtra("Place", locationBundle);
             activity.startActivity(intent);
             Toast.makeText(v.getContext(), place, Toast.LENGTH_LONG).show();
-
-//            Toast.makeText(v.getContext(), prediction.getSecondaryText(null).toString(), Toast.LENGTH_LONG).show();
-//            Toast.makeText(v.getContext(), prediction.getSecondaryText(null).toString(), Toast.LENGTH_LONG).show();
-
             Log.d("HUENT", "onClick: clicked" + prediction.getPrimaryText(null).toString());
             ((Activity) v.getContext()).finish();
 

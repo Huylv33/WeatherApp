@@ -15,12 +15,13 @@ public class OpenWeatherMap {
     private int id;
     private String name;
     private int cod;
+    private long timezone;
 
     public OpenWeatherMap() {
 
     }
 
-    public OpenWeatherMap(Coord coord, List<Weather> weatherList, String base, Main main, Wind wind, Rain rain, Clouds clouds, int dt, Sys sys, int id, String name, int cod) {
+    public OpenWeatherMap(Coord coord, List<Weather> weatherList, String base, Main main, Wind wind, Rain rain, Clouds clouds, int dt, Sys sys, int id, String name, int cod, long timezone) {
         this.coord = coord;
         this.weather = weatherList;
         this.base = base;
@@ -33,6 +34,15 @@ public class OpenWeatherMap {
         this.id = id;
         this.name = name;
         this.cod = cod;
+        this.timezone = timezone;
+    }
+
+    public long getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(long timezone) {
+        this.timezone = timezone;
     }
 
     public Coord getCoord() {

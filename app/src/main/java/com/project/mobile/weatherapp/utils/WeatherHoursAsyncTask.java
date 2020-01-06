@@ -3,12 +3,8 @@ package com.project.mobile.weatherapp.utils;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 
-import com.project.mobile.weatherapp.HourlyAdapter;
-import com.project.mobile.weatherapp.adapter.DailyAdapter;
-import com.project.mobile.weatherapp.model.Hourly;
+import com.project.mobile.weatherapp.adapter.HourlyAdapter;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherHours;
-import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
-import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherPredict;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

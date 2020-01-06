@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/today"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp">
 
             <android.support.constraint.ConstraintLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_trans"
                 android:padding="@dimen/_10sdp">
@@ -110,8 +110,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/_16ssp" />
+                        android:textSize="@dimen/_16ssp"
+                        />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ngaycuaban"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="TextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtCurrentAddressName" />
             </android.support.constraint.ConstraintLayout>
 
 
@@ -133,7 +144,7 @@
                 android:textSize="@dimen/_13ssp" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_trans"
                 android:orientation="vertical"
@@ -252,13 +263,22 @@
                 android:textSize="@dimen/_13ssp" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_trans"
                 android:padding="@dimen/_8sdp"
                 android:orientation="vertical">
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    />
 
                     <com.github.lzyzsd.circleprogress.ArcProgress
+
                         android:id="@+id/arc_progress"
                         android:layout_width="220dp"
                         android:layout_height="220dp"
@@ -266,13 +286,14 @@
                         android:layout_marginTop="@dimen/_40sdp"
                         custom:arc_bottom_text_size="28sp"
                         custom:arc_finished_color="@android:color/transparent"
-                        custom:arc_bottom_text="AIR"
+                        custom:arc_bottom_text="AQI"
                         custom:arc_max="300"
-                        custom:arc_progress="145"
+                        custom:arc_progress="120"
                         custom:arc_suffix_text=""
                         custom:arc_suffix_text_size="0dp"
                         custom:arc_unfinished_color="@android:color/transparent"
                         android:layout_gravity="center"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -294,4 +315,4 @@
 
         </LinearLayout>
     </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

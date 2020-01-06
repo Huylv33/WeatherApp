@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://sche'mas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="12.0dip"
+    android:paddingTop="10.0dip"
+    android:paddingRight="12.0dip"
+    android:paddingBottom="10.0dip">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wallpaper5"/>
+
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:padding="@dimen/_18sdp"
+        android:text="Cảnh báo nhiệt độ cao, nên mang theo ô dù, nên đội mũ, nên clgt"
+        android:textSize="@dimen/_18sdp"
+        android:textColor="@android:color/white"/>
+
+
+</RelativeLayout>

@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/colorPrimary">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wallpaper5"
+    android:id="@+id/dialog_change_wallpaper">
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_wallpaper"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/layout_button"
         android:background="@android:color/transparent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_button"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
+
         android:paddingTop="@dimen/_12sdp"
         android:paddingBottom="@dimen/_12sdp">
 
@@ -32,6 +34,8 @@
             android:paddingBottom="@dimen/_6sdp"
             android:text="@string/select"
             android:textAllCaps="true"
+            android:onClick="onClick"
+            android:clickable="true"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toStartOf="@id/text_no_thank"
@@ -48,6 +52,8 @@
             android:paddingBottom="@dimen/_6sdp"
             android:text="@string/cancel"
             android:textAllCaps="true"
+            android:onClick="onClick"
+            android:clickable="true"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="parent"

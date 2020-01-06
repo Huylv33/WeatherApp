@@ -12,60 +12,72 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MyRadioButton" parent="@style/Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlNormal">@color/colorAccent</item>
     </style>
+
     <style name="MySeekBar">
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlNormal">@color/white70</item>
     </style>
+
     <style name="CircularProgress" parent="@style/Theme.AppCompat.Light">
         <item name="colorAccent">#ff212121</item>
     </style>
+
     <style name="CustomDialog" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
     <style name="DetailItem">
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="DetailItem.Text" parent="@style/DetailItem">
         <item name="android:layout_width">0.0dip</item>
         <item name="android:layout_weight">1.0</item>
     </style>
+
     <style name="DetailItem.TextValue" parent="@style/DetailItem">
         <item name="android:layout_width">wrap_content</item>
     </style>
+
     <style name="WidgetTextViewNormal">
         <item name="android:textColor">#ffffffff</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="CurConditionItem" />
+
     <style name="CurConditionItem.Divider" parent="@style/CurConditionItem">
         <item name="android:background">@color/white40</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1.0dip</item>
     </style>
+
     <style name="CurConditionItem.Icon" parent="@style/CurConditionItem">
         <item name="android:layout_width">@dimen/_20sdp</item>
         <item name="android:layout_height">@dimen/_20sdp</item>
     </style>
+
     <style name="CurConditionItem.Layout" parent="@style/CurConditionItem">
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingTop">@dimen/_12sdp</item>
         <item name="android:paddingBottom">@dimen/_12sdp</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="CurConditionItem.Text" parent="@style/CurConditionItem">
         <item name="android:textSize">@dimen/_14ssp</item>
         <item name="android:textColor">@android:color/white</item>
@@ -74,17 +86,28 @@
         <item name="android:layout_marginLeft">@dimen/_24sdp</item>
         <item name="android:layout_weight">1.0</item>
     </style>
+
     <style name="CurConditionItem.TextValue" parent="@style/CurConditionItem">
         <item name="android:textSize">@dimen/_14ssp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="SearchViewTheme">
         <item name="android:gravity">right</item>
         <item name="colorControlActivated">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
     </style>
+
+    <style name="AppTheme.NoActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

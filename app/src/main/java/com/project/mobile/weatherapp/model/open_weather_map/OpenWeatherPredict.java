@@ -3,17 +3,15 @@ package com.project.mobile.weatherapp.model.open_weather_map;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OpenWeatherPredict {
     private java.util.List<ListOfWeather> listOfWeather;
-
 
     public java.util.List<ListOfWeather> getListWeather() {
         return listOfWeather;
     }
 
-    public void setListWeather(java.util.List<ListOfWeather> listOfWeather) {
+    private void setListWeather(java.util.List<ListOfWeather> listOfWeather) {
         this.listOfWeather = listOfWeather;
     }
 
@@ -31,18 +29,18 @@ public class OpenWeatherPredict {
                     temp_min = openWeather5Days3Hours.getList().get(j).getMain().getTemp_min();
                 }
             }
-
-            Log.i("Check temp max", temp_max + " ");
-            Log.i("Check temp min", temp_min + " ");
             ListOfWeather listOfWeather = new ListOfWeather();
-           listOfWeather.setTemp_max(temp_max);
-           listOfWeather.setTemp_min(temp_min);
-           listOfWeather.setClouds(openWeather5Days3Hours.getList().get(i + 2).getClouds());
-           listOfWeather.setMain(openWeather5Days3Hours.getList().get(i + 2).getMain());
-           listOfWeather.setDt_txt(openWeather5Days3Hours.getList().get(i + 2).getDt_txt());
-           listOfWeather.setWeather(openWeather5Days3Hours.getList().get(i + 2).getWeather());
-           listOfWeather.setWind(openWeather5Days3Hours.getList().get(i + 2).getWind());
-           weather5Days.add(listOfWeather);
+            listOfWeather.setTemp_max(temp_max);
+            listOfWeather.setTemp_min(temp_min);
+            listOfWeather.setClouds(openWeather5Days3Hours.getList().get(i + 2).getClouds());
+            listOfWeather.setMain(openWeather5Days3Hours.getList().get(i + 2).getMain());
+            String dt_txt = openWeather5Days3Hours.getList().get(i + 2).getDt_txt();
+            String time = dt_txt.split(" ")[0];
+            dt_txt = time + " 06:00:00";
+            listOfWeather.setDt_txt(dt_txt);
+            listOfWeather.setWeather(openWeather5Days3Hours.getList().get(i + 2).getWeather());
+            listOfWeather.setWind(openWeather5Days3Hours.getList().get(i + 2).getWind());
+            weather5Days.add(listOfWeather);
         }
         this.setListWeather(weather5Days);
     }

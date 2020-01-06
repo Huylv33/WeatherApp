@@ -49,5 +49,4 @@ public class WeatherAsyncTask extends AsyncTask<Void,Void,OpenWeatherMap> {
         super.onPostExecute(openWeatherMap);
         finish.doComplete(openWeatherMap);
     }
-
 }

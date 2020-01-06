@@ -21,7 +21,6 @@ public class PermissionAboveMarshmellow extends AppCompatActivity {
         askPermissions();
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean("IS_FIRST_LAUNCHER",true).apply();
-
     }
 
     protected void askPermissions() {
@@ -33,11 +32,9 @@ public class PermissionAboveMarshmellow extends AppCompatActivity {
 
             Log.i("askPermissions:", "askPermissions");
         }
-
     }
 
-    private boolean checkWriteExternalPermission()
-    {
+    private boolean checkWriteExternalPermission() {
 
         String permission = "android.permission.WRITE_EXTERNAL_STORAGE";
         int res = this.checkCallingOrSelfPermission(permission);
@@ -50,7 +47,6 @@ public class PermissionAboveMarshmellow extends AppCompatActivity {
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
 
-        Log.i("RequestPermissions:", "RequestPermissions");
         if (requestCode == LOCATION_PERMISSIONS_REQUEST) {
 
             if (grantResults.length == 1 &&
