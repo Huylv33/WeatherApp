@@ -21,7 +21,6 @@ public class PermissionAboveMarshmellow extends AppCompatActivity {
         askPermissions();
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean("IS_FIRST_LAUNCHER",true).apply();
-
     }
 
     protected void askPermissions() {
@@ -33,7 +32,6 @@ public class PermissionAboveMarshmellow extends AppCompatActivity {
 
             Log.i("askPermissions:", "askPermissions");
         }
-
     }
 
     private boolean checkWriteExternalPermission() {

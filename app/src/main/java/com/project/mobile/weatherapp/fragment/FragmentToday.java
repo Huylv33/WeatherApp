@@ -45,7 +45,7 @@ import java.text.NumberFormat;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class fragment_today extends Fragment {
+public class FragmentToday extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private  Context context;
@@ -58,7 +58,7 @@ public class fragment_today extends Fragment {
     public String country;
     public ConvertUnitSetting convertUnitSetting;
     public ConvertUnit convertUnit;
-    private Broadcast mbroadcast;
+    private Broadcast broadcast;
     public PrepareDaySetting prepareDaySetting;
     public TextView detailView;
     public void onCreate(Bundle savedInstanceState) {
@@ -248,20 +248,18 @@ public class fragment_today extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
-        Log.i("debug   1", convertUnitSetting.usingCelcius + "");
-        loadWeatherInfor();
-
-        mbroadcast = new Broadcast() {
+        loadWeatherInfo();
+        broadcast = new Broadcast() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 convertUnitSetting.loadConvertUnit();
                 convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
-                loadWeatherInfor();
+                loadWeatherInfo();
             }
         };
 
         IntentFilter filter = new IntentFilter("setting.unit");
-        context.registerReceiver(mbroadcast, filter);
+        context.registerReceiver(broadcast, filter);
         return view;
     }
 
@@ -271,12 +269,12 @@ public class fragment_today extends Fragment {
 
         ImageView imgWeather = (ImageView) getActivity().findViewById(R.id.imgWeatherToday);
         if (imgWeather == null) {
-            Log.d("fuck","null");
+
         }
 
     }
 
-    private void loadWeatherInfor() {
+    private void loadWeatherInfo() {
         if (shouldAskPermissions() && !isFirstTimeLauncher()) {
             startActivity(new Intent(getActivity(), PermissionAboveMarshmellow.class));
             getWeather();
@@ -373,7 +371,7 @@ public class fragment_today extends Fragment {
         if (weatherAsyncTask != null) {
             weatherAsyncTask.cancel(true);
         }
-        context.unregisterReceiver(mbroadcast);
+        context.unregisterReceiver(broadcast);
     }
 
     @Override

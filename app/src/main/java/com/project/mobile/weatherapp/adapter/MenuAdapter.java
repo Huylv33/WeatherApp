@@ -1,10 +1,7 @@
 package com.project.mobile.weatherapp.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,7 +9,6 @@ import android.widget.BaseAdapter;
 import com.project.mobile.weatherapp.R;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import nl.psdcompany.duonavigationdrawer.views.DuoOptionView;
 
@@ -21,8 +17,8 @@ import nl.psdcompany.duonavigationdrawer.views.DuoOptionView;
  */
 
 public class MenuAdapter extends BaseAdapter {
-    private ArrayList<String> mOptions = new ArrayList<>();
     public Activity activity;
+    private ArrayList<String> mOptions = new ArrayList<>();
     private ArrayList<DuoOptionView> mOptionViews = new ArrayList<>();
 
     public MenuAdapter(ArrayList<String> options, Activity activity) {
@@ -54,19 +50,6 @@ public class MenuAdapter extends BaseAdapter {
         }
     }
 
-
-    /*public void setmOptionsIcon (DuoOptionView v, View view){
-        for (int i=0; i < mOptionViews.size(); i++) {
-            switch (i){
-                case 0:
-                    getView();
-
-            }
-        }
-    }*/
-
-
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -89,26 +72,24 @@ public class MenuAdapter extends BaseAdapter {
             optionView = (DuoOptionView) convertView;
         }
 
-
-
         // Using the DuoOptionView's default selectors
         optionView.bind(option, null, null);
-            switch (position){
-                case 0:
-                    optionView.bind(option,drawable0);
-                    break;
-                case 1:
-                    optionView.bind(option,drawable1);
-                    break;
-                case 2:
-                    optionView.bind(option,drawable2);
-                    break;
-                case 3:
-                    optionView.bind(option,drawable3);
-                    break;
-                case 4:
-                    optionView.bind(option,drawable4);
-                    break;
+        switch (position) {
+            case 0:
+                optionView.bind(option, drawable0);
+                break;
+            case 1:
+                optionView.bind(option, drawable1);
+                break;
+            case 2:
+                optionView.bind(option, drawable2);
+                break;
+            case 3:
+                optionView.bind(option, drawable3);
+                break;
+            case 4:
+                optionView.bind(option, drawable4);
+                break;
 
         }
 

@@ -40,13 +40,6 @@ public class AddLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
         String apiKey = "AIzaSyBi0njf8h1fbSAs34PG5Jc1_POHRdws7H4";
-
-
-
-        if (apiKey.equals("")) {
-            Toast.makeText(this, getString(R.string.error_api_key), Toast.LENGTH_LONG).show();
-            return;
-        }
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
@@ -54,7 +47,6 @@ public class AddLocationActivity extends AppCompatActivity {
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
         relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
-
 
         placesClient = Places.createClient(this);
         initSearchBar();

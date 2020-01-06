@@ -41,7 +41,8 @@
         <activity android:name=".PermissionAboveMarshmellow" />
         <activity
             android:name=".MainActivity"
-            android:usesCleartextTraffic="true">
+            android:usesCleartextTraffic="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,24 +50,12 @@
             </intent-filter>
 
         </activity>
-        <receiver android:name=".broadcast.Broadcast">
-            <intent-filter>
-                <action android:name="setting.unit"/>
-            </intent-filter>
-        </receiver>
 
-        <activity android:name=".ManagerLocationActivity" />
-        <activity android:name=".ManagerNotificationActivity" />
+        <activity android:name=".ManageLocationActivity" />
+        <activity android:name=".ManageNotificationActivity" />
         <activity android:name=".UnitSettingActivity" />
         <activity android:name=".PrepareDayActivity" />
         <activity android:name=".ChangeWallpaperActivity" />
-
-        <receiver android:name=".broadcast.Noti"
-            android:enabled="true"
-            android:exported="true">
-
-        </receiver>
-
         <service android:name=".service.SchedulingServ"/>
         <service android:name=".service.NotiService"/>
 

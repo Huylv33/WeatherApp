@@ -11,7 +11,7 @@ import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.project.mobile.weatherapp.ManagerNotificationActivity;
+import com.project.mobile.weatherapp.ManageNotificationActivity;
 import com.project.mobile.weatherapp.setting.LocationSetting;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
 import com.project.mobile.weatherapp.utils.Constants;
@@ -53,7 +53,7 @@ public class SchedulingServ extends IntentService {
                     int importance = NotificationManager.IMPORTANCE_LOW;
                     NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
                     notificationManager.createNotificationChannel(notificationChannel);
-                    Intent notificationIntent = new Intent(gpsTracker.mContext, ManagerNotificationActivity.class);
+                    Intent notificationIntent = new Intent(gpsTracker.mContext, ManageNotificationActivity.class);
                     notificationIntent
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     int requestID = (int) System.currentTimeMillis();
@@ -89,7 +89,7 @@ public class SchedulingServ extends IntentService {
                     int importance = NotificationManager.IMPORTANCE_LOW;
                     NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
                     notificationManager.createNotificationChannel(notificationChannel);
-                    Intent notificationIntent = new Intent(gpsTracker.mContext, ManagerNotificationActivity.class);
+                    Intent notificationIntent = new Intent(gpsTracker.mContext, ManageNotificationActivity.class);
                     notificationIntent
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     int requestID = (int) System.currentTimeMillis();

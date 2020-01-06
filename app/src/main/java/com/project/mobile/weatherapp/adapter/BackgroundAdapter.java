@@ -14,7 +14,7 @@ import java.util.List;
 public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.ViewHolder>{
     private List<Integer> mId;
     private Context mContext;
-    public int sellectId;
+    public int selectId;
 
     public BackgroundAdapter(List<Integer> id, Context context) {
         this.mId = id;
@@ -38,14 +38,14 @@ public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.V
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sellectId = position;
+                selectId = position;
                 notifyDataSetChanged();
             }
         });
-        if(position == sellectId) {
+        if(position == selectId) {
             viewHolder.icon.setVisibility(View.VISIBLE);
         }
-        else{
+        else {
             viewHolder.icon.setVisibility(View.INVISIBLE);
         }
     }
@@ -60,7 +60,6 @@ public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.V
         private ImageView backgroundImg;
         public ImageView icon;
 
-
         public ViewHolder (View itemView) {
             super(itemView);
             this.itemView = itemView;
@@ -68,7 +67,6 @@ public class BackgroundAdapter extends  RecyclerView.Adapter<BackgroundAdapter.V
             icon = itemView.findViewById(R.id.iv_check);
             icon.setVisibility(View.INVISIBLE);
             this.setIsRecyclable(false);
-
         }
 
     }

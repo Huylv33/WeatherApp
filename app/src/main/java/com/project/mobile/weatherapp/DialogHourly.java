@@ -44,14 +44,11 @@ public class DialogHourly extends DialogFragment {
         BackgroundSetting backgroundSetting = new BackgroundSetting(context);
         backgroundSetting.loadBackgroundSetting();
         RelativeLayout relativeLayout = v.findViewById(R.id.dialog_wallpaper_hourly);
-//        relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
         background = (ImageView) v.findViewById(R.id.background_dialog);
         background.setImageResource(backgroundSetting.backgroundId);
         ConvertUnitSetting convertUnitSetting = new ConvertUnitSetting(context);
         convertUnitSetting.loadConvertUnit();
         ConvertUnit convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
-
-
 
         context = getActivity().getApplicationContext();
         texttime = (TextView) v.findViewById(R.id.textTimeHour);
@@ -61,13 +58,10 @@ public class DialogHourly extends DialogFragment {
         txt_windSpeed  = (TextView) v.findViewById(R.id.text_wind_dialog);
         description = (TextView) v.findViewById(R.id.text_weatherHour);
         pressure = (TextView) v.findViewById(R.id.text_pressure_dialog);
-
         NumberFormat format = new DecimalFormat("#0.0");
         String windSpeed = args.getString("wind");
         int humidity = args.getInt("humidity");
         String status = args.getString("status");
-
-
         String textTime = args.getString("textTime");
         String textTemp = args.getString("textTemp");
         float pre = args.getFloat("pressure");

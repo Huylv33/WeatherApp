@@ -8,7 +8,7 @@ public class NotificationSetting {
     public boolean prepareDaily;
     public String timePrepareDaily;
     public boolean vibrate; // rung
-    public boolean arlarm; // am thanh bao
+    public boolean alarm; // am thanh bao
 
     public Context context;
 
@@ -23,7 +23,7 @@ public class NotificationSetting {
             this.prepareDaily = sharedPreferences.getBoolean("PrepareDaily", false);
             this.timePrepareDaily = sharedPreferences.getString("TimePrepareDaily", "8");
             this.vibrate = sharedPreferences.getBoolean("Vibrate", false);
-            this.arlarm = sharedPreferences.getBoolean("Alarm", false);
+            this.alarm = sharedPreferences.getBoolean("Alarm", false);
         }
     }
     public void saveNotificationSetting() {
@@ -33,7 +33,7 @@ public class NotificationSetting {
         editor.putBoolean("PrepareDaily", this.prepareDaily);
         editor.putString("TimePrepareDaily", this.timePrepareDaily);
         editor.putBoolean("Vibrate", this.vibrate);
-        editor.putBoolean("Alarm", this.arlarm);
+        editor.putBoolean("Alarm", this.alarm);
         editor.apply();
     }
 }

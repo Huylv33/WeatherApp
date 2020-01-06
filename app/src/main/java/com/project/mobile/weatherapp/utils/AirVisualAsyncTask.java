@@ -37,4 +37,5 @@ public class AirVisualAsyncTask extends AsyncTask<Void,Void, AirVisual> {
         super.onPostExecute(airVisual);
         finish.doComplete(airVisual);
     }
+
 }

@@ -21,6 +21,5 @@ public class Noti extends BroadcastReceiver {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "some_channel_id";
         CharSequence channelName = "Some Channel";
-
     }
 }

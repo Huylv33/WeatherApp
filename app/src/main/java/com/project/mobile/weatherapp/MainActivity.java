@@ -31,10 +31,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.CompoundButton;
 
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
 import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
@@ -45,9 +45,9 @@ import com.project.mobile.weatherapp.setting.LocationSetting;
 import com.project.mobile.weatherapp.setting.NotificationSetting;
 import com.project.mobile.weatherapp.setting.PrepareDaySetting;
 import com.project.mobile.weatherapp.adapter.MenuAdapter;
-import com.project.mobile.weatherapp.fragment.fragment_hourly;
-import com.project.mobile.weatherapp.fragment.fragment_today;
-import com.project.mobile.weatherapp.fragment.fragment_forecast;
+import com.project.mobile.weatherapp.fragment.FragmentHourly;
+import com.project.mobile.weatherapp.fragment.FragmentToday;
+import com.project.mobile.weatherapp.fragment.FragmentForecast;
 import com.project.mobile.weatherapp.utils.AlarmUtils;
 import com.project.mobile.weatherapp.utils.GPSTracker;
 
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity  implements
     private Toolbar toolbar;
     private MenuAdapter mMenuAdapter;
     private ViewHolder mViewHolder;
+    private Button mButton;
     // khoi tao icon tabLayout
     private int[] tabIcons = {
             R.drawable.ic_today_black_24dp,
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity  implements
     public NotificationSetting notificationSetting;
     public AlarmUtils alarmUtils;
     public BroadcastReceiver broadcastNoti;
+    public BroadcastReceiver broadcastWallpaper;
     public PrepareDaySetting prepareDaySetting;
 
     @Override
@@ -90,9 +92,10 @@ public class MainActivity extends AppCompatActivity  implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("OnCreate MainActivity","called");
-        backgroundSetting = new BackgroundSetting(this);
-        backgroundSetting.loadBackgroundSetting();
+
         linearLayout = (LinearLayout) findViewById(R.id.linear_main_activity);
+        backgroundSetting = new BackgroundSetting(getApplicationContext());
+        backgroundSetting.loadBackgroundSetting();
         linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
         // Initialize the views
@@ -158,8 +161,18 @@ public class MainActivity extends AppCompatActivity  implements
                 }
             }
         };
+        broadcastWallpaper = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                backgroundSetting.loadBackgroundSetting();
+                linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
+                mViewHolder.mDuoMenuView.setBackground(backgroundSetting.backgroundId);
+            }
+        };
         IntentFilter filter = new IntentFilter("notiSetting");
+        IntentFilter filter1 = new IntentFilter("setting.wallpaper");
         context.registerReceiver(broadcastNoti, filter);
+        context.registerReceiver(broadcastWallpaper,filter1);
     }
     //handle Toolbar and Menu
     private void handleToolbar() {
@@ -181,7 +194,6 @@ public class MainActivity extends AppCompatActivity  implements
         mMenuAdapter = new MenuAdapter(mTitles,this);
         mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
         mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
-
         mViewHolder.mDuoMenuView.setBackground(backgroundSetting.backgroundId);
     }
 
@@ -201,13 +213,13 @@ public class MainActivity extends AppCompatActivity  implements
     {
         switch(position) {
             case 0: {
-                Intent iLoc = new Intent(MainActivity.this, ManagerLocationActivity.class);
+                Intent iLoc = new Intent(MainActivity.this, ManageLocationActivity.class);
                 startActivity(iLoc);
-                overridePendingTransition(R.anim.anim_enter,R.anim.anim_out);// thu cho cai animation xem the nao
+                overridePendingTransition(R.anim.anim_enter,R.anim.anim_out);
                 break;
             }
             case 1: {
-                Intent iNot = new Intent(MainActivity.this, ManagerNotificationActivity.class);
+                Intent iNot = new Intent(MainActivity.this, ManageNotificationActivity.class);
                 startActivity(iNot);
                 break;
             }
@@ -276,7 +288,6 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
 
-    //ViewHolder. Chức năng: tạo viewHolder để đổ vào view
     private class ViewHolder {
         private DuoDrawerLayout mDuoDrawerLayout;
         private DuoMenuView mDuoMenuView;
@@ -292,9 +303,9 @@ public class MainActivity extends AppCompatActivity  implements
     // setup ViewPager and TabLayout icon, add  trang thai cua 3 man hinh vao
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new fragment_today(), "Hôm nay");
-        adapter.addFragment(new fragment_hourly(), "Hằng giờ");
-        adapter.addFragment(new fragment_forecast(), "Dự báo");
+        adapter.addFragment(new FragmentToday(), "Hôm nay");
+        adapter.addFragment(new FragmentHourly(), "Hằng giờ");
+        adapter.addFragment(new FragmentForecast(), "Dự báo");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
     }
@@ -317,24 +328,15 @@ public class MainActivity extends AppCompatActivity  implements
             super(manager);
         }
 
-        // Chuyen các data qua đây, quan trong đoạn này vcl nè
 
         @Override
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
-
-                args.putDouble("lat",gpsTracker.getLatitude());
-                args.putDouble("lon", gpsTracker.getLongitude());
-
-
+            args.putDouble("lat",gpsTracker.getLatitude());
+            args.putDouble("lon", gpsTracker.getLongitude());
             args.putString("city", city);
-
             args.putString("country", country);
-//            Log.i("Kiem tra mot ty", country);
-//            Log.i("Kiem tra mot ty", usingLocation.toString());
             args.putBoolean("usingLocation", usingLocation);
-
-//            args.putString("lon",gpsTracker.getLongitude() + "");
             mFragmentList.get(position).setArguments(args);
             return mFragmentList.get(position);
         }
@@ -374,14 +376,12 @@ public class MainActivity extends AppCompatActivity  implements
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Ấn vào nó ra cái Activity Location
         switch (item.getItemId()) {
             case R.id.app_bar_search:
-                Intent iLoc = new Intent(MainActivity.this, ManagerLocationActivity.class);
+                Intent iLoc = new Intent(MainActivity.this, ManageLocationActivity.class);
                 startActivity(iLoc);
                 return true;
         }
@@ -436,6 +436,7 @@ public class MainActivity extends AppCompatActivity  implements
         alarmUtils.stop();
         alarmUtils.stopRe();
         unregisterReceiver(broadcastNoti);
+        unregisterReceiver(broadcastWallpaper);
     }
 
     @Override

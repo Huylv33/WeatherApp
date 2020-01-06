@@ -1,5 +1,6 @@
 package com.project.mobile.weatherapp.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -42,7 +43,7 @@ import java.util.List;
 
  * create an instance of this fragment.
  */
-public class fragment_hourly extends Fragment {
+public class FragmentHourly extends Fragment {
     private double lat;
     private double lon;
     public Boolean usingLocation;
@@ -56,13 +57,12 @@ public class fragment_hourly extends Fragment {
     public WeatherHoursAsyncTask weatherHoursAsyncTask;
     public ConvertUnitSetting convertUnitSetting;
     public ConvertUnit convertUnit;
-    private Broadcast mbroadcast;
+    private BroadcastReceiver broadcast;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
         Bundle args = getArguments();
@@ -78,7 +78,6 @@ public class fragment_hourly extends Fragment {
 
     public void update() {
         mList.clear();
-
         if (NetworkAndGPSChecking.isNetworkAvailable(context) && NetworkAndGPSChecking.isGPSAvailable(context)) {
             if(usingLocation) {
                 weatherHoursAsyncTask = new WeatherHoursAsyncTask(lat, lon, mAdapter,recyclerView, new doCompleteHours() {
@@ -86,13 +85,10 @@ public class fragment_hourly extends Fragment {
                     public void doComplete(OpenWeatherHours openWeatherHours) {
                         NumberFormat format = new DecimalFormat("#0.0");
                         String tempName = "°C";
-                        if(convertUnitSetting.usingCelcius == 0) {
-                            convertUnit.convert(openWeatherHours);
-                        }
-                        else{
-                            convertUnit.convert(openWeatherHours);
+                        if(convertUnitSetting.usingCelcius != 0) {
                             tempName = "°F";
                         }
+                        convertUnit.convert(openWeatherHours);
                         String velocityDegree = " m/s";
                         if(convertUnitSetting.velocity == 1) {
                             convertUnit.convertVelocity(openWeatherHours);
@@ -119,7 +115,6 @@ public class fragment_hourly extends Fragment {
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                         recyclerView.setLayoutManager(mLayoutManager);
                         recyclerView.setAdapter(mAdapter);
-                        Log.i("mList size in here ", mList.size() + "");
 
                     }
                 });
@@ -131,13 +126,10 @@ public class fragment_hourly extends Fragment {
                     public void doComplete(OpenWeatherHours openWeatherHours) {
                         NumberFormat format = new DecimalFormat("#0.0");
                         String tempName = "°C";
-                        if(convertUnitSetting.usingCelcius == 0) {
-                            convertUnit.convert(openWeatherHours);
-                        }
-                        else{
-                            convertUnit.convert(openWeatherHours);
+                        if(convertUnitSetting.usingCelcius != 0) {
                             tempName = "°F";
                         }
+                        convertUnit.convert(openWeatherHours);
                         String velocityDegree = " m/s";
                         if(convertUnitSetting.velocity == 1) {
                             convertUnit.convertVelocity(openWeatherHours);
@@ -183,26 +175,20 @@ public class fragment_hourly extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_hourly);
 
         update();
-        mbroadcast = new Broadcast() {
+        broadcast = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 convertUnitSetting.loadConvertUnit();
                 convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
-                Log.i("check neffff ","" + convertUnit.velocity);
                 update();
             }
         };
 
         IntentFilter filter = new IntentFilter("setting.unit");
-        context.registerReceiver(mbroadcast, filter);
-        return  view;
+        context.registerReceiver(broadcast, filter);
+        return view;
     }
 
-    // chi de cho test thu thoi
-    private void initView () {
-        Hourly hourly = new Hourly("18:00", "35°", " 22 mm", " 87%", "mây", "1010 hpa");
-        mList.add(hourly);
-    }
     private void useLocalData() {
         NumberFormat format = new DecimalFormat("#0.0");
 
@@ -220,8 +206,6 @@ public class fragment_hourly extends Fragment {
                 hourly.setmTextTime(TimeAndDateConverter.Convert12h(list.getDt_txt(), convertUnitSetting.using12h));
                 hourly.setmTextWind(list.getWind().getSpeed() + " m/s");
                 hourly.setWeatherIcon(list.getWeather().get(0).getIcon());
-                //hourly.setmTextWeather(list.getWeather().get(0).getDescription());
-                //hourly.setmTextPressure(list.getMain().getPressure() + " hpa");
                 mList.add(hourly);
             }
             mAdapter = new HourlyAdapter(mList,getContext());

@@ -30,13 +30,9 @@ public class ChangeWallpaperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_change_wallpaper);
         relativeLayout = (RelativeLayout) findViewById(R.id.dialog_change_wallpaper);
-        //imageView = (ImageView) findViewById(R.id.iv_background);
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
         relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
-        //imageView.setImageResource(backgroundSetting.backgroundId);
-        //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         recyclerView = (RecyclerView) findViewById(R.id.rv_wallpaper);
         mId.add(R.drawable.wallpaper5);
         mId.add(R.drawable.wallpaper6);
@@ -52,23 +48,19 @@ public class ChangeWallpaperActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
         confirm = (TextView) findViewById(R.id.btn_done);
         reject = (TextView) findViewById(R.id.text_no_thank);
-        reject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent currentLocation = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(currentLocation);
-            }
+        reject.setOnClickListener(v -> {
+            Intent currentLocation = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(currentLocation);
         });
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backgroundSetting.backgroundId = convertId2Id(mAdapter.sellectId);
-                backgroundSetting.saveBackgroundSetting();
-                Intent currentLocation = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(currentLocation);
-            }
+        confirm.setOnClickListener(v -> {
+            backgroundSetting.backgroundId = convertId2Id(mAdapter.selectId);
+            backgroundSetting.saveBackgroundSetting();
+            Intent intent = new Intent();
+            intent.setAction("setting.wallpaper");
+            sendBroadcast(intent);
+            Intent currentLocation = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(currentLocation);
         });
-
     }
 
     public int convertId2Id(int id){

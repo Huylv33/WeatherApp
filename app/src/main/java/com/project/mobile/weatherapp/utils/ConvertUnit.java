@@ -23,10 +23,6 @@ public class ConvertUnit {
         this.usingCelcius = usingCelcius;
     }
 
-    public ConvertUnit() {
-
-    }
-
     public void convert(OpenWeatherMap openWeatherMap) {
         Main main = openWeatherMap.getMain();
         if(this.usingCelcius == 0) {
@@ -46,9 +42,9 @@ public class ConvertUnit {
         java.util.List<ListOfWeather> list = openWeatherPredict.getListWeather();
         for ( ListOfWeather list1 : list ) {
             Main main = list1.getMain();
-            double temp_max = list1.getTemp_max();
-            double temp_min = list1.getTemp_min();
-            if(this.usingCelcius == 0) {
+            double temp_max;
+            double temp_min;
+            if (this.usingCelcius == 0) {
                 main.setTemp(main.getTemp() - 273.15);
                 main.setTemp_min(main.getTemp_min() - 273.15);
                 main.setTemp_max(main.getTemp_max() - 273.15);
@@ -99,21 +95,6 @@ public class ConvertUnit {
         }
     }
 
-    public  void convertVelocity(OpenWeatherPredict openWeatherPredict) {
-        java.util.List<ListOfWeather> list = openWeatherPredict.getListWeather();
-        for ( ListOfWeather list1 : list ) {
-            if(velocity == 0){
-                // do not need convert
-            }
-            else {
-                Wind wind = list1.getWind();
-                wind.setSpeed(wind.getSpeed() * 3.6);
-                list1.setWind(wind);
-            }
-
-        }
-    }
-
     public  void convertVelocity(OpenWeatherMap openWeatherMap) {
         Wind wind = openWeatherMap.getWind();
         if(this.velocity == 1) {
@@ -124,15 +105,6 @@ public class ConvertUnit {
         else {
             Log.i("wind m/s", openWeatherMap.getWind().getSpeed() + "");
         }
-
-    }
-
-    public float convertVelocity(float velocity) {
-        if(this.velocity == 1) {
-            return (float) (velocity * 3.6);
-        }
-        else
-            return velocity;
 
     }
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -24,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ManagerNotificationActivity extends AppCompatActivity {
+public class ManageNotificationActivity extends AppCompatActivity {
 
     public SwitchCompat weatherNoti, prepareDay;
     public SwitchCompat soundNoti, vibration;
@@ -71,63 +70,44 @@ public class ManagerNotificationActivity extends AppCompatActivity {
         notificationSetting.loadNotificationSetting();
         weatherNoti.setChecked(notificationSetting.notification);
         prepareDay.setChecked(notificationSetting.prepareDaily);
-        soundNoti.setChecked(notificationSetting.arlarm);
+        soundNoti.setChecked(notificationSetting.alarm);
         vibration.setChecked(notificationSetting.vibrate);
 
         getDefault();
 
         weatherNoti.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton,
-                                                 boolean b) {
-                        notificationSetting.notification = weatherNoti.isChecked();
-                        notificationSetting.saveNotificationSetting();
-                        Intent intent = new Intent();
-                        intent.setAction("notiSetting");
-                        sendBroadcast(intent);
-                    }
+                (compoundButton, b) -> {
+                    notificationSetting.notification = weatherNoti.isChecked();
+                    notificationSetting.saveNotificationSetting();
+                    Intent intent = new Intent();
+                    intent.setAction("notiSetting");
+                    sendBroadcast(intent);
                 });
 
         prepareDay.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        notificationSetting.prepareDaily = prepareDay.isChecked();
-                        notificationSetting.saveNotificationSetting();
-//                        Intent intent = new Intent();
-//                        intent.setAction("notiSetting");
-//                        sendBroadcast(intent);
-                        Intent intent = new Intent();
-                        intent.setAction("setting.unit");
-                        sendBroadcast(intent);
-                    }
+                (buttonView, isChecked) -> {
+                    notificationSetting.prepareDaily = prepareDay.isChecked();
+                    notificationSetting.saveNotificationSetting();
+                    Intent intent = new Intent();
+                    intent.setAction("setting.unit");
+                    sendBroadcast(intent);
                 }
         );
-        vibration.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    notificationSetting.vibrate = vibration.isChecked();
-                    notificationSetting.saveNotificationSetting();
-                }
-        });
-
-        soundNoti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                notificationSetting.arlarm = soundNoti.isChecked();
+        vibration.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                notificationSetting.vibrate = vibration.isChecked();
                 notificationSetting.saveNotificationSetting();
-            }
+            });
+
+        soundNoti.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            notificationSetting.alarm = soundNoti.isChecked();
+            notificationSetting.saveNotificationSetting();
         });
 
-        linearNoti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.select_time_notification: {
-                        showTimePickerDialog();
-                        break;
-                    }
+        linearNoti.setOnClickListener(v -> {
+            switch (v.getId()) {
+                case R.id.select_time_notification: {
+                    showTimePickerDialog();
+                    break;
                 }
             }
         });
@@ -164,7 +144,7 @@ public class ManagerNotificationActivity extends AppCompatActivity {
         CharSequence charSequence = "Chọn giờ";
         int hour = Integer.parseInt(strArray[0]);
         int minutes = Integer.parseInt(strArray[1]);
-        TimePickerDialog timeDialog = new TimePickerDialog(ManagerNotificationActivity.this,callback,hour,minutes,true);
+        TimePickerDialog timeDialog = new TimePickerDialog(ManageNotificationActivity.this,callback,hour,minutes,true);
         timeDialog.setTitle(charSequence);
 
         timeDialog.show();

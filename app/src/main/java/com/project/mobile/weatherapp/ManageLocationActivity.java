@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.project.mobile.weatherapp.setting.BackgroundSetting;
 
-public class ManagerLocationActivity extends AppCompatActivity {
+public class ManageLocationActivity extends AppCompatActivity {
 
     public BackgroundSetting backgroundSetting;
     public RelativeLayout relativeLayout;

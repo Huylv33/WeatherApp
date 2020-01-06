@@ -1,5 +1,6 @@
 package com.project.mobile.weatherapp.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -40,7 +41,7 @@ import java.util.List;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class fragment_forecast extends Fragment {
+public class FragmentForecast extends Fragment {
     private double lat;
     private double lon;
     public Boolean usingLocation;
@@ -53,14 +54,17 @@ public class fragment_forecast extends Fragment {
     private Weather5DaysAsyncTask weather5DaysAsyncTask;
     public ConvertUnitSetting convertUnitSetting;
     public ConvertUnit convertUnit;
-    private Broadcast mbroadcast;
+    private BroadcastReceiver broadcast;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity().getApplicationContext();
-        Bundle args = getArguments();
+        Bundle args = new Bundle();
+        if (getArguments() != null) {
+            args = getArguments();
+        }
         lat = args.getDouble("lat");
         lon = args.getDouble("lon");
         usingLocation = args.getBoolean("usingLocation");
@@ -74,7 +78,7 @@ public class fragment_forecast extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        context.unregisterReceiver(mbroadcast);
+        context.unregisterReceiver(broadcast);
     }
     public void updateView(){
         mList.clear();
@@ -129,7 +133,6 @@ public class fragment_forecast extends Fragment {
                             tempName = "°F";
                         }
                         NumberFormat format = new DecimalFormat("#0.0");
-                        Log.i("Lenght", openWeatherPredict.getListWeather().size() + "");
                         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences
                                 ("MyPrefsFile", Context.MODE_PRIVATE);
                         String openWeatherPredictJson = new Gson().toJson(openWeatherPredict);
@@ -163,22 +166,18 @@ public class fragment_forecast extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, null);
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_daily);
+        recyclerView = view.findViewById(R.id.rv_daily);
         updateView();
-
-        mbroadcast = new Broadcast() {
+        broadcast = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.i("asdas111111d", "11");
                 convertUnitSetting.loadConvertUnit();
                 convertUnit = new ConvertUnit(convertUnitSetting.usingCelcius, convertUnitSetting.velocity);
                 updateView();
             }
         };
-
         IntentFilter filter = new IntentFilter("setting.unit");
-        context.registerReceiver(mbroadcast, filter);
-
+        context.registerReceiver(broadcast, filter);
         return view;
     }
     @Override

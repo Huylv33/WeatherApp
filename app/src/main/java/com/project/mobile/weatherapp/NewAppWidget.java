@@ -7,17 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.project.mobile.weatherapp.model.open_weather_map.Main;
 import com.project.mobile.weatherapp.model.open_weather_map.OpenWeatherMap;
-import com.project.mobile.weatherapp.utils.NetworkAndGPSChecking;
 import com.project.mobile.weatherapp.utils.WeatherAsyncTask;
 import com.project.mobile.weatherapp.utils.WeatherIcon;
-import com.project.mobile.weatherapp.utils.doComplete;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -29,7 +25,7 @@ import java.util.Date;
  */
 public class NewAppWidget extends AppWidgetProvider {
     private static WeatherAsyncTask weatherAsyncTask;
-    private  Context context;
+    private Context context;
     private static double lat;
     private static double lon;
     private static RemoteViews views;
@@ -43,7 +39,7 @@ public class NewAppWidget extends AppWidgetProvider {
 
         views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
 
-        SharedPreferences prefs = context.getSharedPreferences("current_weather_data",Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("current_weather_data", Context.MODE_PRIVATE);
         if (prefs != null) {
             String openWeatherMapJson = prefs.getString("current_weather", "");
             Log.d("json2", openWeatherMapJson);
@@ -70,6 +66,7 @@ public class NewAppWidget extends AppWidgetProvider {
     private void getWeather() {
 
     }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
