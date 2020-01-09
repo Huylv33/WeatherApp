@@ -5,23 +5,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.project.mobile.weatherapp.AddLocationActivity;
 import com.project.mobile.weatherapp.MainActivity;
 import com.project.mobile.weatherapp.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -29,11 +25,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     private List<AutocompletePrediction> placeList;
     public Activity activity;
 
-    public LocationAdapter(List<AutocompletePrediction> places, Activity activity){
+    public LocationAdapter(List<AutocompletePrediction> places, Activity activity) {
         placeList = places;
         this.activity = activity;
     }
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView text_location;
 
         public ViewHolder(View itemView) {
@@ -41,6 +38,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             text_location = (TextView) itemView.findViewById(R.id.text_location);
             itemView.setOnClickListener(this);
         }
+
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition();
@@ -57,7 +55,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             Toast.makeText(v.getContext(), place, Toast.LENGTH_LONG).show();
             Log.d("HUENT", "onClick: clicked" + prediction.getPrimaryText(null).toString());
             ((Activity) v.getContext()).finish();
-
         }
     }
 

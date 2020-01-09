@@ -12,9 +12,7 @@ import java.util.ArrayList;
 
 import nl.psdcompany.duonavigationdrawer.views.DuoOptionView;
 
-/**
- * Created by PSD on 13-04-17.
- */
+
 
 public class MenuAdapter extends BaseAdapter {
     public Activity activity;

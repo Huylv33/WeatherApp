@@ -1,17 +1,16 @@
 package com.project.mobile.weatherapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.mobile.weatherapp.setting.BackgroundSetting;
 import com.project.mobile.weatherapp.adapter.BackgroundAdapter;
+import com.project.mobile.weatherapp.setting.BackgroundSetting;
 
 import java.util.ArrayList;
 
@@ -42,7 +41,7 @@ public class ChangeWallpaperActivity extends AppCompatActivity {
         mId.add(R.drawable.wallpaper4);
         mId.add(R.drawable.wallpaper12);
         mId.add(R.drawable.wallpaper13);
-        mAdapter = new BackgroundAdapter(mId,this);
+        mAdapter = new BackgroundAdapter(mId, this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -58,13 +57,12 @@ public class ChangeWallpaperActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setAction("setting.wallpaper");
             sendBroadcast(intent);
-            Intent currentLocation = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(currentLocation);
+            finish();
         });
     }
 
-    public int convertId2Id(int id){
-        switch (id){
+    public int convertId2Id(int id) {
+        switch (id) {
             case 0:
                 return R.drawable.wallpaper5;
             case 1:

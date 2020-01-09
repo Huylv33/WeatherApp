@@ -17,7 +17,7 @@ public class ManageLocationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_location);
+        setContentView(R.layout.activity_manage_location);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -39,7 +39,8 @@ public class ManageLocationActivity extends AppCompatActivity {
             case R.id.text_add_location: {
                 Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
                 Intent iAddLocation = new Intent(this, AddLocationActivity.class);
-                startActivity(iAddLocation); 
+                startActivity(iAddLocation);
+                finish();
                 break;
             }
             case R.id.text_cur_location: {
@@ -48,6 +49,8 @@ public class ManageLocationActivity extends AppCompatActivity {
                 bundle.putBoolean("usingLocation", true);
                 currentLocation.putExtra("CurrentLocation", bundle);
                 startActivity(currentLocation);
+                finish();
+                break;
             }
         }
     }

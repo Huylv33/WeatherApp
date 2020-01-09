@@ -85,10 +85,9 @@ public class MainActivity extends AppCompatActivity  implements
     public BroadcastReceiver broadcastNoti;
     public BroadcastReceiver broadcastWallpaper;
     public PrepareDaySetting prepareDaySetting;
-
+    private BroadcastReceiver broadcastLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("OnCreate MainActivity","called");
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity  implements
             alarmUtils.startRepeat();
         }
 
-        broadcastNoti = new BroadcastNoti() {
+        broadcastNoti = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 notificationSetting.loadNotificationSetting();
@@ -161,18 +160,9 @@ public class MainActivity extends AppCompatActivity  implements
                 }
             }
         };
-        broadcastWallpaper = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                backgroundSetting.loadBackgroundSetting();
-                linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
-                mViewHolder.mDuoMenuView.setBackground(backgroundSetting.backgroundId);
-            }
-        };
+
         IntentFilter filter = new IntentFilter("notiSetting");
-        IntentFilter filter1 = new IntentFilter("setting.wallpaper");
-        context.registerReceiver(broadcastNoti, filter);
-        context.registerReceiver(broadcastWallpaper,filter1);
+        registerReceiver(broadcastNoti, filter);
     }
     //handle Toolbar and Menu
     private void handleToolbar() {
@@ -436,7 +426,6 @@ public class MainActivity extends AppCompatActivity  implements
         alarmUtils.stop();
         alarmUtils.stopRe();
         unregisterReceiver(broadcastNoti);
-        unregisterReceiver(broadcastWallpaper);
     }
 
     @Override

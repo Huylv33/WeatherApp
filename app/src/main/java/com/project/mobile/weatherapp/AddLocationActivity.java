@@ -47,14 +47,12 @@ public class AddLocationActivity extends AppCompatActivity {
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
         relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
-
         placesClient = Places.createClient(this);
         initSearchBar();
         rvLocation = (RecyclerView) findViewById(R.id.rv_location);
         locationAdapter = new LocationAdapter(locations, this);
         rvLocation.setAdapter(locationAdapter);
         rvLocation.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     private void searchPlaceAutoComplete(String query){

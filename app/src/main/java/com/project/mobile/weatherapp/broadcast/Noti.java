@@ -16,7 +16,6 @@ public class Noti extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         int index = intent.getIntExtra(Constants.KEY_TYPE, 0);
-        Log.i("ddm ", index + "");
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "some_channel_id";

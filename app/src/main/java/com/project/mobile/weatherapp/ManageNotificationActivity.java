@@ -41,7 +41,7 @@ public class ManageNotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_notification);
+        setContentView(R.layout.activity_manage_notification);
 
         context = this;
         alarmUtils = new AlarmUtils(this);
