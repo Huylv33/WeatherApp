@@ -18,20 +18,13 @@ public class ManageLocationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_location);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
+        mToolbar.setNavigationOnClickListener(view -> finish());
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
-        relativeLayout = (RelativeLayout) findViewById(R.id.activity_manager_location);
+        relativeLayout = findViewById(R.id.activity_manager_location);
         relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
-
     }
 
     public void onClick(View v) {

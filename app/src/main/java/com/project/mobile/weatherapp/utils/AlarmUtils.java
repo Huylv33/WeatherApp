@@ -21,10 +21,6 @@ public class AlarmUtils {
     PendingIntent pendingIntent;
     PendingIntent pendingIntent1;
 
-    public void setCal(Calendar cal) {
-        this.cal = cal;
-    }
-
     public  AlarmUtils(Context context) {
         this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, SchedulingServ.class);
@@ -47,8 +43,6 @@ public class AlarmUtils {
             time = 24 * 60 *60 * 1000 + cal.getTimeInMillis();
         else
             time = cal.getTimeInMillis();
-        Log.i("calen", time + "");
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             alarmManager
                     .setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pendingIntent);

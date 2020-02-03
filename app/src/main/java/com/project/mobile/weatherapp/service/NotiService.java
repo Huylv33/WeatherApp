@@ -7,7 +7,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.MainThread;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -52,9 +54,6 @@ public class NotiService extends IntentService {
 
         int index = intent.getIntExtra(Constants.KEY_TYPE, 0);
         NumberFormat format = new DecimalFormat("#0.0");
-
-        Log.i("NOTIFICATION ", index + "");
-
         if (locationSetting.usingLocation) {
             weatherAsyncTask = new WeatherAsyncTask(gpsTracker.getLatitude(), gpsTracker.getLongitude(), new doComplete() {
                 @Override
@@ -82,49 +81,44 @@ public class NotiService extends IntentService {
                     String location = openWeatherMap.getName();
                     NotificationManager notificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    String channelId = "some_channel_id";
-                    CharSequence channelName = "Some Channel";
-                    int importance = NotificationManager.IMPORTANCE_LOW;
-                    NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
-                    notificationManager.createNotificationChannel(notificationChannel);
                     Intent notificationIntent = new Intent(gpsTracker.mContext, MainActivity.class);
                     notificationIntent
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     int requestID = (int) System.currentTimeMillis();
                     PendingIntent contentIntent = PendingIntent
                             .getActivity(gpsTracker.mContext, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
                     RemoteViews notiLayout = new RemoteViews(getPackageName(), R.layout.weather_notification);
                     notiLayout.setTextViewText(R.id.text_temperature, temp);
                     notiLayout.setTextViewText(R.id.text_weather, des);
                     notiLayout.setImageViewResource(R.id.icon_weather, iconId);
                     notiLayout.setTextViewText(R.id.text_time, time);
                     notiLayout.setTextViewText(R.id.text_location, location);
-//                    Log.i("thong tin ne :" ,time + " " + temp + " " + des );
+                    String channelId = "some_channel_id";
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        CharSequence channelName = "Some Channel";
+                        int importance = NotificationManager.IMPORTANCE_LOW;
+                        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
+                        notificationManager.createNotificationChannel(notificationChannel);
 
-                    
+                    }
                     NotificationCompat.Builder builder =
-                            new NotificationCompat.Builder(gpsTracker.mContext)
+                            new NotificationCompat.Builder(gpsTracker.mContext, channelId)
                                     .setSmallIcon(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()))
                                     .setContentTitle(getString(R.string.app_name))
                                     .setContentText("index = " + index)
                                     .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                                     .setDefaults(Notification.DEFAULT_SOUND)
                                     .setAutoCancel(true)
-                                    .setPriority(6)
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                     .setVibrate(new long[]{TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE,
                                             TIME_VIBRATE})
                                     .setContentIntent(contentIntent)
-                                    .setChannelId(channelId)
                                     .setCustomContentView(notiLayout);
-
-                    notificationManager.notify(index, builder.build());
+                    notificationManager.notify(index,builder.build());
                 }
             });
             weatherAsyncTask.execute();
         } else {
-            Log.i("check chay nhe", "a");
-
             weatherAsyncTask = new WeatherAsyncTask(locationSetting.city, new doComplete() {
                 @Override
                 public void doComplete(OpenWeatherMap openWeatherMap) {
@@ -152,43 +146,44 @@ public class NotiService extends IntentService {
 
                     NotificationManager notificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    String channelId = "some_channel_id";
-                    CharSequence channelName = "Some Channel";
-                    int importance = NotificationManager.IMPORTANCE_LOW;
-                    NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
-                    notificationManager.createNotificationChannel(notificationChannel);
-                    Intent notificationIntent = new Intent(gpsTracker.mContext, MainActivity.class);
-                    notificationIntent
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    int requestID = (int) System.currentTimeMillis();
-                    PendingIntent contentIntent = PendingIntent
-                            .getActivity(gpsTracker.mContext, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
                     RemoteViews notiLayout = new RemoteViews(getPackageName(), R.layout.weather_notification);
                     notiLayout.setTextViewText(R.id.text_temperature, temp);
                     notiLayout.setTextViewText(R.id.text_weather, des);
                     notiLayout.setImageViewResource(R.id.icon_weather, iconId);
                     notiLayout.setTextViewText(R.id.text_time, time);
                     notiLayout.setTextViewText(R.id.text_location, location);
+                    String channelId = "some_channel_id";
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        CharSequence channelName = "Some Channel";
+                        int importance = NotificationManager.IMPORTANCE_LOW;
+                        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
+                        notificationManager.createNotificationChannel(notificationChannel);
+                        Intent notificationIntent = new Intent(gpsTracker.mContext, MainActivity.class);
+                        notificationIntent
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        int requestID = (int) System.currentTimeMillis();
+                        PendingIntent contentIntent = PendingIntent
+                                .getActivity(gpsTracker.mContext, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
+                        NotificationCompat.Builder builder =
+                                new NotificationCompat.Builder(gpsTracker.mContext,channelId)
+                                        .setSmallIcon(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()))
+                                        .setContentTitle(getString(R.string.app_name))
+                                        .setContentText("index = " + index)
+                                        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                                        .setDefaults(Notification.DEFAULT_SOUND)
+                                        .setAutoCancel(true)
+                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                        .setVibrate(new long[]{TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE,
+                                                TIME_VIBRATE})
+                                        .setContentIntent(contentIntent)
+                                        .setCustomContentView(notiLayout);
 
-                    NotificationCompat.Builder builder =
-                            new NotificationCompat.Builder(gpsTracker.mContext)
-                                    .setSmallIcon(WeatherIcon.getIconId(openWeatherMap.getWeather().get(0).getIcon()))
-                                    .setContentTitle(getString(R.string.app_name))
-                                    .setContentText("index = " + index)
-                                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                                    .setDefaults(Notification.DEFAULT_SOUND)
-                                    .setAutoCancel(true)
-                                    .setPriority(6)
-                                    .setVibrate(new long[]{TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE, TIME_VIBRATE,
-                                            TIME_VIBRATE})
-                                    .setContentIntent(contentIntent)
-                                    .setChannelId(channelId)
-                                    .setCustomContentView(notiLayout);
+                        notificationManager.notify(index, builder.build());
+                    }
 
-                    notificationManager.notify(index, builder.build());
                 }
             });
             weatherAsyncTask.execute();

@@ -28,11 +28,11 @@ public class ChangeWallpaperActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_change_wallpaper);
-        relativeLayout = (RelativeLayout) findViewById(R.id.dialog_change_wallpaper);
+        relativeLayout = findViewById(R.id.dialog_change_wallpaper);
         backgroundSetting = new BackgroundSetting(this);
         backgroundSetting.loadBackgroundSetting();
         relativeLayout.setBackgroundResource(backgroundSetting.backgroundId);
-        recyclerView = (RecyclerView) findViewById(R.id.rv_wallpaper);
+        recyclerView = findViewById(R.id.rv_wallpaper);
         mId.add(R.drawable.wallpaper5);
         mId.add(R.drawable.wallpaper6);
         mId.add(R.drawable.wallpaper7);

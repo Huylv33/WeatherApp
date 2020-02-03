@@ -38,8 +38,6 @@ public class SchedulingServ extends IntentService {
         locationSetting = new LocationSetting(this);
         locationSetting.loadLocationSetting();
         gpsTracker = new GPSTracker(this);
-        Log.i("chay vao day ri", "");
-
         int index = intent.getIntExtra(Constants.KEY_TYPE, 0);
 
         if(locationSetting.usingLocation) {

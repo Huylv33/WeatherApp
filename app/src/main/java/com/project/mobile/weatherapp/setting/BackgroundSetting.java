@@ -8,7 +8,6 @@ import com.project.mobile.weatherapp.R;
 public class BackgroundSetting {
     public Context activity;
     public int backgroundId;
-
     public BackgroundSetting(Context activity){
         this.activity = activity;
     }

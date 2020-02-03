@@ -90,8 +90,6 @@ public class MainActivity extends AppCompatActivity  implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i("OnCreate MainActivity","called");
-
         linearLayout = (LinearLayout) findViewById(R.id.linear_main_activity);
         backgroundSetting = new BackgroundSetting(getApplicationContext());
         backgroundSetting.loadBackgroundSetting();
@@ -152,7 +150,6 @@ public class MainActivity extends AppCompatActivity  implements
             public void onReceive(Context context, Intent intent) {
                 notificationSetting.loadNotificationSetting();
                 if(notificationSetting.notification){
-                    Log.i("noti ", notificationSetting.notification + "");
                     alarmUtils.startRepeat();
                 }
                 else{
@@ -160,9 +157,18 @@ public class MainActivity extends AppCompatActivity  implements
                 }
             }
         };
-
+        broadcastWallpaper = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                backgroundSetting.loadBackgroundSetting();
+                linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
+            }
+        };
         IntentFilter filter = new IntentFilter("notiSetting");
         registerReceiver(broadcastNoti, filter);
+        IntentFilter filter1 = new IntentFilter("setting.wallpaper");
+        registerReceiver(broadcastWallpaper,filter1);
+
     }
     //handle Toolbar and Menu
     private void handleToolbar() {
@@ -426,6 +432,7 @@ public class MainActivity extends AppCompatActivity  implements
         alarmUtils.stop();
         alarmUtils.stopRe();
         unregisterReceiver(broadcastNoti);
+        unregisterReceiver(broadcastWallpaper);
     }
 
     @Override

@@ -61,7 +61,6 @@ public class ManageNotificationActivity extends AppCompatActivity {
         linearLayout.setBackgroundResource(backgroundSetting.backgroundId);
         txtTime=(TextView) findViewById(R.id.time_notification);
         linearNoti =  (LinearLayout) findViewById(R.id.select_time_notification);
-
         this.weatherNoti = (SwitchCompat)findViewById(R.id.switch_notification);
         this.prepareDay = (SwitchCompat) findViewById(R.id.switch_warning);
         this.vibration = (SwitchCompat) findViewById(R.id.switch_vibrate);
